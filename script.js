@@ -4,6 +4,12 @@
   "use strict";
   var TOTAL = 10; // numbered build sections
 
+  // GA4 event helper — no-op until gtag loads, or if analytics is blocked.
+  function track(name, params) {
+    if (typeof window.gtag === "function") window.gtag("event", name, params || {});
+  }
+  var seenSections = {}; // fire section_view once per section per visit
+
   // Real per-section tool kits, from the Workshop Manual. Sections not listed
   // here (story / reference / gallery / sources) hide the tools box.
   var toolsBySection = {
@@ -36,6 +42,11 @@
     var id = a.getAttribute("href").slice(1);
     var step = parseInt(a.getAttribute("data-step"), 10);
     var phase = a.getAttribute("data-phase") || "";
+
+    if (!seenSections[id]) {
+      seenSections[id] = 1;
+      track("section_view", { section_id: id, section_name: a.textContent.replace(/\s+/g, " ").trim().replace(/^·\s*/, "") });
+    }
 
     if (step >= 1) {
       progText.textContent = "Section " + step + " of " + TOTAL;
@@ -79,7 +90,12 @@
   function closeRail() { rail.classList.remove("open"); scrim.classList.remove("show"); }
   if (menubtn) menubtn.addEventListener("click", function () { rail.classList.add("open"); scrim.classList.add("show"); });
   if (scrim) scrim.addEventListener("click", closeRail);
-  links.forEach(function (l) { l.addEventListener("click", closeRail); });
+  links.forEach(function (l) {
+    l.addEventListener("click", function () {
+      closeRail();
+      track("nav_click", { target: l.getAttribute("href") });
+    });
+  });
 
   // bench mode
   var benchBtn = document.getElementById("benchbtn");
@@ -88,6 +104,7 @@
     benchBtn.setAttribute("aria-pressed", on ? "true" : "false");
     var lbl = benchBtn.querySelector(".lbl");
     if (lbl) lbl.textContent = on ? "Click to turn off Bench Mode" : "Click to turn on Bench Mode";
+    track("bench_mode", { state: on ? "on" : "off" });
   });
 
   // image lightbox
@@ -98,6 +115,7 @@
     if (!lb) return;
     lbImg.src = src; lbCap.textContent = cap || "";
     lb.classList.add("open"); document.body.style.overflow = "hidden";
+    track("image_zoom", { image: (String(src).split("/").pop() || "").split("?")[0], caption: cap || "" });
   }
   function closeLB() { if (!lb) return; lb.classList.remove("open"); lbImg.src = ""; document.body.style.overflow = ""; }
   document.addEventListener("click", function (e) {
