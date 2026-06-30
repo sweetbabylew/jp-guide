@@ -398,6 +398,26 @@ footer{
 footer b{color:var(--walnut);font-weight:600}
 .foot-rights{flex-basis:100%;margin:.5rem 0 0;font-size:.76rem;color:var(--walnut-faint);line-height:1.5}
 
+/* ---------- cookie / consent banner ---------- */
+.cookie-banner{
+  position:fixed;left:50%;bottom:1rem;transform:translateX(-50%);z-index:80;
+  width:min(92%,46rem);
+  background:var(--parchment-card);border:1px solid var(--rule);border-radius:12px;
+  box-shadow:0 14px 40px -12px rgba(68,48,31,.45);
+  padding:.9rem 1.1rem;
+  display:flex;align-items:center;gap:1rem;flex-wrap:wrap;justify-content:space-between;
+}
+.cookie-banner[hidden]{display:none}
+.cb-text{margin:0;font-family:var(--serif);font-size:.9rem;line-height:1.45;color:var(--walnut-soft);flex:1 1 17rem}
+.cb-actions{display:flex;gap:.5rem;flex:0 0 auto}
+.cb-accept,.cb-decline{font-family:var(--sans);font-size:.8rem;font-weight:600;cursor:pointer;border-radius:7px;padding:.45rem .95rem;border:1px solid var(--rule);transition:all .15s ease}
+.cb-accept{background:var(--walnut);color:var(--parchment);border-color:var(--walnut)}
+.cb-accept:hover{background:var(--walnut-soft);border-color:var(--walnut-soft)}
+.cb-decline{background:transparent;color:var(--walnut-soft)}
+.cb-decline:hover{border-color:var(--oak-deep);color:var(--walnut)}
+@media print{.cookie-banner{display:none!important}}
+@media (max-width:520px){.cb-text{font-size:.84rem}.cookie-banner{bottom:.5rem}}
+
 /* ---------- lightbox ---------- */
 .lightbox{position:fixed;inset:0;z-index:90;background:rgba(20,18,14,.92);
   display:none;align-items:center;justify-content:center;padding:2.5rem;cursor:zoom-out}

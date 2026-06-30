@@ -128,4 +128,24 @@
   });
   if (lb) lb.addEventListener("click", closeLB);
   document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeLB(); });
+
+  // cookie / consent banner — shows once; "Decline" opts the visitor out of analytics
+  var consentKey = "jp-cookie-consent";
+  var banner = document.getElementById("cookie-banner");
+  if (banner) {
+    var choice = null;
+    try { choice = localStorage.getItem(consentKey); } catch (e) {}
+    if (!choice) banner.hidden = false;
+    var setConsent = function (val) {
+      try { localStorage.setItem(consentKey, val); } catch (e) {}
+      banner.hidden = true;
+    };
+    var accept = document.getElementById("cb-accept");
+    var decline = document.getElementById("cb-decline");
+    if (accept) accept.addEventListener("click", function () { setConsent("accepted"); });
+    if (decline) decline.addEventListener("click", function () {
+      setConsent("declined");
+      window["ga-disable-G-LC83Z5YM96"] = true; // stop further analytics this session
+    });
+  }
 })();

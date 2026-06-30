@@ -10,10 +10,11 @@
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
+  try { if (localStorage.getItem('jp-cookie-consent') === 'declined') window['ga-disable-G-LC83Z5YM96'] = true; } catch (e) {}
   gtag('js', new Date());
   gtag('config', 'G-LC83Z5YM96');
 </script>
-<link rel="stylesheet" href="styles.css?v=3">
+<link rel="stylesheet" href="styles.css?v=4">
 </head>
 <body>
 
@@ -925,6 +926,15 @@
     <p class="lb-cap"></p>
   </div>
 
-  <script src="script.js?v=3"></script>
+  <!-- cookie / consent banner -->
+  <div class="cookie-banner" id="cookie-banner" hidden>
+    <p class="cb-text">This site uses cookies exclusively for Lewis to better understand if and how people are using the website.</p>
+    <div class="cb-actions">
+      <button class="cb-accept" id="cb-accept">Got it</button>
+      <button class="cb-decline" id="cb-decline">Decline</button>
+    </div>
+  </div>
+
+  <script src="script.js?v=4"></script>
 </body>
 </html>
