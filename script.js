@@ -22,8 +22,8 @@
     sec6:    ["12″ square", "Bevel gauge", "Brace & ⅞″ bit", "Blocks & shims"],
     sec7:    ["Brace & bits", "Bevel gauge", "Dividers", "Saw"],
     sec8:    ["Spokeshave", "Drawknife", "Block plane", "Card scraper", "Rasp"],
-    sec9:    ["Mallet", "Shims", "Half-pencil", "Saw", "Flat surface"],
-    sec10:   ["Trenails / dowels", "Saw", "Wedges", "Mallet"],
+    sec9:    ["Glue", "Mallet", "Shims", "Half-pencil", "Saw"],
+    sec10:   ["Trenails / dowels", "Wedges", "Saw", "Scraper", "Oil / wax"],
     saddling:["Adze or gouge", "Inshave / scorp", "Travisher", "Scraper"]
   };
 
