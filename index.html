@@ -14,7 +14,7 @@
   gtag('js', new Date());
   gtag('config', 'G-LC83Z5YM96');
 </script>
-<link rel="stylesheet" href="styles.css?v=4">
+<link rel="stylesheet" href="styles.css?v=7">
 </head>
 <body>
 
@@ -23,9 +23,10 @@
       <button class="menubtn" id="menubtn" aria-label="Open section navigator">☰ <span>Sections</span></button>
       <span class="mark"><b>The Jimmy Possum Chair</b> <span class="long">· A Field Guide</span></span>
     </div>
-    <button class="benchtoggle" id="benchbtn" aria-pressed="false" title="Switch to the condensed, bench-ready view">
-      <span class="dot"></span><span class="lbl">Click to turn on Bench Mode</span>
-    </button>
+    <div class="modetoggle" role="group" aria-label="Reading mode">
+      <button class="mode-opt is-active" id="mode-story" data-mode="story" aria-pressed="true" title="Full guide — history, prose, and detail">Story Mode</button>
+      <button class="mode-opt" id="mode-bench" data-mode="bench" aria-pressed="false" title="Condensed, bench-ready view — steps, tools, and diagrams">Bench Mode</button>
+    </div>
     <div class="tb-side tb-right"></div>
   </div>
 
@@ -38,8 +39,8 @@
       <h1>The Jimmy&nbsp;Possum Chair</h1>
       <p class="tagline">JP Build Guide, start to finish.</p>
       <p class="byline">Lewis Laskin</p>
+      <p class="hero-credit">Upside Down Armrest Chair, c.1900 (exhibit 13), QVMAG, Launceston, Tasmania. Photo: Lewis Laskin, 2022.</p>
     </div>
-    <p class="hero-credit">Upside Down Armrest Chair, c.1900 (exhibit 13), QVMAG, Launceston, Tasmania. Photo: Lewis Laskin, 2022.</p>
     <div class="scroll-cue"><span>Scroll to begin</span><span class="arr">↓</span></div>
   </header>
 
@@ -947,6 +948,11 @@
     </div>
   </div>
 
-  <script src="script.js?v=5"></script>
+  <!-- semi-sticky web footer (auto-hides on scroll down, returns on scroll up; web view only) -->
+  <div class="webfoot" id="webfoot">
+    <span>© <span id="wf-year">2026</span> Lewis Laskin · The Jimmy Possum Chair · All rights reserved.</span>
+  </div>
+
+  <script src="script.js?v=7"></script>
 </body>
 </html>

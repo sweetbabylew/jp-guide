@@ -97,15 +97,18 @@
     });
   });
 
-  // bench mode
-  var benchBtn = document.getElementById("benchbtn");
-  if (benchBtn) benchBtn.addEventListener("click", function () {
-    var on = document.body.classList.toggle("bench");
-    benchBtn.setAttribute("aria-pressed", on ? "true" : "false");
-    var lbl = benchBtn.querySelector(".lbl");
-    if (lbl) lbl.textContent = on ? "Click to turn off Bench Mode" : "Click to turn on Bench Mode";
-    track("bench_mode", { state: on ? "on" : "off" });
-  });
+  // reading mode toggle — Story (default) / Bench (condensed)
+  var modeStory = document.getElementById("mode-story");
+  var modeBench = document.getElementById("mode-bench");
+  function setMode(bench) {
+    if (document.body.classList.contains("bench") === bench) return; // no-op if unchanged
+    document.body.classList.toggle("bench", bench);
+    if (modeStory) { modeStory.classList.toggle("is-active", !bench); modeStory.setAttribute("aria-pressed", bench ? "false" : "true"); }
+    if (modeBench) { modeBench.classList.toggle("is-active", bench); modeBench.setAttribute("aria-pressed", bench ? "true" : "false"); }
+    track("bench_mode", { state: bench ? "on" : "off" });
+  }
+  if (modeStory) modeStory.addEventListener("click", function () { setMode(false); });
+  if (modeBench) modeBench.addEventListener("click", function () { setMode(true); });
 
   // image lightbox
   var lb = document.getElementById("lightbox");
@@ -130,15 +133,20 @@
   document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeLB(); });
 
   // cookie / consent banner — shows once; "Decline" opts the visitor out of analytics
+  var webfoot = document.getElementById("webfoot");
   var consentKey = "jp-cookie-consent";
   var banner = document.getElementById("cookie-banner");
   if (banner) {
     var choice = null;
     try { choice = localStorage.getItem(consentKey); } catch (e) {}
-    if (!choice) banner.hidden = false;
+    if (!choice) {
+      banner.hidden = false;
+      if (webfoot) webfoot.style.display = "none"; // keep the bottom uncluttered while the banner is up
+    }
     var setConsent = function (val) {
       try { localStorage.setItem(consentKey, val); } catch (e) {}
       banner.hidden = true;
+      if (webfoot) webfoot.style.display = ""; // restore (CSS still hides it on mobile)
     };
     var accept = document.getElementById("cb-accept");
     var decline = document.getElementById("cb-decline");
@@ -147,5 +155,20 @@
       setConsent("declined");
       window["ga-disable-G-LC83Z5YM96"] = true; // stop further analytics this session
     });
+  }
+
+  // semi-sticky web footer — visible on load, hides on scroll down, returns on scroll up
+  if (webfoot) {
+    var yEl = document.getElementById("wf-year");
+    if (yEl) { try { yEl.textContent = new Date().getFullYear(); } catch (e) {} }
+    var lastY = window.scrollY || 0;
+    window.addEventListener("scroll", function () {
+      var y = window.scrollY || 0;
+      if (Math.abs(y - lastY) > 6) {
+        if (y > lastY && y > 90) webfoot.classList.add("down"); // scrolling down → hide
+        else webfoot.classList.remove("down");                  // scrolling up → show
+        lastY = y;
+      }
+    }, { passive: true });
   }
 })();
