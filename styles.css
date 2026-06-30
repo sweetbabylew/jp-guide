@@ -345,6 +345,10 @@ blockquote.pq cite::before{content:"— "}
 .callout.why{border-color:#cdd8df;border-left-color:var(--slate);background:#e8edf0}
 .callout.why .co-head{color:var(--slate-deep)}
 
+.callout.draft{border:1px dashed var(--walnut-faint);border-left:4px dashed var(--walnut-faint);background:var(--parchment-deep)}
+.callout.draft .co-head{color:var(--walnut-faint)}
+.callout.draft .co-body{font-style:italic;color:var(--walnut-soft)}
+
 /* ===================== TOOLS & MATERIALS section ===================== */
 .toolkit{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin:1.4rem 0 2rem}
 .toolkit .tk{background:var(--parchment-card);border:1px solid var(--rule);border-radius:10px;padding:1rem 1.1rem}
@@ -392,6 +396,7 @@ footer{
   display:flex;justify-content:space-between;flex-wrap:wrap;gap:.6rem;
 }
 footer b{color:var(--walnut);font-weight:600}
+.foot-rights{flex-basis:100%;margin:.5rem 0 0;font-size:.76rem;color:var(--walnut-faint);line-height:1.5}
 
 /* ---------- lightbox ---------- */
 .lightbox{position:fixed;inset:0;z-index:90;background:rgba(20,18,14,.92);

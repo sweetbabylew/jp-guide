@@ -2,7 +2,7 @@
    scroll-spy nav · progress · per-section tools · image lightbox · bench mode */
 (function () {
   "use strict";
-  var TOTAL = 8; // numbered build sections
+  var TOTAL = 10; // numbered build sections
 
   // Real per-section tool kits, from the Workshop Manual. Sections not listed
   // here (story / reference / gallery / sources) hide the tools box.
@@ -15,7 +15,9 @@
     sec5:    ["Brace & bits", "Reamer", "Drawknife", "Saw", "Chisel", "12″ square"],
     sec6:    ["12″ square", "Bevel gauge", "Brace & ⅞″ bit", "Blocks & shims"],
     sec7:    ["Brace & bits", "Bevel gauge", "Dividers", "Saw"],
-    sec8:    ["Trenails / dowels", "Saw", "Wedges", "Mallet"],
+    sec8:    ["Spokeshave", "Drawknife", "Block plane", "Card scraper", "Rasp"],
+    sec9:    ["Mallet", "Shims", "Half-pencil", "Saw", "Flat surface"],
+    sec10:   ["Trenails / dowels", "Saw", "Wedges", "Mallet"],
     saddling:["Adze or gouge", "Inshave / scorp", "Travisher", "Scraper"]
   };
 
