@@ -26,34 +26,37 @@ svg+=f'<text x="765" y="467" text-anchor="middle" font-size="13" fill="{INK}">ri
 svg+=f'<text x="765" y="484" text-anchor="middle" font-size="11" fill="{INK2}">(holds the bolt; self-binds as you lever)</text>'
 svg+=f'<line x1="765" y1="455" x2="765" y2="348" stroke="{INK2}" stroke-width="1"/>'
 
-# ---- ONE split, opening from the froe's edge and running right along the grain ----
-svg+=f'<path d="M340,{midy} C 400,{midy-5} 460,{midy+3} 560,{midy-1} S 620,{midy+1} 640,{midy}" fill="none" stroke="{RED}" stroke-width="2.5"/>'
-svg+=f'<text x="420" y="{midy-14}" font-size="11.5" fill="{RED}">split opens along the grain →</text>'
+# ---- ONE split, pried OPEN at the froe and running right along the grain ----
+# open wedge-shaped gap at the entry end (widest at the froe), tapering to the running split
+svg+=f'<polygon points="{bx},{midy-17:.0f} {bx+195},{midy:.0f} {bx},{midy+9:.0f}" fill="{PAPER}" stroke="{INK}" stroke-width="2" stroke-linejoin="round"/>'
+svg+=f'<path d="M{bx+195},{midy} C 505,{midy-5} 560,{midy+3} 620,{midy-1} S 650,{midy+1} 665,{midy}" fill="none" stroke="{RED}" stroke-width="2.5"/>'
+svg+=f'<text x="462" y="{midy-15}" font-size="11.5" fill="{RED}">split opens along the grain →</text>'
 
-# ---- the FROE: blade across the end grain, spine exposed, handle rising as a lever ----
-# blade: horizontal bar, bitten into the end of the bolt; the part left of the
-# end-grain face is the exposed spine you strike
-svg+=f'<rect x="140" y="{midy-6}" width="195" height="12" fill="#9aa0a6" stroke="{INK}" stroke-width="2"/>'
-# eye/socket at the left end of the blade
-svg+=f'<rect x="134" y="{midy-11}" width="22" height="22" rx="4" fill="#7d7f84" stroke="{INK}" stroke-width="1.8"/>'
-# handle rising from the eye (near-vertical: it is the lever)
-svg+=f'<line x1="149" y1="{midy}" x2="108" y2="110" stroke="#8a6b4a" stroke-width="13" stroke-linecap="round"/>'
-svg+=f'<text x="126" y="94" font-size="14" fill="{INK}">froe handle (lever)</text>'
-svg+=f'<text x="140" y="113" font-size="12" fill="{RED}">lever to pry &amp; steer</text>'
-# lever motion arc
-svg+=f'<path d="M132,152 Q186,168 176,220" fill="none" stroke="{RED}" stroke-width="2" marker-end="url(#ahr)"/>'
-svg+=f'<text x="28" y="330" font-size="11" fill="{INK2}">froe blade in the kerf</text>'
-svg+=f'<line x1="108" y1="325" x2="175" y2="{midy+8}" stroke="{INK2}" stroke-width="1"/>'
+# ---- the FROE: blade lying in the split ACROSS the bolt (seen end-on), EDGE DOWN,
+# eye at the near end of the blade, handle rising VERTICALLY from the eye ----
+fx=268                                   # blade centerline (just inside the end grain)
+# handle first (rises from the eye, near-vertical: it is the lever)
+svg+=f'<line x1="{fx}" y1="252" x2="{fx-8}" y2="118" stroke="#8a6b4a" stroke-width="12" stroke-linecap="round"/>'
+# blade seen end-on: buried in the split, edge (blunt point) biting DOWN into the lower half
+svg+=f'<polygon points="{fx-7},256 {fx+7},256 {fx+7},296 {fx},303 {fx-7},296" fill="#9aa0a6" stroke="{INK}" stroke-width="1.8"/>'
+# eye at the top of the spine, the handle socketed through it
+svg+=f'<rect x="{fx-10}" y="248" width="20" height="12" rx="3" fill="#7d7f84" stroke="{INK}" stroke-width="1.8"/>'
+svg+=f'<text x="{fx-28}" y="108" text-anchor="end" font-size="14" fill="{INK}">froe handle (lever)</text>'
+svg+=f'<text x="{fx-28}" y="126" text-anchor="end" font-size="12" fill="{RED}">lever to pry &amp; steer</text>'
+# lever motion arc: pry the handle over, away from the bolt — same side as the opening split
+svg+=f'<path d="M{fx-16},132 Q 212,150 196,198" fill="none" stroke="{RED}" stroke-width="2" marker-end="url(#ahr)"/>'
+svg+=f'<text x="30" y="382" font-size="11" fill="{INK2}">froe blade in the split, edge down</text>'
+svg+=f'<line x1="185" y1="374" x2="{fx-5}" y2="306" stroke="{INK2}" stroke-width="1"/>'
 
-# ---- the CLUB: a proper mallet, striking the exposed spine near the end grain ----
-club_x=218
-svg+=f'<rect x="{club_x-16}" y="218" width="32" height="58" rx="8" fill="{WOOD_D}" stroke="{INK}" stroke-width="2"/>'          # head
-svg+=f'<line x1="{club_x}" y1="224" x2="{club_x+40}" y2="150" stroke="#8a6b4a" stroke-width="9" stroke-linecap="round"/>'      # handle
-# impact marks where the head meets the spine
-for (dx1,dy1,dx2,dy2) in [(-14,-4,-26,-13),(14,-4,26,-13),(-12,-10,-20,-22),(12,-10,20,-22)]:
-    svg+=f'<line x1="{club_x+dx1}" y1="{midy-6+dy1}" x2="{club_x+dx2}" y2="{midy-6+dy2}" stroke="{INK}" stroke-width="1.5"/>'
-svg+=f'<text x="272" y="162" font-size="13" fill="{INK}">club seats the blade</text>'
-svg+=f'<text x="272" y="180" font-size="11" fill="{INK2}">(strike the exposed spine)</text>'
+# ---- the CLUB: a proper mallet, striking the exposed spine at the eye end ----
+club_x=307
+svg+=f'<rect x="{club_x-15}" y="178" width="30" height="54" rx="8" fill="{WOOD_D}" stroke="{INK}" stroke-width="2"/>'          # head
+svg+=f'<line x1="{club_x}" y1="184" x2="{club_x+33}" y2="120" stroke="#8a6b4a" stroke-width="9" stroke-linecap="round"/>'      # handle
+# impact marks where the head meets the spine/eye
+for (x1,y1,x2,y2) in [(283,242,273,232),(292,238,296,226),(300,240,308,230),(287,234,283,222)]:
+    svg+=f'<line x1="{x1}" y1="{y1}" x2="{x2}" y2="{y2}" stroke="{INK}" stroke-width="1.5"/>'
+svg+=f'<text x="360" y="140" font-size="13" fill="{INK}">club seats the blade</text>'
+svg+=f'<text x="360" y="158" font-size="11" fill="{INK2}">(strike the exposed spine)</text>'
 
 # ---- principle band ----
 svg+=f'<text x="{w/2}" y="{h-92}" text-anchor="middle" font-size="15" fill="{INK}" font-weight="bold">Riving = controlled splitting</text>'

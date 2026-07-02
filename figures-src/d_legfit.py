@@ -47,11 +47,19 @@ def cone_then_straight(cx):
          f"{cx-hw_top_seat:.0f},{SY_T:.0f}")                                    # back up to seat top (left)
     return f'<polygon points="{pts}" fill="{WOOD_L}" stroke="{INK}" stroke-width="2"/>', hw_bot
 
+# air gaps between the cylindrical hole walls and the conical leg (NOT seat-colored: they are voids)
+hw_top_at_ST = HOLE_HW + (SY_T-SY_B)*taper   # cone half-width at seat top plane
+def gap_triangles(cx):
+    s=f'<polygon points="{cx-HOLE_HW:.0f},{SY_B} {cx-HOLE_HW:.0f},{SY_T} {cx-hw_top_at_ST:.0f},{SY_T}" fill="{INK}" stroke="{INK}" stroke-width="1"/>'
+    s+=f'<polygon points="{cx+HOLE_HW:.0f},{SY_B} {cx+HOLE_HW:.0f},{SY_T} {cx+hw_top_at_ST:.0f},{SY_T}" fill="{INK}" stroke="{INK}" stroke-width="1"/>'
+    return s
+
 # ---------- Panel 1: jam it ----------
 cx,sb=seat_block(xs[0]); svg+=panel(xs[0],"1 · Jam it in")+sb
 # leg: conical foot->seat top, straight above. Contact (cone) at the seat bottom.
 leg,hwb=cone_then_straight(cx)
 svg+=leg
+svg+=gap_triangles(cx)
 svg+=f'<text x="{xs[0]+118}" y="{160}" font-size="10" fill="{INK}">round the top,</text>'
 svg+=f'<text x="{xs[0]+118}" y="{173}" font-size="10" fill="{INK}">tap it up to jam</text>'
 svg+=f'<text x="{xs[0]+90}" y="{425}" text-anchor="middle" font-size="9.5" fill="{INK2}">cone wedges at the seat bottom</text>'
@@ -60,18 +68,14 @@ svg+=f'<text x="{xs[0]+90}" y="{425}" text-anchor="middle" font-size="9.5" fill=
 cx,sb=seat_block(xs[1]); svg+=panel(xs[1],"2 · Mark two lines")+sb
 leg,hwb=cone_then_straight(cx)
 svg+=leg
-# triangular gaps: between the cone and the vertical hole walls, ABOVE the contact (cone narrows up => gap widens up)
-# left gap triangle: from (cx-HOLE_HW, SY_B) up the wall to (cx-HOLE_HW, SY_T), across to cone at top
-hw_top_at_ST = HOLE_HW + (SY_T-SY_B)*taper   # cone half-width at seat top plane
-svg+=f'<polygon points="{cx-HOLE_HW:.0f},{SY_B} {cx-HOLE_HW:.0f},{SY_T} {cx-hw_top_at_ST:.0f},{SY_T}" fill="{RED}" fill-opacity="0.22" stroke="{RED}" stroke-width="1.2"/>'
-svg+=f'<polygon points="{cx+HOLE_HW:.0f},{SY_B} {cx+HOLE_HW:.0f},{SY_T} {cx+hw_top_at_ST:.0f},{SY_T}" fill="{RED}" fill-opacity="0.22" stroke="{RED}" stroke-width="1.2"/>'
+svg+=gap_triangles(cx)
 svg+=f'<text x="{xs[1]+162}" y="{SY_T-16}" font-size="9" fill="{INK2}">gaps: round hole,</text>'
 svg+=f'<text x="{xs[1]+162}" y="{SY_T-5}" font-size="9" fill="{INK2}">cone leg</text>'
 svg+=f'<line x1="{xs[1]+166}" y1="{SY_T-2}" x2="{cx+HOLE_HW+4:.0f}" y2="{SY_T+8}" stroke="{INK2}" stroke-width="0.9" marker-end="url(#ah)"/>'
-# RED line at the seat-BOTTOM contact (leg width there == HOLE_HW) — DON'T TOUCH
+# RED line at the seat-BOTTOM contact (leg width there == HOLE_HW) — the future top of the tenon
 svg+=f'<line x1="{cx-HOLE_HW-3:.0f}" y1="{SY_B}" x2="{cx+HOLE_HW+3:.0f}" y2="{SY_B}" stroke="{RED}" stroke-width="2.5"/>'
-svg+=f'<text x="{cx+HOLE_HW+8:.0f}" y="{SY_B-2}" font-size="10" fill="{RED}" font-weight="bold">don&#39;t touch</text>'
-svg+=f'<text x="{cx+HOLE_HW+8:.0f}" y="{SY_B+11}" font-size="9" fill="{RED}">(meets seat bottom)</text>'
+svg+=f'<text x="{cx+HOLE_HW+8:.0f}" y="{SY_B-2}" font-size="10" fill="{RED}" font-weight="bold">future top of tenon</text>'
+svg+=f'<text x="{cx+HOLE_HW+8:.0f}" y="{SY_B+11}" font-size="9" fill="{RED}">(visible from above)</text>'
 # GREEN line one seat-thickness DOWN the leg (toward foot) = future shoulder
 gthk=(SY_B-SY_T)
 gy=SY_B+gthk
@@ -83,22 +87,34 @@ svg+=f'<line x1="{cx-hwb-12:.0f}" y1="{SY_B}" x2="{cx-hw_g-12:.0f}" y2="{gy}" st
 svg+=f'<text x="{cx-hw_g-16:.0f}" y="{(SY_B+gy)/2+3:.0f}" text-anchor="end" font-size="8.5" fill="{INK2}">1 seat-</text>'
 svg+=f'<text x="{cx-hw_g-16:.0f}" y="{(SY_B+gy)/2+13:.0f}" text-anchor="end" font-size="8.5" fill="{INK2}">thickness</text>'
 
-# ---------- Panel 3: shape the tenon down to the green line ----------
-cx,sb=seat_block(xs[2]); svg+=panel(xs[2],"3 · Shape the tenon")
-# Slimmed tenon above the green line so it can pass through; full cone below the green line.
-# full leg below green:
+# ---------- Panel 3: saw the green line lightly, then pare down to it ----------
+cx,sb=seat_block(xs[2]); svg+=panel(xs[2],"3 · Saw, then pare")
 hw_g = HOLE_HW + (gy-SY_B)*taper
+hw_ts = HOLE_HW + (SY_T-SY_B)*taper          # cone half-width at the seat-top plane
+# full cone below the green kerf (untouched)
 svg+=f'<polygon points="{cx-hw_g:.0f},{gy} {cx+hw_g:.0f},{gy} {cx+ (HOLE_HW+(legBot-SY_B)*taper):.0f},{legBot} {cx- (HOLE_HW+(legBot-SY_B)*taper):.0f},{legBot}" fill="{WOOD_L}" stroke="{INK}" stroke-width="2"/>'
-# tenon above green, slimmed to ~ hole width (so it will pass)
-svg+=f'<rect x="{cx-HOLE_HW+1:.0f}" y="{legTop}" width="{2*HOLE_HW-2:.0f}" height="{gy-legTop:.0f}" fill="{WOOD_D}" stroke="{INK}" stroke-width="2"/>'
+# ABOVE the red line: the original leg, untouched (never mar the red line)
+svg+=f'<polygon points="{cx-hw_ts:.0f},{legTop} {cx+hw_ts:.0f},{legTop} {cx+hw_ts:.0f},{SY_T} {cx+HOLE_HW:.0f},{SY_B} {cx-HOLE_HW:.0f},{SY_B} {cx-hw_ts:.0f},{SY_T}" fill="{WOOD_L}" stroke="{INK}" stroke-width="2"/>'
+# the BAND between red and green: pared down to the hole width (fresh-cut, darker)
+svg+=f'<rect x="{cx-HOLE_HW:.0f}" y="{SY_B}" width="{2*HOLE_HW:.0f}" height="{gy-SY_B:.0f}" fill="{WOOD_D}" stroke="{INK}" stroke-width="2"/>'
+# GREEN shoulder line drawn as a LIGHT SAW KERF: thin dark slit + green mark, small nicks at the silhouette
+svg+=f'<line x1="{cx-hw_g:.0f}" y1="{gy}" x2="{cx+hw_g:.0f}" y2="{gy}" stroke="{INK}" stroke-width="1"/>'
 svg+=f'<line x1="{cx-hw_g-3:.0f}" y1="{gy}" x2="{cx+hw_g+3:.0f}" y2="{gy}" stroke="{GREEN}" stroke-width="2.5"/>'
-# the RED contact mark carried over from panel 2 — one seat-thickness above the green shoulder
+# the RED contact mark carried over from panel 2 — one seat-thickness above the green kerf
 svg+=f'<line x1="{cx-HOLE_HW-3:.0f}" y1="{SY_B}" x2="{cx+HOLE_HW+3:.0f}" y2="{SY_B}" stroke="{RED}" stroke-width="2.5"/>'
-svg+=f'<text x="{cx+HOLE_HW+8:.0f}" y="{SY_B+4}" font-size="10" fill="{RED}" font-weight="bold">the red line</text>'
-svg+=f'<text x="{xs[2]+150}" y="{(legTop+gy)/2-18:.0f}" font-size="10" fill="{INK}">slim the tenon</text>'
-svg+=f'<text x="{xs[2]+150}" y="{(legTop+gy)/2-5:.0f}" font-size="10" fill="{INK}">down to the green</text>'
-svg+=f'<text x="{cx+hw_g+8:.0f}" y="{gy+4}" font-size="10" fill="{GREEN}" font-weight="bold">saw the shoulder</text>'
-svg+=f'<text x="{xs[2]+90}" y="{425}" text-anchor="middle" font-size="9.5" fill="{INK2}">don&#39;t cut past the red line</text>'
+svg+=f'<text x="{cx-HOLE_HW-8:.0f}" y="{SY_B-6}" text-anchor="end" font-size="10" fill="{RED}" font-weight="bold">the red line —</text>'
+svg+=f'<text x="{cx-HOLE_HW-8:.0f}" y="{SY_B+6}" text-anchor="end" font-size="10" fill="{RED}" font-weight="bold">don&#39;t mar it</text>'
+svg+=f'<text x="{cx-hw_g-8:.0f}" y="{gy+4}" text-anchor="end" font-size="10" fill="{GREEN}" font-weight="bold">light saw kerf</text>'
+# small chisel paring the band, shaving curling off, working down toward the kerf
+bandmid=(SY_B+gy)/2
+chx=cx+HOLE_HW   # right face of the pared band
+svg+=f'<polygon points="{chx+1:.0f},{bandmid+16:.0f} {chx+26:.0f},{bandmid-16:.0f} {chx+33:.0f},{bandmid-11:.0f} {chx+8:.0f},{bandmid+21:.0f}" fill="#9aa0a6" stroke="{INK}" stroke-width="1.6"/>'
+svg+=f'<line x1="{chx+30:.0f}" y1="{bandmid-14:.0f}" x2="{chx+48:.0f}" y2="{bandmid-38:.0f}" stroke="#8a6b4a" stroke-width="9" stroke-linecap="round"/>'
+svg+=f'<path d="M{chx+2:.0f},{bandmid+17:.0f} q 14,0 13,10 q -1,9 -10,9 q -7,0 -8,-6" fill="none" stroke="{WOOD_D}" stroke-width="1.8"/>'
+svg+=f'<text x="{chx+40:.0f}" y="{bandmid+14:.0f}" font-size="10" fill="{INK}">chisel or drawknife:</text>'
+svg+=f'<text x="{chx+40:.0f}" y="{bandmid+27:.0f}" font-size="10" fill="{INK}">pare red → green</text>'
+svg+=f'<text x="{xs[2]+90}" y="{420}" text-anchor="middle" font-size="9.5" fill="{INK2}">saw the green line lightly, then pare down to it</text>'
+svg+=f'<text x="{xs[2]+90}" y="{433}" text-anchor="middle" font-size="9.5" fill="{INK2}">— don&#39;t mar the red line</text>'
 
 # ---------- Panel 4: seated, shoulder on seat bottom, tenon proud above ----------
 cx,sb=seat_block(xs[3]); svg+=panel(xs[3],"4 · Seated tight")+sb
@@ -113,8 +129,8 @@ svg+=f'<text x="{cx}" y="{legTop-8}" text-anchor="middle" font-size="9.5" fill="
 
 # bottom explainer
 svg+=f'<text x="{w/2}" y="{h-72}" text-anchor="middle" font-size="13.5" fill="{INK}" font-weight="bold">Let the wood tell you where to cut</text>'
-svg+=f'<text x="{w/2}" y="{h-52}" text-anchor="middle" font-size="12" fill="{INK2}">The cone jams at the seat&#39;s bottom face — mark that contact in RED and never cut it. Scribe the GREEN shoulder one seat-thickness toward the foot.</text>'
-svg+=f'<text x="{w/2}" y="{h-34}" text-anchor="middle" font-size="12" fill="{INK2}">Slim the tenon down to the green line and saw the shoulder there; drive the leg up until the shoulder seats against the bottom of the seat.</text>'
+svg+=f'<text x="{w/2}" y="{h-52}" text-anchor="middle" font-size="12" fill="{INK2}">The cone jams at the seat&#39;s bottom face — mark it in RED and never mar it: that&#39;s the future top of the tenon. Scribe the GREEN line one seat-thickness toward the foot.</text>'
+svg+=f'<text x="{w/2}" y="{h-34}" text-anchor="middle" font-size="12" fill="{INK2}">Saw the GREEN line lightly, pare the band between the lines down to it, then drive the leg up until the shoulder seats against the bottom of the seat.</text>'
 svg+=f'<text x="{w/2}" y="{h-14}" text-anchor="middle" font-size="11" fill="{RED}" font-style="italic">Photographs of these steps appear in this section.</text>'
 svg+='</svg>'
 open('13_legfit.svg','w').write(svg)

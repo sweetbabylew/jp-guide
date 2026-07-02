@@ -1,0 +1,45 @@
+from style import *
+import math
+w,h=900,600
+svg=header(w,h)
+svg+=f'<defs><marker id="ah" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="{INK}"/></marker><marker id="ahr" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="{RED}"/></marker></defs>'
+svg+=f'<text x="{w/2}" y="38" text-anchor="middle" font-size="24" fill="{INK}" font-weight="bold">Laying Out the Seat</text>'
+svg+=f'<text x="{w/2}" y="64" text-anchor="middle" font-size="13.5" fill="{INK2}" font-style="italic">A line 1½″ in from every edge — holes sit where the lines cross at each corner</text>'
+
+# Seat plan (rectangle, gentle arc on front). top of page = back of chair
+sx,sy,sw,sh=180,110,540,330
+# seat outline with a gentle arc on the FRONT (bottom) edge
+svg+=f'<path d="M{sx} {sy} L {sx+sw} {sy} L {sx+sw} {sy+sh-30} Q {sx+sw/2} {sy+sh+22} {sx} {sy+sh-30} Z" fill="{WOOD_L}" stroke="{INK}" stroke-width="2.5"/>'
+svg+=f'<text x="{sx+sw/2}" y="{sy-12}" text-anchor="middle" font-size="13" fill="{INK}" font-weight="bold">BACK of chair</text>'
+svg+=f'<text x="{sx+sw/2}" y="{sy+sh+44}" text-anchor="middle" font-size="13" fill="{INK}" font-weight="bold">FRONT (a gentle arc can be pleasing)</text>'
+
+off=46  # 1.5" offset visually
+# layout lines (inset rectangle), red
+lx1,ly1,lx2,ly2 = sx+off, sy+off, sx+sw-off, sy+sh-off
+svg+=f'<rect x="{lx1}" y="{ly1}" width="{lx2-lx1}" height="{ly2-ly1}" fill="none" stroke="{RED}" stroke-width="1.8" stroke-dasharray="6,5"/>'
+# dimension for 1.5"
+svg+=f'<line x1="{sx}" y1="{sy+22}" x2="{sx+off}" y2="{sy+22}" stroke="{INK2}" stroke-width="1" marker-start="url(#ahr)" marker-end="url(#ahr)"/>'
+svg+=f'<text x="{sx+off/2}" y="{sy+16}" text-anchor="middle" font-size="11.5" fill="{RED}">1½″</text>'
+
+# the four corner intersections = hole centers
+corners=[(lx1,ly1,'rear-L'),(lx2,ly1,'rear-R'),(lx1,ly2,'front-L'),(lx2,ly2,'front-R')]
+for cx,cy,lab in corners:
+    svg+=f'<circle cx="{cx}" cy="{cy}" r="8" fill="{WOOD_D}" stroke="{INK}" stroke-width="2"/>'
+    svg+=f'<circle cx="{cx}" cy="{cy}" r="2.5" fill="{RED}"/>'
+# label one rear corner = back stick + back leg; one front = front leg
+svg+=f'<text x="{lx2+10}" y="{ly1-2}" font-size="12" fill="{INK}">rear corner =</text>'
+svg+=f'<text x="{lx2+10}" y="{ly1+14}" font-size="12" fill="{INK}">back stick (&amp; back leg)</text>'
+svg+=f'<text x="{lx2+10}" y="{ly2+4}" font-size="12" fill="{INK}">front corner = front leg</text>'
+
+# show the rake is sighted ALONG the side line (the line parallel to the side edge)
+svg+=f'<line x1="{lx1}" y1="{ly1}" x2="{lx1}" y2="{ly2}" stroke="{SAGE}" stroke-width="3"/>'
+svg+=f'<text x="{lx1-8}" y="{(ly1+ly2)/2}" text-anchor="end" font-size="12" fill="{SAGE}" font-weight="bold" transform="rotate(-90 {lx1-8} {(ly1+ly2)/2})">sight the rake along this line</text>'
+
+# explainer
+svg+=f'<text x="{w/2}" y="{h-86}" text-anchor="middle" font-size="14" fill="{INK}" font-weight="bold">Any shape works — rectangle is traditional</text>'
+svg+=f'<text x="{w/2}" y="{h-64}" text-anchor="middle" font-size="12.5" fill="{INK2}">Scribe a line 1½″ in from each edge. Where two lines meet at a corner is the centerpoint of that leg/stick hole.</text>'
+svg+=f'<text x="{w/2}" y="{h-46}" text-anchor="middle" font-size="12.5" fill="{INK2}">Because JP legs rake but do not splay, each hole&#39;s angle is read along one line — the one parallel to the seat edge.</text>'
+svg+=f'<text x="{w/2}" y="{h-22}" text-anchor="middle" font-size="11.5" fill="{INK2}" font-style="italic">Irregular off-cuts and slabs are fair game — the Tasmanian makers used whatever wide stock they had.</text>'
+svg+='</svg>'
+open('11_seat_layout.svg','w').write(svg)
+print("11 ok")

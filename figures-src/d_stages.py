@@ -3,7 +3,7 @@ import math
 w,h=980,440
 svg=header(w,h)
 svg+=f'<text x="{w/2}" y="40" text-anchor="middle" font-size="25" fill="{INK}" font-weight="bold">Section 2b · From Billet to Octagon</text>'
-svg+=f'<text x="{w/2}" y="66" text-anchor="middle" font-size="14" fill="{INK2}" font-style="italic">Shave two radial faces flat &amp; parallel · then two tangential faces square · then knock off the four corners</text>'
+svg+=f'<text x="{w/2}" y="66" text-anchor="middle" font-size="14" fill="{INK2}" font-style="italic">Shave one radial face flat &amp; straight · then an adjacent face square to it · then the last two · then knock off the corners</text>'
 
 cx0=130; cy=230; r=72
 def rings_tangential(cx,cy,r):
@@ -42,38 +42,30 @@ def stage1(cx):
         s+=f'<path d="M{cx-rr} {cy-rr*0.6} Q {cx} {cy-rr} {cx+rr} {cy-rr*0.6}" fill="none" stroke="{WOOD_D}" stroke-width="1" opacity="0.55"/>'
     return s
 
-# Stage 2: the two RADIAL faces shaved flat & parallel (left + right straight, opposite each other);
-# top & bottom (tangential) still JAGGED like stage 1. Rings run side-to-side, so the
-# straight left/right faces are the radial ones — perpendicular to the rings.
+# Stage 2: two ADJACENT faces shaved — one radial face (left) flat & straight, then a second
+# face (bottom) shaved SQUARE to it. Top & right still JAGGED like stage 1.
+# Squareness is established here, so the square-corner symbol lives at the shared corner.
 def stage2(cx):
     tl=(cx-r,cy-r); tr=(cx+r,cy-r); br=(cx+r,cy+r); bl=(cx-r,cy+r)
-    top=jagged(*tl,*tr,seed=11); bot=jagged(*br,*bl,seed=13)
-    # left and right are now STRAIGHT (worked): straight left, jagged top, straight right, jagged bottom
-    ring=[bl,tl]+top[1:]+bot   # bl->tl straight left, tl->tr jagged top, tr->br straight right, br->bl jagged bottom
+    top=jagged(*tl,*tr,seed=11); right=jagged(*tr,*br,seed=12)
+    # left and bottom are now STRAIGHT (worked, adjacent): straight left, jagged top, jagged right, straight bottom
+    ring=[bl,tl]+top[1:]+right[1:]   # bl->tl straight left, tl->tr jagged top, tr->br jagged right, br->bl closes straight (bottom)
     ps=' '.join(f'{x:.0f},{y:.0f}' for x,y in ring)
     s=f'<polygon points="{ps}" fill="{WOOD}" stroke="{INK}" stroke-width="2.2"/>'
     s+=f'<g clip-path="url(#clip2)">{rings_tangential(cx,cy,r)}</g>'
     s+=f'<clipPath id="clip2"><polygon points="{ps}"/></clipPath>'
-    # mark the two WORKED faces (red): left + right — opposite and parallel
+    # mark the two WORKED faces (red): left + bottom — adjacent, square to each other
     s+=f'<line x1="{cx-r}" y1="{cy+r}" x2="{cx-r}" y2="{cy-r}" stroke="{RED}" stroke-width="3"/>'
-    s+=f'<line x1="{cx+r}" y1="{cy+r}" x2="{cx+r}" y2="{cy-r}" stroke="{RED}" stroke-width="3"/>'
+    s+=f'<line x1="{cx-r}" y1="{cy+r}" x2="{cx+r}" y2="{cy+r}" stroke="{RED}" stroke-width="3"/>'
+    # square-corner symbol at the shared corner: the second face is SQUARE to the first
+    s+=f'<path d="M{cx-r+16} {cy+r} L {cx-r+16} {cy+r-16} L {cx-r} {cy+r-16}" fill="none" stroke="{RED}" stroke-width="2"/>'
     return s
 
-# Stage 3: full square — this is where SQUARENESS is established (corner symbol lives here),
-# with a go/no-go notch gauge about to slide on from above.
+# Stage 3: full square — the last two faces brought down to a true square.
 def stage3(cx):
     s=f'<rect x="{cx-r}" y="{cy-r}" width="{2*r}" height="{2*r}" fill="{WOOD}" stroke="{INK}" stroke-width="2.5"/>'
     s+=f'<g clip-path="url(#clip3)">{rings_tangential(cx,cy,r)}</g>'
     s+=f'<clipPath id="clip3"><rect x="{cx-r}" y="{cy-r}" width="{2*r}" height="{2*r}"/></clipPath>'
-    # square-corner symbol: faces square to each other
-    s+=f'<path d="M{cx-r+16} {cy+r} L {cx-r+16} {cy+r-16} L {cx-r} {cy+r-16}" fill="none" stroke="{RED}" stroke-width="2"/>'
-    # go/no-go notch gauge hovering above, its notch just the width of the stick
-    gy=cy-r-40
-    gpts=[(cx-r-16,gy+26),(cx-r-16,gy),(cx+r+16,gy),(cx+r+16,gy+26),(cx+r+2,gy+26),(cx+r+2,gy+12),(cx-r-2,gy+12),(cx-r-2,gy+26)]
-    gps=' '.join(f'{x:.0f},{y:.0f}' for x,y in gpts)
-    s+=f'<polygon points="{gps}" fill="{WOOD_L}" stroke="{INK}" stroke-width="1.6"/>'
-    s+=f'<text x="{cx}" y="{gy+9.5}" text-anchor="middle" font-size="9.5" fill="{INK2}">go/no-go</text>'
-    s+=f'<line x1="{cx}" y1="{gy+30}" x2="{cx}" y2="{cy-r-6}" stroke="{INK2}" stroke-width="1" marker-end="url(#ah)"/>'
     return s
 
 # Stage 4: octagon
@@ -95,13 +87,17 @@ def stage4(cx):
     return s
 
 xs=[140,370,600,830]
-labels=["1 · Rough riven billet","2 · Two parallel faces","3 · Four-square","4 · Octagonal"]
-subs=["bark &amp; round, oversize","radial faces: flat, straight, parallel","all faces square · go/no-go to size","equal facets — never bell-bottomed"]
+labels=["1 · Rough riven billet","2 · Two adjacent faces","3 · Four-square","4 · Octagonal"]
+subs=[["bark &amp; round, oversize"],
+      ["one radial face flat &amp; straight,","a second face square to it"],
+      ["the last two faces — a true square"],
+      ["equal facets — never bell-bottomed"]]
 fns=[stage1,stage2,stage3,stage4]
 for x,lab,sub,fn in zip(xs,labels,subs,fns):
     svg+=fn(x)
     svg+=f'<text x="{x}" y="{cy+r+38}" text-anchor="middle" font-size="15" fill="{INK}" font-weight="bold">{lab}</text>'
-    svg+=f'<text x="{x}" y="{cy+r+58}" text-anchor="middle" font-size="11.5" fill="{INK2}">{sub}</text>'
+    for i,line in enumerate(sub):
+        svg+=f'<text x="{x}" y="{cy+r+58+i*15}" text-anchor="middle" font-size="11.5" fill="{INK2}">{line}</text>'
 # arrows between
 for i in range(3):
     x1=xs[i]+r+8; x2=xs[i+1]-r-8

@@ -15,9 +15,16 @@ seatTh=18
 def topY(x): return fy+(x-fx)*(by-fy)/(bx-fx)
 
 # ---- member helpers ----
-def tapered(xb,yb,xt,yt,wb,wt,fill=WOOD):
+def tapered(xb,yb,xt,yt,wb,wt,fill=WOOD,flat=None):
+    # flat=y: cut the foot horizontally at that height (leveled to sit on the floor)
     dx=xt-xb;dy=yt-yb;L=math.hypot(dx,dy) or 1;ox,oy=-dy/L,dx/L
-    p=[(xb+ox*wb/2,yb+oy*wb/2),(xb-ox*wb/2,yb-oy*wb/2),(xt-ox*wt/2,yt-oy*wt/2),(xt+ox*wt/2,yt+oy*wt/2)]
+    b1=(xb+ox*wb/2,yb+oy*wb/2); b2=(xb-ox*wb/2,yb-oy*wb/2)
+    t1=(xt+ox*wt/2,yt+oy*wt/2); t2=(xt-ox*wt/2,yt-oy*wt/2)
+    if flat is not None:
+        def hit(p,q):  # slide each long edge to meet the floor line
+            return (p[0]+(flat-p[1])*(q[0]-p[0])/(q[1]-p[1]),flat)
+        b1=hit(b1,t1); b2=hit(b2,t2)
+    p=[b1,b2,t2,t1]
     return f'<polygon points="{" ".join(f"{a:.1f},{b:.1f}" for a,b in p)}" fill="{fill}" stroke="{INK}" stroke-width="2.2"/>'
 def bar(x1,y1,x2,y2,th,fill=WOOD_L):
     dx=x2-x1;dy=y2-y1;L=math.hypot(dx,dy) or 1;ox,oy=-dy/L,dx/L
@@ -59,17 +66,17 @@ svg+=bar(*armFront,*armRear,armTh)
 
 flArm=cross(flx); blArm=cross(blx); bsArm=cross(bsx)
 
-# front leg (foot to proud tip above the arm front)
+# front leg (foot to proud tip above the arm front), foot cut level
 flTip=(flx(flArm[1]-armTh/2-16),flArm[1]-armTh/2-16)
-svg+=tapered(flx(floorY),floorY,*flTip,26,13)
-# back leg (foot well behind the seat to proud tip above the arm)
+svg+=tapered(flx(floorY),floorY,*flTip,26,13,flat=floorY)
+# back leg (foot well behind the seat to proud tip above the arm), foot cut level
 blTip=(blx(blArm[1]-armTh/2-16),blArm[1]-armTh/2-16)
-svg+=tapered(blx(floorY),floorY,*blTip,26,14)
+svg+=tapered(blx(floorY),floorY,*blTip,26,14,flat=floorY)
 # outer back stick (proud below the seat, up to the crest), constant 1" stock
 bsBotY=topY(bsSeatX)+seatTh+13; bsTopY=141
 svg+=bar(bsx(bsBotY),bsBotY,bsx(bsTopY),bsTopY,12,fill=WOOD)
-# crest across the stick top (stick tenons up into it)
-svg+=bar(528,151,612,137,16,fill=WOOD_D)
+# crest across the stick top (stick tenons up into it) — modest little comb
+svg+=bar(554,146.5,588,140.8,13,fill=WOOD_D)
 # wedges: proud leg tenons on top of the arm; stick wedged where it passes the arm rear
 svg+=wedge(*flTip)
 svg+=wedge(*blTip)
@@ -87,7 +94,7 @@ svg+=f'<text x="548" y="505" font-size="12" fill="{RED}" font-weight="bold">back
 
 # ---- labels ----
 svg+=f'<text x="462" y="118" text-anchor="end" font-size="11.5" fill="{INK}">crest (comb)</text>'
-svg+=f'<line x1="467" y1="121" x2="509" y2="145" stroke="{INK2}" stroke-width="0.9"/>'
+svg+=f'<line x1="467" y1="121" x2="551" y2="142" stroke="{INK2}" stroke-width="0.9"/>'
 svg+=f'<text x="618" y="182" font-size="11.5" fill="{INK}">outer back stick — one piece:</text>'
 svg+=f'<text x="618" y="198" font-size="11.5" fill="{INK}">through seat and arm, up to the crest</text>'
 svg+=f'<text x="618" y="216" font-size="10" fill="{INK2}" font-style="italic">(the other back sticks are omitted here)</text>'

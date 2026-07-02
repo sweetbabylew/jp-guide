@@ -14,7 +14,7 @@
   // here (story / reference / gallery / sources) hide the tools box.
   var toolsBySection = {
     sec1:    ["Sledgehammer", "Steel wedges", "Gluts", "Froe", "Froe club", "Riving brake"],
-    sec2:    ["Shavehorse", "Drawknife", "Go/no-go gauge", "Pencil"],
+    sec2:    ["Shavehorse", "Drawknife", "Pencil"],
     sec2b:   ["Drawknife", "Marking gauge", "Pencil"],
     sec3:    ["Marking gauge", "Ruler", "Pencil"],
     sec4:    ["Brace & 1″ bit", "Clamps", "Bevel gauge", "Scrap ply"],
