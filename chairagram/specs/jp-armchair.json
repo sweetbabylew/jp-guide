@@ -1,0 +1,106 @@
+{
+  "meta": {
+    "specVersion": "0.1",
+    "name": "Jimmy Possum armchair",
+    "units": "in",
+    "family": "stick-chair",
+    "notes": "Comb-back armchair. Extracted from ../../jimmy-possum/build-src/measured/chair_diagram.svg (drawn to scale, 10 px = 1 in). All four legs pass through the seat and continue up through the arm. Back-stick lean is stored from vertical (18.66); the drawing's 13 1/2 deg label is measured off the seat's perpendicular (18.66 - 5.17 seat slope = 13.49). See DIMENSIONS.md for the full label/geometry cross-check."
+  },
+  "seat": {
+    "width": 23,
+    "depth": 18,
+    "thickness": 1.75,
+    "heightFront": 17.875,
+    "heightBack": 16.25,
+    "plan": {
+      "type": "rect"
+    }
+  },
+  "legs": [
+    {
+      "id": "front-left",
+      "mortise": {
+        "x": -9.9,
+        "z": 1.6
+      },
+      "rake": -12,
+      "splay": 0,
+      "section": 1.5,
+      "sectionFoot": 1.35,
+      "postDiameter": 1,
+      "throughSeat": true,
+      "throughArm": true,
+      "wedged": true
+    },
+    {
+      "id": "front-right",
+      "mortise": {
+        "x": 9.9,
+        "z": 1.6
+      },
+      "rake": -12,
+      "splay": 0,
+      "section": 1.5,
+      "sectionFoot": 1.35,
+      "postDiameter": 1,
+      "throughSeat": true,
+      "throughArm": true,
+      "wedged": true
+    },
+    {
+      "id": "back-left",
+      "mortise": {
+        "x": -9.9,
+        "z": 13
+      },
+      "rake": 20,
+      "splay": 0,
+      "section": 1.5,
+      "sectionFoot": 1.35,
+      "postDiameter": 1,
+      "throughSeat": true,
+      "throughArm": true,
+      "wedged": true
+    },
+    {
+      "id": "back-right",
+      "mortise": {
+        "x": 9.9,
+        "z": 13
+      },
+      "rake": 20,
+      "splay": 0,
+      "section": 1.5,
+      "sectionFoot": 1.35,
+      "postDiameter": 1,
+      "throughSeat": true,
+      "throughArm": true,
+      "wedged": true
+    }
+  ],
+  "sticks": {
+    "count": 6,
+    "diameter": 1,
+    "flatsPlanedFront": false,
+    "rowZ": 16.5,
+    "spread": 19.8,
+    "lean": 18.66,
+    "throughCrest": true
+  },
+  "crest": {
+    "length": 22,
+    "height": 1.8,
+    "thickness": 2,
+    "bottomAboveSeat": 26.43,
+    "tiltRef": "seat",
+    "liveEdge": false
+  },
+  "arms": {
+    "style": "full",
+    "aboveSeat": 8.5,
+    "boardWidth": 2.3,
+    "thickness": 1,
+    "length": null,
+    "flushWithSeatFront": true
+  }
+}

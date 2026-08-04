@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>chairagram — annotator</title>
+<style>
+/* ---------------------------------------------------------------------------
+   chairagram annotator — a drafting tool, not a website.
+   Paper, ink, one blue. Light only.
+   --------------------------------------------------------------------------- */
+:root {
+  --paper: #ffffff;
+  --bg: #f2f0ec;
+  --ink: #14161a;
+  --sub: #5d6672;
+  --faint: #8b94a0;
+  --rule: #d9d5cd;
+  --rule-strong: #b9b3a8;
+  --blue: #33628f;
+  --blue-soft: #eaf0f6;
+  --warn: #9a5b1c;
+  --warn-soft: #fbf1e3;
+  --bad: #a13530;
+  --bad-soft: #fbeceb;
+  --good: #2f6b4f;
+  --good-soft: #eaf3ee;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --sans: system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font: 14px/1.5 var(--sans);
+  color: var(--ink);
+  background: var(--bg);
+  -webkit-text-size-adjust: 100%;
+}
+h1, h2, h3 { font-weight: 600; margin: 0; }
+p { margin: 0 0 .6em; }
+a { color: var(--blue); }
+
+/* --- chrome ------------------------------------------------------------- */
+header.top {
+  display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+  padding: 10px 18px; background: var(--paper); border-bottom: 1px solid var(--rule);
+}
+.brand { font-weight: 600; letter-spacing: .2px; }
+.brand span { color: var(--faint); font-weight: 400; }
+.top .spacer { flex: 1 1 auto; }
+.top input[type=text] { width: 200px; }
+
+nav.stepper {
+  display: flex; gap: 2px; padding: 0 12px; background: var(--paper);
+  border-bottom: 1px solid var(--rule); overflow-x: auto;
+}
+nav.stepper button {
+  appearance: none; border: 0; background: none; font: inherit; color: var(--sub);
+  padding: 9px 14px; border-bottom: 2px solid transparent; cursor: pointer;
+  white-space: nowrap; display: flex; align-items: center; gap: 7px;
+}
+nav.stepper button .n {
+  font: 600 11px/16px var(--mono); width: 17px; height: 17px; border-radius: 50%;
+  background: var(--bg); color: var(--sub); text-align: center;
+}
+nav.stepper button[aria-current="true"] { color: var(--ink); border-bottom-color: var(--blue); }
+nav.stepper button[aria-current="true"] .n { background: var(--blue); color: #fff; }
+nav.stepper button:disabled { opacity: .38; cursor: not-allowed; }
+nav.stepper button.done .n { background: var(--good-soft); color: var(--good); }
+
+main { padding: 18px; max-width: 1500px; margin: 0 auto; }
+section.step { display: none; }
+section.step.active { display: block; }
+.step > h2 { font-size: 17px; margin-bottom: 2px; }
+.step > .lede { color: var(--sub); margin-bottom: 16px; max-width: 62ch; }
+
+footer.status {
+  position: sticky; bottom: 0; display: flex; gap: 14px; align-items: center;
+  padding: 7px 18px; background: var(--paper); border-top: 1px solid var(--rule);
+  font-size: 12px; color: var(--sub);
+}
+footer.status .spacer { flex: 1; }
+#toast { color: var(--blue); }
+
+/* --- generic bits -------------------------------------------------------- */
+.panel {
+  background: var(--paper); border: 1px solid var(--rule); border-radius: 3px;
+  padding: 14px;
+}
+.panel + .panel { margin-top: 14px; }
+.panel h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .8px;
+  color: var(--faint); margin-bottom: 10px; font-weight: 600; }
+.cols { display: grid; gap: 14px; align-items: start; }
+.cols.canvas { grid-template-columns: minmax(0, 1fr) 320px; }
+@media (max-width: 900px) { .cols.canvas { grid-template-columns: minmax(0, 1fr); } }
+
+button, .btn {
+  appearance: none; font: inherit; color: var(--ink); background: var(--paper);
+  border: 1px solid var(--rule-strong); border-radius: 3px; padding: 5px 11px;
+  cursor: pointer;
+}
+button:hover:not(:disabled) { border-color: var(--blue); color: var(--blue); }
+button:disabled { opacity: .45; cursor: not-allowed; }
+button.primary { background: var(--blue); border-color: var(--blue); color: #fff; }
+button.primary:hover:not(:disabled) { background: #2a5379; color: #fff; }
+button.ghost { border-color: transparent; color: var(--sub); padding: 4px 7px; }
+button.tiny { padding: 2px 7px; font-size: 12px; }
+input[type=text], input[type=number], select, textarea {
+  font: inherit; color: var(--ink); background: var(--paper);
+  border: 1px solid var(--rule-strong); border-radius: 3px; padding: 4px 7px;
+}
+input[type=number] { font-family: var(--mono); }
+input:focus, select:focus, button:focus-visible {
+  outline: 2px solid var(--blue); outline-offset: 1px;
+}
+label.field { display: flex; align-items: center; gap: 7px; margin-bottom: 8px; }
+label.field > span:first-child { color: var(--sub); min-width: 92px; }
+.row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.hint { font-size: 12px; color: var(--faint); }
+.hint.strong { color: var(--sub); }
+.mono { font-family: var(--mono); }
+.note { border-left: 3px solid var(--rule-strong); padding: 6px 0 6px 10px;
+  color: var(--sub); font-size: 13px; margin: 8px 0; }
+.note.warn { border-color: var(--warn); background: var(--warn-soft); padding-right: 10px; }
+.note.bad { border-color: var(--bad); background: var(--bad-soft); padding-right: 10px; color: #6d2320; }
+
+.badge {
+  font: 600 10.5px/1 var(--sans); letter-spacing: .4px; text-transform: uppercase;
+  padding: 3px 6px; border-radius: 2px; background: var(--bg); color: var(--sub);
+  white-space: nowrap;
+}
+.badge.measured { background: var(--blue-soft); color: var(--blue); }
+.badge.reconciled { background: var(--good-soft); color: var(--good); }
+.badge.chosen { background: var(--good-soft); color: var(--good); }
+.badge.edited { background: #efe9f6; color: #573b78; }
+.badge.template { background: var(--bg); color: var(--faint); }
+.badge.conflict { background: var(--bad-soft); color: var(--bad); }
+.badge.answered { background: var(--good-soft); color: var(--good); }
+
+/* --- step 1: photos ------------------------------------------------------ */
+.templates { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 10px; }
+.templates label {
+  display: block; border: 1px solid var(--rule); border-radius: 3px; padding: 10px 12px;
+  cursor: pointer; background: var(--paper);
+}
+.templates label:hover { border-color: var(--blue); }
+.templates input { margin-right: 7px; }
+.templates label.sel { border-color: var(--blue); box-shadow: inset 0 0 0 1px var(--blue); }
+.templates .blurb { color: var(--sub); font-size: 12.5px; margin-top: 4px; }
+
+.drops { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 10px; }
+.drop {
+  border: 1px dashed var(--rule-strong); border-radius: 3px; padding: 12px;
+  text-align: center; background: var(--paper); min-height: 168px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+}
+.drop.over { border-color: var(--blue); background: var(--blue-soft); }
+.drop .vname { font-weight: 600; }
+.drop .req { font-size: 11px; color: var(--faint); text-transform: uppercase; letter-spacing: .6px; }
+.drop canvas { max-width: 100%; max-height: 118px; border: 1px solid var(--rule); }
+.drop .fname { font-size: 11.5px; color: var(--sub); word-break: break-all; }
+
+/* --- canvas viewport ----------------------------------------------------- */
+.viewport-wrap { position: relative; background: #2b2f34; border: 1px solid var(--rule-strong);
+  border-radius: 3px; overflow: hidden; }
+.viewport-wrap canvas { display: block; width: 100%; height: 62vh; min-height: 380px;
+  touch-action: none; cursor: crosshair; }
+.viewport-wrap.short canvas { height: 34vh; min-height: 220px; cursor: default; }
+.viewport-wrap.panning canvas { cursor: grabbing; }
+.viewport-wrap .vp-empty { position: absolute; inset: 0; display: flex; align-items: center;
+  justify-content: center; color: #9aa3ae; font-size: 13px; text-align: center; padding: 20px; }
+.vp-bar { display: flex; gap: 8px; align-items: center; padding: 6px 8px;
+  background: var(--paper); border-bottom: 1px solid var(--rule); font-size: 12px; color: var(--sub); }
+.vp-bar .spacer { flex: 1; }
+.viewtabs { display: flex; gap: 4px; margin-bottom: 10px; }
+.viewtabs button[aria-current="true"] { background: var(--blue); color: #fff; border-color: var(--blue); }
+
+/* --- schedule list ------------------------------------------------------- */
+ol.sched { list-style: none; margin: 0; padding: 0; max-height: 46vh; overflow: auto; }
+ol.sched li { display: flex; gap: 8px; align-items: baseline; padding: 5px 6px; border-radius: 3px;
+  cursor: pointer; border-left: 3px solid transparent; }
+ol.sched li:hover { background: var(--bg); }
+ol.sched li.cur { background: var(--blue-soft); border-left-color: var(--blue); }
+ol.sched li .dot { width: 9px; height: 9px; border-radius: 50%; flex: 0 0 auto;
+  border: 1px solid rgba(0,0,0,.25); position: relative; top: 1px; }
+ol.sched li .dot.empty { background: transparent !important; }
+ol.sched li .nm { flex: 1; }
+ol.sched li.placed .nm { color: var(--sub); }
+ol.sched li .opt { font-size: 11px; color: var(--faint); }
+.prompt-box { background: var(--blue-soft); border: 1px solid #cddcea; border-radius: 3px;
+  padding: 10px 12px; margin-bottom: 10px; }
+.prompt-box .p { font-weight: 600; }
+.prompt-box .k { font-size: 12px; color: var(--sub); margin-top: 4px; }
+
+/* --- spec table ---------------------------------------------------------- */
+table.spec { width: 100%; border-collapse: collapse; }
+table.spec th { text-align: left; font-size: 11px; text-transform: uppercase;
+  letter-spacing: .6px; color: var(--faint); font-weight: 600;
+  border-bottom: 1px solid var(--rule); padding: 5px 8px; }
+table.spec td { padding: 4px 8px; border-bottom: 1px solid #f0eeea; vertical-align: middle; }
+table.spec tr.grp td { background: var(--bg); font-weight: 600; font-size: 12px;
+  text-transform: uppercase; letter-spacing: .7px; color: var(--sub); }
+table.spec td.val { width: 130px; }
+table.spec td.val input { width: 100%; text-align: right; }
+table.spec td.unit { width: 34px; color: var(--faint); font-size: 12px; }
+table.spec td.src { width: 108px; }
+table.spec td.act { width: 34px; text-align: right; }
+table.spec tr.pinned td.name { font-weight: 600; }
+table.spec tr.conflict { background: var(--bad-soft); }
+.conflict-choice { display: flex; gap: 8px; align-items: center; padding: 6px 8px 10px 8px;
+  font-size: 12.5px; color: #6d2320; }
+.conflict-choice button { font-size: 12px; padding: 2px 8px; }
+
+/* --- drawing ------------------------------------------------------------- */
+.sheet-holder { background: var(--paper); border: 1px solid var(--rule); border-radius: 3px;
+  padding: 10px; overflow: auto; }
+.sheet-holder svg { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+.onion { display: grid; gap: 10px; }
+.onion canvas { width: 100%; border: 1px solid var(--rule); background: #2b2f34; display: block; }
+.dl { display: flex; gap: 8px; flex-wrap: wrap; }
+input[type=range] { width: 150px; }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="brand">chairagram <span>· annotator</span></div>
+  <label class="field" style="margin:0">
+    <span style="min-width:0">Project</span>
+    <input type="text" id="project-name" placeholder="untitled chair" autocomplete="off">
+  </label>
+  <div class="spacer"></div>
+  <div class="row">
+    <button id="btn-open">Open project…</button>
+    <button id="btn-save">Save project</button>
+    <button id="btn-reset" class="ghost">Start over</button>
+  </div>
+</header>
+
+<nav class="stepper" id="stepper"></nav>
+
+<main>
+  <section class="step" id="step-photos"></section>
+  <section class="step" id="step-calibrate"></section>
+  <section class="step" id="step-landmarks"></section>
+  <section class="step" id="step-spec"></section>
+  <section class="step" id="step-drawing"></section>
+</main>
+
+<footer class="status">
+  <span id="status-left">—</span>
+  <span class="spacer"></span>
+  <span id="toast"></span>
+  <span id="status-right"></span>
+</footer>
+
+<input type="file" id="file-import" accept="application/json,.json" hidden>
+
+<script type="module" src="./src/steps.js"></script>
+</body>
+</html>

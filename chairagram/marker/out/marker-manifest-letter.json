@@ -1,0 +1,341 @@
+{
+  "format": "chairagram.marker-manifest",
+  "version": 1,
+  "variant": "letter",
+  "label": "US Letter (landscape)",
+  "units": "mm",
+  "paper": {
+    "widthMm": 279.4,
+    "heightMm": 215.9,
+    "orientation": "landscape",
+    "marginMm": 12
+  },
+  "pageTransform": {
+    "originPageMm": {
+      "x": 139.7,
+      "y": 203.4
+    },
+    "note": "sheetX = pageX - origin.x ; sheetY = origin.y - pageY (page mm, y down)"
+  },
+  "frame": {
+    "xMinMm": -127.7,
+    "xMaxMm": 127.7,
+    "yMinMm": 0,
+    "yMaxMm": 191.4,
+    "widthMm": 255.4,
+    "heightMm": 191.4
+  },
+  "tagFamily": "tag36h11",
+  "tag": {
+    "sizeMm": 60,
+    "modules": 10,
+    "moduleMm": 6,
+    "widthAtBorderModules": 8,
+    "borderSizeMm": 48,
+    "borderInsetMm": 6,
+    "quietZoneMm": 6
+  },
+  "tags": [
+    {
+      "id": 0,
+      "role": "front-left",
+      "corners": [
+        {
+          "x": -127.7,
+          "y": 0
+        },
+        {
+          "x": -67.7,
+          "y": 0
+        },
+        {
+          "x": -67.7,
+          "y": 60
+        },
+        {
+          "x": -127.7,
+          "y": 60
+        }
+      ],
+      "borderCorners": [
+        {
+          "x": -121.7,
+          "y": 6
+        },
+        {
+          "x": -73.7,
+          "y": 6
+        },
+        {
+          "x": -73.7,
+          "y": 54
+        },
+        {
+          "x": -121.7,
+          "y": 54
+        }
+      ],
+      "center": {
+        "x": -97.7,
+        "y": 30
+      }
+    },
+    {
+      "id": 1,
+      "role": "front-right",
+      "corners": [
+        {
+          "x": 67.7,
+          "y": 0
+        },
+        {
+          "x": 127.7,
+          "y": 0
+        },
+        {
+          "x": 127.7,
+          "y": 60
+        },
+        {
+          "x": 67.7,
+          "y": 60
+        }
+      ],
+      "borderCorners": [
+        {
+          "x": 73.7,
+          "y": 6
+        },
+        {
+          "x": 121.7,
+          "y": 6
+        },
+        {
+          "x": 121.7,
+          "y": 54
+        },
+        {
+          "x": 73.7,
+          "y": 54
+        }
+      ],
+      "center": {
+        "x": 97.7,
+        "y": 30
+      }
+    },
+    {
+      "id": 2,
+      "role": "back-right",
+      "corners": [
+        {
+          "x": 67.7,
+          "y": 131.4
+        },
+        {
+          "x": 127.7,
+          "y": 131.4
+        },
+        {
+          "x": 127.7,
+          "y": 191.4
+        },
+        {
+          "x": 67.7,
+          "y": 191.4
+        }
+      ],
+      "borderCorners": [
+        {
+          "x": 73.7,
+          "y": 137.4
+        },
+        {
+          "x": 121.7,
+          "y": 137.4
+        },
+        {
+          "x": 121.7,
+          "y": 185.4
+        },
+        {
+          "x": 73.7,
+          "y": 185.4
+        }
+      ],
+      "center": {
+        "x": 97.7,
+        "y": 161.4
+      }
+    },
+    {
+      "id": 3,
+      "role": "back-left",
+      "corners": [
+        {
+          "x": -127.7,
+          "y": 131.4
+        },
+        {
+          "x": -67.7,
+          "y": 131.4
+        },
+        {
+          "x": -67.7,
+          "y": 191.4
+        },
+        {
+          "x": -127.7,
+          "y": 191.4
+        }
+      ],
+      "borderCorners": [
+        {
+          "x": -121.7,
+          "y": 137.4
+        },
+        {
+          "x": -73.7,
+          "y": 137.4
+        },
+        {
+          "x": -73.7,
+          "y": 185.4
+        },
+        {
+          "x": -121.7,
+          "y": 185.4
+        }
+      ],
+      "center": {
+        "x": -97.7,
+        "y": 161.4
+      }
+    }
+  ],
+  "detection": {
+    "cornerOrder": [
+      "-X-Y",
+      "+X-Y",
+      "+X+Y",
+      "-X+Y"
+    ],
+    "cornerOrderNote": "detect.js corner k matches manifest.tags[].borderCorners[k]; tags are printed unrotated so k is fixed to a physical corner regardless of camera roll",
+    "idsByRole": {
+      "front-left": 0,
+      "front-right": 1,
+      "back-right": 2,
+      "back-left": 3
+    },
+    "frontEdge": {
+      "fromTagId": 0,
+      "toTagId": 1
+    },
+    "identifiesPaperSize": true
+  },
+  "datum": {
+    "start": {
+      "x": -61.7,
+      "y": 0
+    },
+    "end": {
+      "x": 61.7,
+      "y": 0
+    },
+    "widthMm": 1,
+    "label": "SEAT FRONT"
+  },
+  "ticks": {
+    "front": {
+      "x": 0,
+      "y": 0,
+      "lengthMm": 16,
+      "arrow": true
+    },
+    "back": {
+      "x": 0,
+      "y": 191.4,
+      "lengthMm": 12,
+      "arrow": false
+    },
+    "left": {
+      "x": -127.7,
+      "y": 95.7,
+      "lengthMm": 12,
+      "arrow": false
+    },
+    "right": {
+      "x": 127.7,
+      "y": 95.7,
+      "lengthMm": 12,
+      "arrow": false
+    }
+  },
+  "centerline": {
+    "front": {
+      "x": 0,
+      "y": 0
+    },
+    "back": {
+      "x": 0,
+      "y": 191.4
+    },
+    "strokeMm": 0.6,
+    "dashMm": [
+      6,
+      4
+    ],
+    "gaps": [
+      {
+        "y0": 0,
+        "y1": 38
+      },
+      {
+        "y0": 82.7,
+        "y1": 107.7
+      },
+      {
+        "y0": 125.9,
+        "y1": 191.4
+      }
+    ]
+  },
+  "rulers": [
+    {
+      "id": "ruler-100mm",
+      "lengthMm": 100,
+      "start": {
+        "x": -50,
+        "y": 161.4
+      },
+      "end": {
+        "x": 50,
+        "y": 161.4
+      },
+      "barHeightMm": 3,
+      "graduationMm": 10,
+      "labelEveryMm": 20
+    },
+    {
+      "id": "ruler-4in",
+      "lengthMm": 101.6,
+      "start": {
+        "x": -50.8,
+        "y": 147.9
+      },
+      "end": {
+        "x": 50.8,
+        "y": 147.9
+      },
+      "barHeightMm": 3,
+      "graduationMm": 25.4,
+      "labelEveryMm": 25.4
+    }
+  ],
+  "writeInBox": {
+    "xMinMm": -30,
+    "xMaxMm": 30,
+    "yMinMm": 125.9,
+    "yMaxMm": 132.9
+  }
+}

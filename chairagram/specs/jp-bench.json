@@ -1,0 +1,106 @@
+{
+  "meta": {
+    "specVersion": "0.1",
+    "name": "Jimmy Possum bench",
+    "units": "in",
+    "family": "stick-chair",
+    "notes": "Low-back bench with a live-edge comb. Extracted from ../../jimmy-possum/build-src/measured/bench_diagram.svg (drawn to scale, 10 px = 1 in). seat.width is the 55 1/2 side-to-side length; seat.depth is the 15 1/4 front-to-back. All four legs pass through the seat and continue up through the end boards. Stick lean is stored from vertical (15.35); the drawing's 13 deg label is measured off the seat's perpendicular (15.35 - 2.37 seat slope = 12.98). See DIMENSIONS.md for the full label/geometry cross-check."
+  },
+  "seat": {
+    "width": 55.5,
+    "depth": 15.25,
+    "thickness": 1.875,
+    "heightFront": 17.875,
+    "heightBack": 17.25,
+    "plan": {
+      "type": "rect"
+    }
+  },
+  "legs": [
+    {
+      "id": "front-left",
+      "mortise": {
+        "x": -25.75,
+        "z": 1.6
+      },
+      "rake": -12,
+      "splay": 0,
+      "section": 1.5,
+      "sectionFoot": 1.35,
+      "postDiameter": 1,
+      "throughSeat": true,
+      "throughArm": true,
+      "wedged": true
+    },
+    {
+      "id": "front-right",
+      "mortise": {
+        "x": 25.75,
+        "z": 1.6
+      },
+      "rake": -12,
+      "splay": 0,
+      "section": 1.5,
+      "sectionFoot": 1.35,
+      "postDiameter": 1,
+      "throughSeat": true,
+      "throughArm": true,
+      "wedged": true
+    },
+    {
+      "id": "back-left",
+      "mortise": {
+        "x": -25.75,
+        "z": 10.25
+      },
+      "rake": 20,
+      "splay": 0,
+      "section": 1.5,
+      "sectionFoot": 1.35,
+      "postDiameter": 1,
+      "throughSeat": true,
+      "throughArm": true,
+      "wedged": true
+    },
+    {
+      "id": "back-right",
+      "mortise": {
+        "x": 25.75,
+        "z": 10.25
+      },
+      "rake": 20,
+      "splay": 0,
+      "section": 1.5,
+      "sectionFoot": 1.35,
+      "postDiameter": 1,
+      "throughSeat": true,
+      "throughArm": true,
+      "wedged": true
+    }
+  ],
+  "sticks": {
+    "count": 16,
+    "diameter": 0.75,
+    "flatsPlanedFront": true,
+    "rowZ": 13.75,
+    "spread": 51.5,
+    "lean": 15.35,
+    "throughCrest": false
+  },
+  "crest": {
+    "length": 55.5,
+    "height": 3,
+    "thickness": 1.1,
+    "bottomAboveSeat": 21.46,
+    "tiltRef": "sticks",
+    "liveEdge": true
+  },
+  "arms": {
+    "style": "end-boards",
+    "aboveSeat": 8.75,
+    "boardWidth": 2.45,
+    "thickness": 1,
+    "length": 17.55,
+    "flushWithSeatFront": true
+  }
+}

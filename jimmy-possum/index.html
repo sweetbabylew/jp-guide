@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Jimmy Possum Chair — A Field Guide</title>
+<meta name="description" content="Build a Jimmy Possum chair — a folk stick chair from the bush of northern Tasmania — by hand, from a green log. History, wood science, and step-by-step technique by Lewis Laskin.">
+<link rel="canonical" href="https://chairmak.ing/jimmy-possum/">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:title" content="The Jimmy Possum Chair — A Field Guide">
+<meta property="og:description" content="Build a Jimmy Possum chair — a folk stick chair from the bush of northern Tasmania — by hand, from a green log. History, wood science, and step-by-step technique by Lewis Laskin.">
+<meta property="og:url" content="https://chairmak.ing/jimmy-possum/">
+<meta property="og:type" content="article">
+<meta property="og:image" content="https://chairmak.ing/jimmy-possum/media/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://chairmak.ing/jimmy-possum/media/og-image.jpg">
+<link rel="preload" as="image" href="media/hero-upside-down-armrest-1900.jpg" fetchpriority="high">
+<link rel="preconnect" href="https://www.googletagmanager.com">
+<!-- Google Analytics (GA4) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-LC83Z5YM96"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  try { if (localStorage.getItem('jp-cookie-consent') === 'declined') window['ga-disable-G-LC83Z5YM96'] = true; } catch (e) {}
+  gtag('js', new Date());
+  gtag('config', 'G-LC83Z5YM96');
+</script>
+<link rel="stylesheet" href="styles.css?v=10">
+</head>
+<body>
+
+  <a class="skip" href="#main">Skip to guide</a>
+
+  <div class="topbar">
+    <div class="tb-side">
+      <button class="menubtn" id="menubtn" aria-label="Open section navigator" aria-expanded="false">☰ <span>Sections</span></button>
+      <span class="mark"><b>The Jimmy Possum Chair</b> <span class="long">· A Field Guide</span></span>
+    </div>
+    <div class="modetoggle" role="group" aria-label="Reading mode">
+      <button class="mode-opt is-active" id="mode-story" data-mode="story" aria-pressed="true" title="Full guide — history, prose, and detail">Story Mode</button>
+      <button class="mode-opt" id="mode-bench" data-mode="bench" aria-pressed="false" title="Condensed, bench-ready view — steps, tools, and diagrams">Bench Mode</button>
+    </div>
+    <div class="tb-side tb-right"></div>
+  </div>
+
+  <!-- ============ HERO ============ -->
+  <header class="hero" id="top">
+    <img class="hero-img" src="media/hero-upside-down-armrest-1900.jpg" width="1200" height="1600" fetchpriority="high" alt="An antique Upside Down Armrest stick chair against a deep navy museum wall on a honey-toned wood floor.">
+    <div class="veil"></div>
+    <div class="hero-inner">
+      <p class="kicker">A Step-by-Step Guide</p>
+      <h1>The Jimmy&nbsp;Possum Chair</h1>
+      <p class="tagline">JP Build Guide, start to finish.</p>
+      <p class="byline">Lewis Laskin</p>
+      <p class="hero-credit">Upside Down Armrest Chair, c.1900 (exhibit 13), QVMAG, Launceston, Tasmania. Photo: me, 2022.</p>
+    </div>
+    <div class="scroll-cue"><span>Scroll to begin</span><span class="arr">↓</span></div>
+  </header>
+
+  <div class="rail-scrim" id="scrim"></div>
+
+  <div class="shell">
+
+    <!-- ============ LEFT RAIL ============ -->
+    <aside class="rail" id="rail">
+      <div class="rail-inner">
+        <div class="progress-wrap">
+          <div class="progress-label">
+            <span id="prog-text">The Story</span>
+            <span class="pct" id="prog-pct">2%</span>
+          </div>
+          <div class="pbar"><i id="pbar-fill"></i></div>
+        </div>
+
+        <h2 id="toc-heading">Contents</h2>
+        <nav class="toc" id="toc" aria-labelledby="toc-heading">
+          <ol>
+            <li class="grp bench-hide" aria-hidden="true">Start Here</li>
+            <li class="bench-hide"><a href="#before" data-step="0" data-phase="Before you begin"><span class="num">·</span> Before You Begin</a></li>
+            <li class="grp bench-hide" aria-hidden="true">The Story</li>
+            <li class="bench-hide"><a href="#backwoods" data-step="0" data-phase="The Story"><span class="num">·</span> A Chair from the Backwoods</a></li>
+            <li class="bench-hide"><a href="#wood" data-step="0" data-phase="The Story"><span class="num">·</span> The Wood, and How to Read It</a></li>
+            <li class="grp" aria-hidden="true">Reference</li>
+            <li><a href="#tools" data-step="0" data-phase="Reference"><span class="num">·</span> Tools, Materials &amp; Cut List</a></li>
+            <li class="grp" aria-hidden="true">The Build</li>
+            <li><a href="#sec1" data-step="1"><span class="num">1</span> Splitting &amp; Riving</a></li>
+            <li><a href="#sec2" data-step="2"><span class="num">2</span> Shaving the Parts</a></li>
+            <li><a href="#sec2b" data-step="2"><span class="num">2b</span> Four-Square, Taper, Octagon</a></li>
+            <li><a href="#sec3" data-step="3"><span class="num">3</span> Laying Out the Seat</a></li>
+            <li><a href="#sec4" data-step="4"><span class="num">4</span> Drilling the Outer Back Sticks</a></li>
+            <li><a href="#sec5" data-step="5"><span class="num">5</span> Fitting Back Sticks &amp; Legs</a></li>
+            <li><a href="#sec6" data-step="6"><span class="num">6</span> Drilling the Arm for the Back Leg</a></li>
+            <li><a href="#sec7" data-step="7"><span class="num">7</span> Remaining Sticks &amp; the Comb</a></li>
+            <li><a href="#sec8" data-step="8"><span class="num">8</span> Final Shaping of the Parts</a></li>
+            <li><a href="#sec9" data-step="9"><span class="num">9</span> Assembly &amp; Leveling</a></li>
+            <li><a href="#sec10" data-step="10"><span class="num">10</span> Pinning, Wedging &amp; Finishing</a></li>
+            <li class="grp" aria-hidden="true">Finishing</li>
+            <li><a href="#saddling" data-step="0" data-phase="Finishing up"><span class="num">·</span> Saddling the Seat</a></li>
+            <li class="bench-hide"><a href="#gallery" data-step="0" data-phase="Finishing up"><span class="num">·</span> A Gallery of Authentic JPs</a></li>
+            <li class="bench-hide"><a href="#sources" data-step="0" data-phase="Finishing up"><span class="num">·</span> Sources &amp; Further Reading</a></li>
+          </ol>
+        </nav>
+
+        <div class="tools-note hidden" id="tools-note">
+          <h3>Tools for this section</h3>
+          <ul id="tools-list"></ul>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ============ MAIN ============ -->
+    <main id="main" tabindex="-1">
+
+      <p class="bench-note">Bench mode: condensed steps only — story, gallery and sources are hidden. Switch to Story for the full guide.</p>
+
+      <!-- ===== BEFORE YOU BEGIN (disclaimer) ===== -->
+      <section id="before">
+        <p class="sec-label">Please Read First</p>
+        <h2 class="sec-title">Before You Begin</h2>
+        <p class="intro">Jimmy Possum chairmaking is a living folk tradition in Tasmania. I do not have any firsthand training or insights from the families who have passed this form down through the generations. This guide describes how I teach the JP chair in the United States — the opposite side of the world from where the living tradition continues today. There are many ways to make any chair, and I plan to add other JP chairmaking methods in future iterations of this site.</p>
+        <p>I also used an AI agent in the creation of this website — though that's not to say the words and processes aren't my own. AI helped flesh out some of my shorthand into full sentences, which I then edited. It helped me build the website, which I then edited. And it generated some of the crude drawings from my descriptions, which we then iterated together into something accurate and educational.</p>
+        <div class="callout caution">
+          <div class="co-head">Working safely</div>
+          <div class="co-body">This is hand-tool work, but it is not soft work. Wear eye protection whenever you strike steel on steel — a sledge on a wedge can throw chips. Keep your wedge heads dressed: grind off the mushroomed rim before it can shed a splinter of steel. With the drawknife, keep both hands on the handles, take strokes you can stop, and remember the blade travels toward you — let the shavehorse hold the work, not your free hand. If you take up the adze, set your feet so a missed blow lands in wood or air, never in shin. And when a log is being split or rolled, everyone who isn't swinging stands clear.</div>
+        </div>
+        <div class="callout">
+          <div class="co-head">Use &amp; rights</div>
+          <div class="co-body">This guide is free and made for educational purposes only. The text, diagrams, and photographs are © Lewis Laskin except where noted; quoted passages and archival images remain © their respective owners, all credited in the <a href="#sources">Sources</a> and reproduced here for education and commentary. Please don't redistribute it or monetize it in any way.</div>
+        </div>
+      </section>
+
+      <hr class="divider">
+
+      <!-- ===== A CHAIR FROM THE BACKWOODS ===== -->
+      <section id="backwoods">
+        <p class="sec-label">The Story</p>
+        <h2 class="sec-title">A Chair from the Backwoods</h2>
+        <p class="intro">This guide will teach you to build a Jimmy Possum chair — a folk armchair born in the bush of northern Tasmania in the late nineteenth century. You will start with a log, not a board: split it with wedges, rive it into parts with a froe, and shave those parts on a shavehorse with a drawknife.</p>
+        <figure class="fig-plate caption-block">
+          <img src="media/fig-anatomy.svg" width="1600" height="1642" loading="lazy" decoding="async" alt="Labeled diagram of the chair: crest (comb) on top, back sticks, arms, slab seat, and legs — the legs pass through the seat and continue up into the arms, wedged proud.">
+          <figcaption>The parts of the chair: crest (comb), back sticks, arms, slab seat, and legs. The signature joint — legs passing through the seat and on into the arms, locked with wedges — is what makes a Jimmy Possum a Jimmy Possum.</figcaption>
+        </figure>
+
+        <h3 class="sub">Who was Jimmy Possum?</h3>
+        <p>Nobody is quite sure. The name belongs both to the chair and mythical maker in Deloraine, Tasmania round about the late 19th century. The most careful account we have comes from a 1978 catalogue produced by students at the Tasmanian School of Art, who spent five months tracking down surviving chairs and the stories attached to them. They were frank about how little is certain:</p>
+        <blockquote class="pq">
+          <p>After considerable research, the identity of Jimmy Possum remains an enigma. Although often talked about and referred to, he persists as a shadowy figure; his name, age and background as yet unconfirmed.</p>
+          <cite>“Chairs made by Bush Carpenters in Tasmania,” Tasmanian School of Art, 1978</cite>
+        </blockquote>
+        <p>The legend comes from the catalogue's informants, who describe “an old man with a long white beard” living around Deloraine, Chudleigh, or Mole Creek from the 1890s until about 1910. He was said to live in, or against, a hollow tree. There he made his chairs, “often painted green or grey,” and sold them for two shillings and sixpence. Reading the catalogue, it is hard not to suspect that “Jimmy Possum” was less one man than a name that gathered up the work of several.</p>
+        <p>What is not in doubt is the chair. Its defining feature is structural and unmistakable:</p>
+        <blockquote class="pq tight">
+          <p>The legs protrude through the slab seat to support the arms and are secured with wooden wedges.</p>
+          <cite>Tasmanian School of Art catalogue, 1978</cite>
+        </blockquote>
+        <figure class="photo">
+          <img src="media/history-tsa-catalogue-pair.jpg" width="1000" height="998" loading="lazy" decoding="async" alt="Scanned catalogue page: two stick-back chairs photographed side by side.">
+          <figcaption>A pair of stick-back chairs attributed to Jimmy Possum — note the legs. Catalogue page © 1978 Tasmanian School of Art; photographer uncredited; reproduced at reduced size for education and commentary.</figcaption>
+        </figure>
+
+        <h3 class="sub">An unbroken tradition of the Meander Valley</h3>
+        <p>In 2022 the Queen Victoria Museum &amp; Art Gallery (“QVMAG”) in Launceston mounted “Jimmy Possum: An Unbroken Tradition,” gathering more than fifty of the best examples from the 1870s to the 2010s. The photographs of antique chairs in this guide are ones I took at the show.</p>
+        <blockquote class="pq">
+          <p>The Jimmy Possum chair-making tradition is like no other in the country, as it is bound to a small region of northern Tasmania, where the people of the Meander Valley started and continued the tradition.</p>
+          <cite>Queen Victoria Museum &amp; Art Gallery, “Jimmy Possum: An Unbroken Tradition,” 2022</cite>
+        </blockquote>
+        <figure class="photo">
+          <img src="media/history-greenhill-small-chair.jpg" width="900" height="1200" loading="lazy" decoding="async" alt="A small chair in worn green house paint, on a museum platform.">
+          <figcaption>The Small Greenhill Chair (exhibit 2) by George Greenhill, in reclaimed timber and house paint. Photo: me, QVMAG, Launceston, 2022.</figcaption>
+        </figure>
+        <p>Much of what we now know comes from Dr. Mike Epworth, who first encountered the tradition in the 1990s. The exhibition traced the chair through the maker families of the Meander Valley — the Larcombes, Michael Cook, the McMahons, the Cubits, the Kings — and back to a man named George Greenhill.</p>
+        <p>Greenhill (1850–1937) of Westbury made some of the earliest documented chairs in the style at his property, Egmont. One of the loveliest objects in the show is his 1886 farm journal, open to a single line:</p>
+        <blockquote class="pq tight">
+          <p>Wet day, made chair for wife, white sow had eight pigs.</p>
+          <cite>George Greenhill, farm journal, 1886 (QVMAG exhibition)</cite>
+        </blockquote>
+        <p>The curators believe that entry records the making of his famous Six-legged Chair. Distracted by the new wife and eight piglets, Greenhill drilled the back rungs in the front of the seat instead of the rear, then added extra legs to make it right. Chairmaker perfect.</p>
+
+        <h3 class="sub">A folk chair, like the backwoods chairs of Appalachia</h3>
+        <p>It helps to see the Jimmy Possum not as an anomaly but as Tasmania's version of something that appears wherever people make their own furniture from the trees around them. In the southern Appalachian mountains, a similar impulse resulted in the post-and-rung “settin' chair,” a tradition Andy Glenn documents in <i>Backwoods Chairmakers</i>. The parallels are striking. Glenn found that the chair went by many names and resisted a single one:</p>
+        <blockquote class="pq">
+          <p>I heard the chair called a split bottom, common chair, mule ear, settin' chair, ladderback, hickory bottom, woven chair or mountain chair. Or, as one maker put it, “It's simply a chair.”</p>
+          <cite>Andrew D. Glenn, Backwoods Chairmakers (Lost Art Press, 2023)</cite>
+        </blockquote>
+        <p>The Tasmanian researchers had the same trouble naming theirs. They ran through “cottage, country, bush, amateur, hand-made, primitive, rustic, kitchen” before allowing, a little reluctantly, that “primitive” came closest to describing the chairs' nature. Both traditions describe chairs that are, in the catalogue's words, “essentially one-off pieces, often crudely wrought, generally independent of most traditional designs, and originating in rural rather than urban areas. The maker's approach is unpretentious, the style unsophisticated and any innovations may be the result of circumstance rather than formal training.”</p>
+        <p>Both traditions also benefit from the same trick of physics — a moisture difference between the two parts of a joint. The piece with the hole, the mortise, goes together wetter than the tenon. As the parts reach equilibrium, the hole shrinks and the tenon swells. Presto — an airtight joint, as long as the moisture differential isn't so high that the mortised part cracks under pressure. Do it the other way around and you get the opposite result: a wet tenon shrinks away from the hole as it dries, and the joint goes loose. The chair falls apart.</p>
+        <h3 class="sub">What you are about to do</h3>
+        <p>The build runs in a logical arc, and this guide follows it section by section. You will split the log and rive your parts (Section 1), shave them to shape (2), and take each part to four-square, taper, and octagon before setting it all aside to dry (2b). Then you lay out the seat (3) and build the chair in your hands: drill the outer back sticks through seat and arm together (4), fit the back sticks and legs (5), drill the arm for each leg (6), fit the remaining sticks and the comb (7), bring every part to its finished shape (8), assemble and level (9), and pin and wedge (10). If you like, saddle the seat for comfort (Extras).</p>
+        <div class="callout tip">
+          <div class="co-head">A word on this chair's construction</div>
+          <div class="co-body">Unlike chairs made to plans, which are shaved, drilled, and cut to prescribed dimensions and angles, this folk chair's dimensions evolve as you go. A JP chair's legs <strong>rake</strong> (lean front to back) but do not <strong>splay</strong> (lean out to the side), there are no compound angles. Rather than using jigs or templates, we'll determine some angles and drilling locations off the work as it grows. It's the farmer's method: simple, resourceful, and very much in the spirit of the bush carpenters who invented it.</div>
+        </div>
+        <p>This guide shows the steps to making a JP chair the same way I teach it in class. It describes ideal materials and predictable choices at each step. Where the old chairs did something different, you'll find an occasional <strong>Historic JP variation</strong> note; where the folk tradition invites you to make do with what you have, you'll find a <strong>Folk approach</strong> note. Take or leave them as you like. There are many ways to build this chair — this is just one.</p>
+        <p>Throughout, the dimensions and sequence are one proven recipe — adjust them to the chair you want. Make your backsticks longer. Or shorter. Make a bench. Put an extra crest on top. Carve something cool on the arms. Seats could be deeper; legs could have rockers! Maybe you need a JP writing desk?</p>
+      </section>
+
+      <hr class="divider">
+
+      <!-- ===== THE WOOD ===== -->
+      <section id="wood">
+        <p class="sec-label">The Story</p>
+        <h2 class="sec-title">The Wood, and How to Read It</h2>
+        <p class="intro">A chair is limited by the log it comes from. This stock build starts with a clear, straight-grained oak log and rives most parts from it. Here is what to look for and why.</p>
+
+        <h3 class="sub">Why green wood</h3>
+        <p>Freshly felled “green” wood is full of moisture, which makes it easier to split and shape with hand tools. A lot of the cost of lumber is the processing and drying, so logs cost far less in terms of $/volume of wood. You also get to use wood with a story: species that aren't sold commercially, a tree from a family home, something rustic with bug holes, or wood with wavy grain.</p>
+        <h3 class="sub">Riving and the radial face</h3>
+        <p>Splitting and shaving green wood is more than nostalgia. Riven parts follow the wood's long fibers unbroken, giving them maximum strength — challenging to achieve with lumber and power tools. Riving works radially: you split the log in half through the center, then into quarters, eighths, and so on (depending on the size of the tree). Each split runs center-to-bark along the rays, so each part comes off the log with a true radial face already on it. On a big log you'll split well past quarters; once the pieces get small, you'll also split tangentially along the growth rings to get down to size.</p>
+        <figure class="fig-plate caption-block">
+          <img src="media/fig-rive-radially.svg" width="1600" height="923" loading="lazy" decoding="async" alt="A log end split in stages: whole, halved through the pith, quartered, then riven into billets along the rays.">
+          <figcaption>Rive radially — halve through the pith, quarter, then split billets along the rays. Shave the way the grain lies, like petting a cat.</figcaption>
+        </figure>
+
+        <h3 class="sub">Reading the grain: radial and tangential</h3>
+        <p>Look at the end of a log and you see growth rings circling the pith, with faint radial lines — the medullary rays — running outward like spokes. These two directions give a part its two kinds of face. A radial face lies along a ray, square to the rings, and its grain reads as straight parallel lines. A tangential face lies across the rings, and its grain reads as nested “cathedral” arches.</p>
+        <figure class="fig-plate caption-block">
+          <img src="media/fig-grain.svg" width="1600" height="1078" loading="lazy" decoding="async" alt="A log end with growth rings and rays, and a riven billet showing its radial face with straight grain lines and its tangential face with cathedral arches.">
+          <figcaption>Radial faces read as straight lines; tangential faces read as “cathedrals.”</figcaption>
+        </figure>
+        <p>For the standard chair, orient the wide faces of the arms and crest radial — the broad 2½″ face of an arm lying on the ray. Radial faces are more stable, move less, and present cleaner grain to the eye. Alexander's instruction for every part is simply to start with the radial face and work from there. The legs and back sticks, being roughly square, end up with a radial face on two sides and tangential on the other two.</p>
+        <h3 class="sub">How the wood moves</h3>
+        <p>A little wood science pays off later, at the joints. “Green” means the wood is above its fiber-saturation point — the cells are still full of free water. That water leaves first as the wood dries, and while it does, nothing shrinks. Only when the cell walls themselves start giving up their bound water does the wood shrink and stiffen. And it does not shrink evenly: a face that runs along the growth rings (tangential) moves about twice as much as one that runs along a ray (radial). That one fact sits behind a lot — why a round log checks as it dries, why a square billet dries a little lopsided, and why the chair's joints lock. Set a dry tenon into a wetter mortise, and as the mortise gives up its water it shrinks down hard around the tenon.</p>
+        <figure class="fig-plate caption-block">
+          <img src="media/fig-wood-anatomy.svg" width="1600" height="1067" loading="lazy" decoding="async" alt="End-grain view of oak naming pith, rays, growth rings, sapwood and heartwood, with a magnified ring showing porous earlywood over dense latewood, and panels showing a square drying oblong and a check opening along a ray because tangential shrinks about twice as much as radial.">
+          <figcaption>How oak is built and how it moves: rays, rings, and the tangential face that shrinks about twice as much as the radial.</figcaption>
+        </figure>
+
+        <h3 class="sub">Choosing the log</h3>
+        <p>For the standard build, seek clear, straight-grained oak with no knots, twist, or rot in the lengths you need — it is the most predictable to read and the easiest to work. As Glenn notes, “straight-grained material works easier with hand tools.” One good log holds an entire chair — everything but the seat, which must go together dry (more on sourcing that in Section 3).</p>
+        <div class="callout historic">
+          <div class="co-head">Historic JP variation</div>
+          <div class="co-body">Surviving Jimmy Possum chairs were rarely made from picture-perfect stock. The Tasmanian makers used whatever wide timber was on hand — blackwood, myrtle, even recycled boards from packing cases for the seats — and many show an off-center pith or a bit of character. The chair tolerates it.</div>
+        </div>
+        <div class="callout folk">
+          <div class="co-head">The folk approach</div>
+          <div class="co-body">Ideal is not required. Irregular, figured, or even knotted wood is harder to split and shave, but it can make a really interesting chair — and as long as you split and shave along the undulating fibers, the result is unique and just as strong as a straight-grained one. Bug holes, an off-center pith, a little twist, a rustic streak: all welcome, all part of the story. Knots are the one real fight, since they throw a split off course; if you can, leave enough length to cut the knot off, or saw that part out on the bandsaw rather than riving through it.</div>
+        </div>
+      </section>
+
+      <hr class="divider">
+
+      <!-- ===== TOOLS, MATERIALS & CUT LIST ===== -->
+      <section id="tools">
+        <p class="sec-label">Reference</p>
+        <h2 class="sec-title">Tools, Materials &amp; the Cut List</h2>
+        <p class="intro">The whole build at a glance, the tools you'll reach for, and the sizes to rive your parts to. This is the bench-reference layer — the condensed companion to the story and the steps.</p>
+
+        <h3 class="sub">The whole build, in order</h3>
+        <div class="glance">
+          <ol>
+            <li><b>Split &amp; rive</b> the log into parts.</li>
+            <li><b>Shave</b> arms and legs to four-square; <b>taper</b> the legs; <b>octagonalize</b> all sticks; set aside to dry.</li>
+            <li><b>Lay out the seat</b> (lines 1½″ in from each edge).</li>
+            <li><b>Drill the outer back sticks</b> through the seat <em>and</em> arm together.</li>
+            <li><b>Tenon &amp; fit the back sticks</b> into the arms.</li>
+            <li><b>Drill &amp; fit the front legs</b> (90°), then the <b>back legs</b> (raked).</li>
+            <li><b>Mark, then drill the arm</b> for each leg; assemble.</li>
+            <li><b>Fit the remaining back sticks;</b> drill and fit the <b>comb</b>.</li>
+            <li><b>Level the legs</b>, set the recline, and <b>pin / wedge</b> as needed.</li>
+          </ol>
+        </div>
+
+        <h3 class="sub">Tool kit</h3>
+        <div class="toolkit">
+          <div class="tk">
+            <h4>Core</h4>
+            <ul>
+              <li>Froe</li><li>Mallet / froe club</li><li>Splitting wedges</li><li>Sledgehammer</li><li>Drawknife</li><li>Marking gauge</li><li>T-bevel (bevel gauge)</li><li>Saw</li><li>Bench chisel</li><li>Hand brace &amp; bits</li><li>Dividers</li><li>Split-head hammer</li><li>Steel ruler</li><li>Handplane</li><li>Pencil &amp; half-pencil (a carpenter's pencil planed to half thickness)</li><li>Clamps</li><li>Glue</li><li>12″ square</li>
+            </ul>
+          </div>
+          <div class="tk">
+            <h4>Optional</h4>
+            <ul>
+              <li>Card scraper</li><li>Spokeshaves</li><li>Block plane</li><li>Adze</li><li>Inshave / scorp</li><li>Travisher</li><li>Coping saw</li><li>Reamer</li><li>Trenails / dowels</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3 class="sub">Cut list — drawknife build</h3>
+        <table class="cutlist">
+          <caption>Add ⅛″ to thickness &amp; width of all green parts for shrinkage. Use a dry seat, never green. Arms and crest take a radial face on their wide dimension. Inches.</caption>
+          <thead>
+            <tr><th scope="col">Part</th><th scope="col">Qty</th><th scope="col">Green (rough)</th><th scope="col">Dried &amp; dimensioned</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">Back sticks</th><td>4+</td><td>1⅛ × 1⅛ × 30</td><td>1 1⁄16 × 1 1⁄16 × 30</td></tr>
+            <tr><th scope="row">Legs</th><td>4</td><td>1⅞ × 1⅞ × 30</td><td>1¾ × 1¾ × 30</td></tr>
+            <tr><th scope="row">Arms</th><td>2</td><td>2¾ × 1¼ × 24</td><td>2½ × 1⅛ × 24</td></tr>
+            <tr><th scope="row">Crest / comb</th><td>1</td><td>1⅝ × 1¼ × 24</td><td>1½ × 1⅛ × 24</td></tr>
+            <tr><th scope="row">Seat</th><td>1</td><td>— (use dry)</td><td>16 × 24 × 1½</td></tr>
+          </tbody>
+        </table>
+        <p>Four or five back sticks is typical; fewer sticks means make them thicker.</p>
+        <p>The seat is the one part that doesn't come from your log: buy a kiln-dried slab, glue one up from dry boards, or rive and sticker a seat blank a season ahead so it's dry when you need it.</p>
+      </section>
+
+      <hr class="divider">
+
+      <!-- ===== SECTION 1 ===== -->
+      <section id="sec1" class="build">
+        <p class="sec-label">Section 1</p>
+        <h2 class="sec-title">Splitting the Log &amp; Riving the Parts</h2>
+        <p class="sec-goal"><b>Goal:</b> Straight, long-fibered billets for every part.</p>
+        <div class="bench-card">
+          <p class="bc-head">Split</p>
+          <ol>
+            <li>Halve the whole log first — the fresh face reveals hidden knots.</li>
+            <li>Buck into ~36″+ lengths; cut out knots.</li>
+            <li>Score the end grain pith-to-bark; start a narrow wedge, then a splitting wedge.</li>
+            <li>Leap-frog wedges down the log; gluts to widen; roll it to free a pinched back.</li>
+            <li>Quarter each half; pare away the juvenile wood at the pith.</li>
+            <li>On a big log, keep splitting — eighths, sixteenths, finer. Radial first; switch to tangential once pieces get narrow.</li>
+          </ol>
+          <p class="bc-head">Rive</p>
+          <ol>
+            <li>Set the billet in the brake. Seat the froe centered in the end grain; strike with the club.</li>
+            <li>Lever the handle to open the split; keep equal mass both sides; lever toward the thick side to correct a wander.</li>
+            <li>Rive everything oversize <b>(+⅛″)</b>. Split arms &amp; crest so the wide face is radial.</li>
+          </ol>
+        </div>
+        <p class="intro">This is where a chair begins: not by cutting wood, but by separating it along the lines the tree already grew. Splitting reduces the log to manageable quarters; riving with a froe divides those quarters into the billets from which every part is shaped.</p>
+
+        <h3 class="sub">Splitting with sledge and wedge</h3>
+        <figure class="fig-plate caption-block">
+          <img src="media/fig-score-wedge-leapfrog.svg" width="1600" height="996" loading="lazy" decoding="async" alt="A scored line runs pith to bark on the end grain; numbered wedges walk down the log as the crack opens.">
+          <figcaption>Score pith-to-bark, start a wedge, then leap-frog wedges along the opening crack.</figcaption>
+        </figure>
+        <p>Start by splitting the whole log in half lengthwise, if you can — a habit Andy Glenn recommends in <i>Backwoods Chairmakers</i>. Beyond halving the stock, the fresh split face does something useful: it reveals any large knots hiding inside, so you can plan around them. With the interior in view, buck the halves into rough part-lengths — about 36″ and up — cutting out knots as you go. Quarter each half, then get rid of the crappy juvenile wood near the pith before splitting any further. If you can't split it off, at least beat it up with an axe so that it doesn't affect your future splits as much.</p>
+        <figure class="fig-plate caption-block">
+          <img src="media/fig-quarter-juvenile.svg" width="1600" height="688" loading="lazy" decoding="async" alt="A quarter log in side view: wiggly pith along the top, wavy juvenile grain beneath it, straight heartwood below, and a steel wedge driven into a growth ring at the end to split the juvenile wood off.">
+          <figcaption>Wedge into a growth ring at the end of the quarter and split off the juvenile wood near the pith.</figcaption>
+        </figure>
+        <p>With a big log, quarters are often still too heavy to handle and too fat to rive. Keep going. Split the quarters into eighths. These first splits are radial — pith-to-bark, along the rays — which is what gives each part its strong radial face. But once the wedges of wood get narrow, a radial split has little width left to take. At that point switch to splitting tangentially, along a growth ring, to peel a piece down to billet size.</p>
+        <div class="callout tip">
+          <div class="co-head">Plan the whole log</div>
+          <div class="co-body">For a full chair from one log, it pays to plan before you split. Galbert works from a rough cutlist: on the end grain he pencils a grid of about 1″ squares from the bark in toward the pith, then splits to it. Two things fall out of that — you get a whole chair's worth of parts from one log with little waste, and by aiming for squarish pieces instead of skinny ones, every split runs more evenly. A squarish billet halves true; a thin one wanders.</div>
+        </div>
+        <p>To make a split, follow the procedure Drew Langsner lays out step by step in <i>Country Woodcraft</i>. Begin at the end grain: score a line from the pith out to the bark — if the log already shows a radial check, follow it. Drive a narrow starting wedge into the scored line with the sledge. When the crack begins to open, switch to a standard splitting wedge and drive it until the crack travels along the length. Then comes his technique that makes long logs manageable:</p>
+        <blockquote class="pq">
+          <p>Continue leap-frogging to the end of the log. Use gluts to further open the crack… Gluts must be placed so that they won't intercept interior cross fibers — they will split apart if driven into cross fibers.</p>
+          <cite>Drew Langsner, Country Woodcraft: Then &amp; Now (Lost Art Press, 2020)</cite>
+        </blockquote>
+        <p>In other words: as each wedge frees itself behind the advancing crack, move it ahead of the others, walking the split down the log. Gluts — large wooden wedges — widen the gap behind the steel. When interior cross fibers are preventing the log from opening, brute force is not the answer. Use a hatchet, framing chisel, hewing axe, or even a chainsaw to separate the fibers.</p>
+        <div class="callout tip">
+          <div class="co-head">Sledge and wedge, or froe?</div>
+          <div class="co-body">Sledge and wedge is the tool for anything bigger than about 4″ × 4″. Once a piece is down near that size, the froe takes over — it gives you the control to rive accurate billets, which brute wedges cannot.</div>
+        </div>
+
+        <h3 class="sub">Riving with the froe</h3>
+        <p>Once you have smaller billets, you switch tools. Splitting opens a log; riving is controlled splitting.</p>
+        <figure class="fig-plate caption-block">
+          <img src="media/fig-froe-seat-lever.svg" width="1600" height="1067" loading="lazy" decoding="async" alt="Side view: a horizontal billet in a riving brake, the froe blade across its end grain with the handle running parallel to the billet, the club striking the blade in, and a dotted arc showing the handle levering up and down.">
+          <figcaption>Seat the froe in the end grain with the club; lever the handle to open and steer the split.</figcaption>
+        </figure>
+        <h4 class="subsub">How to rive</h4>
+        <p>Set your billet in a riving brake — Langsner's “old English woodlands word for any device that holds your material in place while you do something to it.” His favorite is a forked sapling, which “self-binds” when you lever against it. <a href="https://www.popularwoodworking.com/article/give-brake-make-riving-brake/" target="_blank" rel="noopener">Follansbee</a> and <a href="https://chairnotes.blogspot.com/2008/04/riving-brake.html" target="_blank" rel="noopener">Galbert</a> have each written up their own brake designs — both worth a look before you build one.</p>
+        <p>With the blade buried, set the club down and use the long froe handle as a lever, twisting and prying to open the split. The single most important habit is Alexander's cardinal rule: riving works best with equal mass on both sides of the froe. When the split starts to wander toward the thinner side, lever the froe handle toward the thicker side to draw it back — Alexander's “tic-tic-tic, and you're back on track.” The tension side of the brake encourages run-out — Langsner's observation — so let the wood guide you and correct early.</p>
+        <div class="callout tip">
+          <div class="co-head">When a split fights you</div>
+          <div class="co-body">Two more from Galbert. First: when a split wanders, it is not more muscle on the froe that saves it — it is evening out how the two sides curve. Ease the bend back until the two halves mirror each other and the split runs straight again. Second: if you are riving uneven parts and the split keeps running off, a strap or lever that pins the lighter side down at the brake holds it in line while you work — the cure for exactly the split that will not behave.</div>
+        </div>
+        <div class="callout caution">
+          <div class="co-head">Caution</div>
+          <div class="co-body">Alexander warns: “An errant blow from a riving tool creates an irreparable plane of weakness down the long fibers below.” Her advice: seat the blade carefully and firmly before you strike. “Good straight, long-fibered stock,” she adds, “is a precious gift and not to be wasted.”</div>
+        </div>
+        <p>Rive everything oversize, remembering the roughly-⅛″ green allowance. Wide stock — the arms and crest — should be split so their broad faces fall on the ray (radial). Rive a few extra of every part; some will reveal flaws, and the spares become practice stock. If you can't get to your rived parts soon, bag them to slow their drying.</p>
+        <div class="callout why">
+          <div class="co-head">Why rive instead of saw?</div>
+          <div class="co-body">A saw cuts straight through fibers regardless of how they run; a split follows them. Riven parts therefore have continuous, unbroken grain from end to end — the source of a stick chair's surprising strength at light weight. It is also simply faster and quieter than milling, and it lets you take the best parts from a log by eye.</div>
+        </div>
+      </section>
+
+      <hr class="divider">
+
+      <!-- ===== SECTION 2 ===== -->
+      <section id="sec2" class="build">
+        <p class="sec-label">Section 2</p>
+        <h2 class="sec-title">Shaving the Parts with a Shavehorse &amp; Drawknife</h2>
+        <p class="sec-goal"><b>Goal:</b> Read the grain; shave clean, flat faces with the drawknife.</p>
+        <div class="bench-card">
+          <ol>
+            <li>Sit astride the horse, clamp with your feet, pull the drawknife <b>bevel-down</b> in long strokes.</li>
+            <li>Flip the part end-for-end to reach what was hidden under the jaw.</li>
+            <li>Shave the way the grain lies — <b>like petting a cat</b>. If it tears or chatters, flip and cut the other way.</li>
+            <li><b>Skew</b> the blade (angle it to the stick) and <b>slice</b> (draw it sideways) for a flatter, easier cut.</li>
+            <li>Crisp off the knife — little or no sanding needed.</li>
+          </ol>
+        </div>
+        <p class="intro">With a pile of riven billets, you move to the shavehorse — the foot-clamped bench that frees both hands for the drawknife. This is where most of the build's hours are spent.</p>
+
+        <h3 class="sub">The shavehorse and the drawknife</h3>
+        <figure class="fig-plate caption-block">
+          <img src="media/fig-shavehorse.svg" width="1600" height="996" loading="lazy" decoding="async" alt="A shavehorse in side view: foot treadle below, pivoting dumbhead jaw gripping the stick, drawknife pulled toward the sitter.">
+          <figcaption>You sit astride the horse, clamp the work with your feet, and draw the knife toward you.</figcaption>
+        </figure>
+        <p>A shavehorse holds the part in a pivoting wooden jaw — the “dumbhead” — that grips harder as you press the treadle harder. Sit astride it, work projecting toward you, and pull the drawknife in long, slicing strokes, bevel down. To shave the section hidden under the jaw, flip the part end-for-end and carry on. Shaving the whole chair this way traces to Jennie Alexander, who was kept from a lathe at a 1978 demonstration, shaved her parts instead, and never went back.</p>
+
+        <div class="callout tip">
+          <div class="co-head">One knife, held low</div>
+          <div class="co-body">This guide works the drawknife bevel-down throughout — the blade in line with the handles — so you learn everything with one setup. However you hold it, keep your index fingers riding at or below the cutting edge; that low grip is what lets the tool track the fibers instead of diving into them.</div>
+        </div>
+
+        <h3 class="sub">Roughing and refining</h3>
+        <p>The drawknife does two different jobs, and it pays to name them. First you rough: peel the wood down fast to an even fiber level. Then you refine: bring that even shape to a smooth, finished surface. Peter Galbert, in <i>Chairmaker's Notebook</i>, draws the same line and calls it carving versus shaving — roughing and refining is how I think of it at the bench.</p>
+        <p>Picture the fibers rising out of a face like a low hillside. To rough, cut into the hillside: the blade catches the rising fibers and peels them off, down to one continuous, even layer. It is really just a controlled split, so the surface comes off a little torn — and that is fine, because you are setting the shape and the fiber level, not the finish. This is where the wood comes off fast. One trick worth stealing from Galbert: the torn fibers left where the knife lifts out of the cut mark the level to work back to on your next pass.</p>
+        <figure class="fig-plate caption-block">
+          <img src="media/fig-rough-refine.svg" width="1600" height="953" loading="lazy" decoding="async" alt="Two bevel-down drawknife strokes side by side: roughing bites into the rising fibers and peels down to an even level, leaving torn fibers that mark the next pass; refining rides over the fibers the way they lie, leaving a smooth surface.">
+          <figcaption>Rough into the hillside to peel down to an even fiber level; refine with the grain for a smooth finish.</figcaption>
+        </figure>
+        <p>Once the shape is even, refine with the grain — the way the fibers lie, like petting a cat. Shave the way they lie and they smooth down and the blade slices clean; shave against them and they lift, catch, and tear. Riven fibers rarely run dead parallel to a face, so the lay can switch partway along a part or across a knot. When a refining cut starts to tear, you have found a spot where the fibers turn — stop, flip the part end-for-end, and come back the other way.</p>
+        <p>Not sure which way is which on a fresh billet? Take a light pull each direction. The way that catches and starts to dig is into the hillside — rough that way. The way that glides is with the grain — refine that way.</p>
+        <h4 class="subsub">Three cuts, one knife</h4>
+        <p>Roughing, refining, and fitting are the same bevel-down knife held three ways — the difference is your angle, your grip, and which part of your body drives the cut. To rough, drop the handles so the edge bites, take a thick peel, and drive from your shoulders with your body leaning in. To refine, raise the handles a touch so the knife rides up and out, skew the blade, and take long light pulls from the forearms. To fit — dialing a tenon to its hole — go feather-light with a hard skew for the finest cut, moving from the fingers and wrists. You are shaving tenths now, not shapes.</p>
+        <figure class="fig-plate caption-block">
+          <img src="media/fig-three-cuts.svg" width="1600" height="991" loading="lazy" decoding="async" alt="Three panels of a seated figure at the shavehorse with a bevel-down drawknife: roughing with handles down driving from the shoulders, refining with handles up and a skewed blade from the forearms, and fitting feather-light from the wrists.">
+          <figcaption>Three cuts from one bevel-down knife: rough heavy from the shoulders, refine light from the forearms, fit feather-light from the wrists.</figcaption>
+        </figure>
+        <p>Two more habits make every cut cleaner. Skew the blade — hold it at an angle to the part rather than square across it. And slice — draw the knife sideways as you pull. Both lower the effective cutting angle and put more edge on the wood: flatter surface, cleaner cut, less effort. Just as you slice, not chop, a tomato, slice the wood using the entire length of the drawknife edge.</p>
+        <div class="callout tip">
+          <div class="co-head">Sharpening the point</div>
+          <div class="co-body"><span class="co-title">A finish, not just a shape.</span>Surfaces straight off a sharp drawknife need little or no sanding. The faceted, tooled surface is part of the chair's look and feel — and warmer to the touch than sanded wood.</div>
+        </div>
+      </section>
+
+      <hr class="divider">
+
+      <!-- ===== SECTION 2b ===== -->
+      <section id="sec2b" class="build">
+        <p class="sec-label">Section 2b</p>
+        <h2 class="sec-title">Four-Square, Taper, Octagon</h2>
+        <p class="sec-goal"><b>Goal:</b> Tapered legs and octagonal sticks, set aside to dry.</p>
+        <div class="bench-card">
+          <p class="bc-head">Four-square</p>
+          <ol>
+            <li>Shave the radial face flat &amp; straight; then an adjacent face square to it.</li>
+            <li>Shave the remaining two faces square and to size.</li>
+            <li>Work all four faces in rotation; watch for a bell-bottom.</li>
+          </ol>
+          <p class="bc-head">Taper &amp; octagon</p>
+          <ol>
+            <li>Taper each leg to <b>1″</b> at the top, starting <b>20″</b> down — keep it four-sided.</li>
+            <li>Octagonalize every stick — equal facets, never bell-bottomed.</li>
+            <li>Set aside to dry: tenons dry <b>hard</b>; the seat (mortise) can go together a little wetter.</li>
+          </ol>
+        </div>
+        <p class="intro">Shaving is not random whittling. Each leg and back stick goes from rough billet, to two adjacent faces, to a true square — then the legs get tapered and every stick gets knocked into an octagon. Then it all goes aside to dry.</p>
+        <figure class="fig-plate caption-block">
+          <img src="media/fig-four-stages-octagon.svg" width="1600" height="718" loading="lazy" decoding="async" alt="Four cross-sections side by side: rough billet, two adjacent faces, true square, octagon.">
+          <figcaption>The four stages: rough riven billet → two adjacent faces → four-square → octagon.</figcaption>
+        </figure>
+
+        <h3 class="sub">Shave to four-square</h3>
+        <h4 class="subsub">First face, second face</h4>
+        <p>Start with the radial face. Shave it dead flat and straight. Alexander's test: hold it against a known flat surface — the long fibers should exit only at the ends of the stick, never out the side. A fiber running out the side means the face isn't following the grain. Then shave an adjacent face flat, straight, and square to the first.</p>
+        <h4 class="subsub">Square it</h4>
+        <p>Shave the remaining two faces square, bringing the part to a true square at the target dimension. Work all four faces in rotation rather than finishing one at a time, and watch for what Alexander calls a “bell-bottom” — the end that shaves easier ends up thinner than the rest.</p>
+        <div class="callout tip">
+          <div class="co-head">Technique</div>
+          <div class="co-body"><span class="co-title">Same three moves as always.</span>With the grain (pet the cat), skew the blade, slice as you pull. If a cut tears, flip the part end-for-end.</div>
+        </div>
+
+        <h3 class="sub">Taper the legs (while still four-sided)</h3>
+        <p>Before octagonalizing, taper the legs — to 1″ at the top, starting 20″ down. Keep the leg four-sided while you do it: a taper is faster to judge and cut on flat faces than on round ones. (Alexander's observation: a dead-straight taper reads slightly concave to the eye, and therefore weak; a hair of convexity looks right. Practice on scrap first.)</p>
+        <figure class="fig-plate caption-block">
+          <img src="media/fig-taper-legs.svg" width="1600" height="747" loading="lazy" decoding="async" alt="A leg drawn full length: full 1¾-inch thickness at the foot, tapering over the top 20 inches to 1 inch.">
+          <figcaption>Taper to 1″ at the top, starting 20″ down — while still four-square.</figcaption>
+        </figure>
+
+        <h3 class="sub">Octagonalize, then dry</h3>
+        <p>Now knock every stick — legs and back sticks alike — into an octagon by taking off its four corners. Pencil guide lines around the square stick, bring each corner up under the jaw in turn, and shave a little at a time, working the corners evenly so the eight facets finish equal in width. An octagon of equal facets reads as round to the eye and hand but keeps the crisp, faceted look of handwork.</p>
+        <p>With the sticks octagonalized, set everything aside to dry. This is where the green-wood method pays off — if you get the moisture difference the right way around. Tenons must be dry; the seat (the mortised piece) goes together a little wetter. As the seat dries, its holes shrink around the dry tenons and grip. A wet tenon does the reverse: it shrinks as it dries and the joint lets go. Dry your tenons hard.</p>
+        <p>How long is “dry”? A few weeks in a dry indoor spot, for sticks this size. A warm corner near the woodstove — or a hot box rigged from a chest and a light bulb — hurries it along. The honest test is a kitchen scale: weigh a part every few days; when the weight stops dropping, it's done.</p>
+        <div class="callout tip">
+          <div class="co-head">Remember</div>
+          <div class="co-body"><span class="co-title">Size tenons only when dry.</span>Rough-shape the arms and crest now and let them dry with the sticks. Tenons — and the holes that receive them — get sized only once the wood is dry, so the joints don't loosen later. Buchanan super-dries his tenons and keeps them that way until final assembly.</div>
+        </div>
+      </section>
+
+      <hr class="divider">
+
+      <!-- ===== SECTION 3 ===== -->
+      <section id="sec3" class="build">
+        <p class="sec-label">Section 3</p>
+        <h2 class="sec-title">Laying Out the Seat</h2>
+        <p class="sec-goal"><b>Goal:</b> A layout that locates every leg and stick hole.</p>
+        <div class="bench-card">
+          <ol>
+            <li>Seat can be any shape — rectangle is traditional; irregular slabs are fine. Start it <b>dry</b>.</li>
+            <li>Scribe a line <b>1½″ in</b> from every edge.</li>
+            <li>A hole's centerpoint = where two layout lines cross at a corner.</li>
+            <li>Each hole's angle is sighted <b>along</b> the line parallel to that edge — rake, not splay.</li>
+          </ol>
+        </div>
+        <p class="intro">With the sticks drying, turn to the seat. This is where the JP parts company with the staked chairs in the books: no compound angles, no sightlines. You scribe a simple grid of layout lines, and those lines guide every hole and angle from here on.</p>
+        <figure class="photo">
+          <img src="media/photo-antique-original-paint.jpg" width="900" height="1200" loading="lazy" decoding="async" alt="An antique chair in worn original paint.">
+          <figcaption>An antique Jimmy Possum with its original paint — note the broad slab seat and the raked stance. Photo: me, QVMAG, Launceston, 2022.</figcaption>
+        </figure>
+
+        <h3 class="sub">Any shape, traditionally a rectangle</h3>
+        <p>The seat can be almost any shape. A rectangle is traditional; a gentle arc on a side or two is pleasing; irregular off-cuts and slabs are fair game — the Tasmanian makers used whatever wide stock was on hand, packing-case timber included. The seat is the one part you start dry (a wide green slab will check as it dries), so it's the one part that doesn't come off this year's log: buy a kiln-dried slab, or rive one out and sticker it a season ahead.</p>
+
+        <h3 class="sub">The layout lines</h3>
+        <figure class="fig-plate caption-block">
+          <img src="media/fig-seat-layout-lines.svg" width="1600" height="922" loading="lazy" decoding="async" alt="Five seat shapes — rectangle, trapezoid, arced fronts and backs, oval — each with layout lines 1½ inches in from every edge and holes where the lines cross at the corners.">
+          <figcaption>Scribe a line 1½″ in from each edge; a hole sits where two lines meet at a corner.</figcaption>
+        </figure>
+        <p>Scribe a line 1½″ in from every edge of the seat. These four lines do two jobs. Where two cross at a corner is that corner's hole centerpoint — rear corners take the outer back sticks (and later the back legs), front corners take the front legs. And each hole's drilling angle is read along the layout line parallel to the nearest edge. That second job is the key to the whole chair.</p>
+        <div class="callout tip">
+          <div class="co-head">The key idea</div>
+          <div class="co-body"><span class="co-title">Rake, not splay.</span>A Jimmy Possum's legs rake — they lean front-to-back — but they do not splay out to the sides. That single fact is what lets you skip the compound-angle math of a staked chair: because there is no sideways lean, every hole's angle lives in one plane, read along one layout line. No resultant, no sightline triangle — just a line and an angle.</div>
+        </div>
+      </section>
+
+      <hr class="divider">
+
+      <!-- ===== SECTION 4 ===== -->
+      <section id="sec4" class="build">
+        <p class="sec-label">Section 4</p>
+        <h2 class="sec-title">Drilling the Outer Back Sticks</h2>
+        <p class="sec-goal"><b>Goal:</b> Outer-stick holes bored through seat and arm at once.</p>
+        <div class="bench-card">
+          <ol>
+            <li>Draw a centerline down each arm blank.</li>
+            <li>Clamp seat + arms together, <b>arms UNDER the seat</b>, centerlines on the side layout lines.</li>
+            <li>Drill the outer back sticks through seat <b>and</b> arm in one pass — rear-corner intersection, <b>1″ bit</b>.</li>
+            <li>Sight the rake along the side line: <b>~9°</b> (upright) to <b>17°</b> (reclined).</li>
+            <li>Clamp scrap under the exit face to stop blow-out — every through-bore.</li>
+          </ol>
+        </div>
+        <p class="intro">Now you bore the first holes — through the seat and the arms at the same time, so the outer back sticks pass cleanly through both when the chair goes together. Stack drilling, JP style.</p>
+        <figure class="fig-plate caption-block">
+          <img src="media/fig-clamp-arms-under-seat.svg" width="1600" height="1067" loading="lazy" decoding="async" alt="Plan and section views: the arms clamped beneath the seat with their centerlines on the seat's side layout lines, a bit boring through both at once.">
+          <figcaption>Clamp the arms UNDER the seat, centerlines on the side layout lines, and bore both at once.</figcaption>
+        </figure>
+
+        <h3 class="sub">Line up the arms under the seat</h3>
+        <p>Draw a centerline down each arm blank. (If the blank is wide, offset the line to put the stick where you want it in the finished arm.) Clamp the seat and both arms together, arms underneath the seat, each arm's centerline on the seat's nearest side layout line. The arms are still overlong; let each run about 1″ past the back of the seat, with the slack out past the front. What matters most is that left and right line up.</p>
+
+        <h3 class="sub">Bore through both</h3>
+        <p>Drill the outer back sticks through seat and arm in one pass: rear-corner intersection, 1″ bit. Sight the rake along the side layout line as you bore, and choose it for how the chair will be used — about 9° for an upright, dining posture, up to 17° for a relaxed, reclined one. Because both parts are drilled together, the holes can't disagree.</p>
+        <div class="callout caution">
+          <div class="co-head">Caution</div>
+          <div class="co-body">Boring through any part will tear out on the exit face. Clamp a piece of scrap underneath whatever you are drilling, every time, to back the exit hole and prevent blow-out.</div>
+        </div>
+        <div class="callout why">
+          <div class="co-head">Where this comes from</div>
+          <div class="co-body">Chris Schwarz describes stack drilling in <i>The American Peasant</i>, crediting the technique to Rudy Everts: stack the parts, drill them in one go, and the mortises can't fall out of line. Here it locks the seat and arms in agreement.</div>
+        </div>
+      </section>
+
+      <hr class="divider">
+
+      <!-- ===== SECTION 5 ===== -->
+      <section id="sec5" class="build">
+        <p class="sec-label">Section 5</p>
+        <h2 class="sec-title">Fitting the Back Sticks &amp; the Legs</h2>
+        <p class="sec-goal"><b>Goal:</b> Sticks and legs fitted and drilled — the chair in your hands.</p>
+        <div class="bench-card">
+          <p class="bc-head">Back sticks → arms</p>
+          <ol>
+            <li>Tenon the tops of the two outer back sticks.</li>
+            <li>Stand a stick in its seat hole; mark the arm height (<b>8–10″</b>).</li>
+            <li>Round the stick to pass through a scrap-with-1″-holes up to your line; go slow near the bottom.</li>
+          </ol>
+          <p class="bc-head">Front legs — the scribed shoulder</p>
+          <ol>
+            <li>Drill the front-leg hole <b>90°</b>, front-corner intersection, 1″+ bit.</li>
+            <li>Round the top 10″; tap it in to jam; trace the contact line.</li>
+            <li>Scribe a shoulder <b>one seat-thickness</b> down; saw it lightly, then pare down to the kerf — don't mar the contact line.</li>
+            <li>Legs are tapered — try each in different holes for the best fit.</li>
+          </ol>
+          <p class="bc-head">Mark the arm</p>
+          <ol>
+            <li>Push the leg up to touch the arm; sight two layout lines and mark — the crossing is your drill point (<b>90°, ⅞″</b>).</li>
+          </ol>
+          <p class="bc-head">Back legs</p>
+          <ol>
+            <li>Foot well back (anti-tip) but clear of the back-stick through-tenon; <b>20–30°</b>; centerpoint <b>2″–5½″</b> from the back-stick hole, along the front-to-back layout line.</li>
+            <li>Drill &amp; fit like the front — the shoulder line runs at an angle.</li>
+          </ol>
+        </div>
+        <p class="intro">From here the chair grows in your hands. Fit the back sticks into the arms, then fit the legs to the seat with a scribed shoulder — reading each angle off the work, not off a number.</p>
+
+        <h3 class="sub">Fit the back sticks to the arms</h3>
+        <p>First, tenon the tops of the two outer back sticks. Use whatever you like — a tenon cutter, a dowel cutter, a drawknife, a saw and chisel, a file.</p>
+        <p>Fit those sticks into the arms at the height you want the arms to sit — 8″ to 10″ above the seat is typical. A reliable way: stand the stick in its seat hole and mark where you want the bottom of the arm to land. Drill a couple of 1″ holes in scrap to stand in for the arm, so you don't bruise the real mortise while fitting. Round the stick down with a drawknife (a spokeshave works too, but a knife is quicker) until it passes through the scrap up to your line, redrawing the line whenever shaving erases it. Go patiently near the bottom so you don't overshoot and land the arm low. Reaming the bottom of the mortise a little can help the fit. With both outer sticks fitted, the top of the chair is taking shape.</p>
+
+        <h3 class="sub">Fitting the front legs: the scribed shoulder</h3>
+        <figure class="fig-plate caption-block">
+          <img src="media/fig-scribed-shoulder.svg" width="1600" height="947" loading="lazy" decoding="async" alt="Step panels: a rounded leg jammed in its seat mortise, the contact and shoulder lines marked on it, and the finished tenon seated.">
+          <figcaption>Jam the rounded top, mark two lines, shape the tenon between them, seat it.</figcaption>
+        </figure>
+        <p>Drill the front-leg hole first, at 90° to the seat, centered on the front-corner layout intersection, with a 1″-or-larger bit. Then fit the leg:</p>
+        <ol class="steps">
+          <li>Round the upper section of the leg until the top 10″ or so can enter the mortise. Tap it in firmly with a hammer so it jams.</li>
+          <li>Trace the leg where it touches the hole — this contact line is the wood telling you how deep it went. Then scribe a second line one seat-thickness DOWN the leg from the contact, toward the foot. That second line becomes the shoulder.</li>
+          <li>Remove the leg. Saw lightly into the shoulder line; that kerf becomes the joint's shoulder. Then pare or shave the band between the two lines down to the kerf with a chisel or drawknife, without marring the contact line above it — that line will be the visible top of the tenon when you look down at the finished chair. Seat the leg with the shoulder tight against the seat.</li>
+          <li>All four legs are tapered, so before you commit, try a leg in different holes — one may seat better than another.</li>
+        </ol>
+        <div class="photo-slot">
+          <p class="ps-mark">▢ Your photos</p>
+          <p class="ps-text">Leg-fitting: (a) the leg jammed in the mortise with its contact line traced · (b) the shoulder line scribed one seat-thickness toward the foot · (c) the finished tenon and shoulder, seated.</p>
+        </div>
+        <div class="callout why">
+          <div class="co-head">Why a scribed shoulder?</div>
+          <div class="co-body">A round tenon in a round hole has no built-in stop, and end-grain glue alone is weak. The scribed shoulder gives the joint a crisp seat that bears the sitter's weight on long grain, and fitting it to the actual hole — rather than to a number — forgives any wobble in your drilling. Each joint is fitted to its own mortise.</div>
+        </div>
+        <div class="callout folk">
+          <div class="co-head">The folk approach</div>
+          <div class="co-body">Seat mortise came out wildly off 90°? You have folk-chair options. Ream or waller out the bottom of the hole to swing its angle back toward where you want it, and/or cut the leg tenon at a slight angle to compensate. Angling a round tenon is genuinely tricky to pull off — but hey, it's a folk chair, and it was already wonky.</div>
+        </div>
+
+        <h3 class="sub">Mark the arm for the front leg</h3>
+        <p>With the leg fitted to the seat, you locate where it must pass through the arm. Push the leg up through the seat until its top just touches the underside of the arm. If the top lands off the arm's centerline, rotate the leg and see if it improves; if it's still far off, try it in the other front hole. Then sight the position from two directions:</p>
+        <ol class="steps">
+          <li>At eye level, sight the center of the leg-tip down the layout line — lined up with the arm and the stick — and mark that line on the top of the arm.</li>
+          <li>Sight down the adjacent layout line — lined up with the front of the seat — and mark the approximate center of the leg-top onto the arm again.</li>
+          <li>Where the two marks cross is your drill point. Bore the arm there at 90°, ⅞″ diameter (or whatever thickness you can make a solid tenon at the leg's top).</li>
+        </ol>
+
+        <h3 class="sub">The back legs</h3>
+        <figure class="fig-plate caption-block">
+          <img src="media/fig-side-view-rake.svg" width="1600" height="1322" loading="lazy" decoding="async" alt="Side view of the whole joint: the outer back stick runs through seat and arm up to the crest; front and back legs rake through the seat, the back leg's foot landing well behind it.">
+          <figcaption>Side view: legs rake through the seat; the back leg's foot lands well behind it.</figcaption>
+        </figure>
+        <p>Assemble the leg, arm, and outer back sticks, then hold a back leg up to the chair to choose its angle and location. You are balancing two needs. You want the foot to land well back so the chair can't tip backward — but you don't want the back stick's through-tenon, where it protrudes below the seat, to collide with the back leg. An angle of 20–30° is good. Put the hole's centerpoint 2″–5½″ from the back-stick hole, along the front-to-back layout line. Where it lands within that zone varies with the angle, the seat thickness, and the leg thickness — so hold the leg up to the chair and verify before you bore.</p>
+        <p>Drill and fit the back leg the same way as the front, with the round-and-jam, trace, scribe, and pare sequence. The only difference is that the scribed shoulder line will run at an angle rather than square across the leg, because the leg meets the seat at a rake.</p>
+      </section>
+
+      <hr class="divider">
+
+      <!-- ===== SECTION 6 ===== -->
+      <section id="sec6" class="build">
+        <p class="sec-label">Section 6</p>
+        <h2 class="sec-title">Drilling the Arm for the Back Leg</h2>
+        <p class="sec-goal"><b>Goal:</b> The arm bored for the back leg; the chair assembled.</p>
+        <div class="bench-card">
+          <ol>
+            <li>Confirm arm height at both intersections (12″ square on the seat).</li>
+            <li>Mark the arm for the back leg; trace where the arm crosses the back stick &amp; front leg.</li>
+            <li>Remove the arm; rest it on books/shims at those lines; seat the back leg.</li>
+            <li>Trace the leg onto the arm; take its angle with a bevel gauge.</li>
+            <li>Drill the arm at that angle — <b>confirm the direction first</b> (a reversed hole = a new arm).</li>
+          </ol>
+        </div>
+        <p class="intro">The back leg, like the front, must pass through the arm — at its raked angle. Find it the way you find everything on this chair: set up the real parts and read it off them.</p>
+        <figure class="photo">
+          <img src="media/photo-antique-from-below.jpg" width="900" height="1200" loading="lazy" decoding="async" alt="Looking up at the underside of an antique chair: the leg tenons pass through the slab seat.">
+          <figcaption>An antique Jimmy Possum seen from below — the legs run straight through the slab seat to meet the arms. Photo: me, QVMAG, Launceston, 2022.</figcaption>
+        </figure>
+
+        <h3 class="sub">Mark, then read the angle</h3>
+        <p>First confirm the arm is at its correct height at both intersections, checking with a 12″ square stood flat on the seat. Mark the arm for the back leg the same way you did for the front. Then trace, onto the back stick and the front leg, where the arm crosses them.</p>
+        <p>Now remove the arm. Stack books or blocks and shims on the seat and rest the arm on top, positioned so it meets the lines you drew on the back stick and the front leg — this puts the arm exactly where it will live in the finished chair. Seat the back leg. Trace its shape onto the arm with a half-pencil — a carpenter's pencil planed to half thickness, a trick borrowed from Chris Schwarz — and take its angle with a bevel gauge. Compare that to the angle you actually drilled the leg at: close is fine; wildly off means something upstream needs a look.</p>
+
+        <h3 class="sub">Drill it the right way around</h3>
+        <p>Drill the arm's tenon hole at that bevel angle, on the point you marked along the layout line.</p>
+        <div class="callout caution">
+          <div class="co-head">Caution</div>
+          <div class="co-body">Bore the hole at the correct angle — not backwards, and not upside down. It is easy, with the arm off the chair and flipped onto a stack of books, to mirror the angle by mistake. Stop and confirm the bevel's direction against the assembled chair before the bit goes in. A reversed hole means a new arm.</div>
+        </div>
+        <div class="callout why">
+          <div class="co-head">The folk method, in one idea</div>
+          <div class="co-body">Notice what you did not do: you never looked up a number. You set the real parts in their real positions and copied the angle the chair itself dictated. This is how a tradition without drawings stays alive — the work is its own jig.</div>
+        </div>
+      </section>
+
+      <hr class="divider">
+
+      <!-- ===== SECTION 7 ===== -->
+      <section id="sec7" class="build">
+        <p class="sec-label">Section 7</p>
+        <h2 class="sec-title">The Remaining Back Sticks &amp; the Comb</h2>
+        <p class="sec-goal"><b>Goal:</b> All the back sticks in, and the comb fitted.</p>
+        <div class="bench-card">
+          <ol>
+            <li>Assemble; rotate the outer sticks to the same angle, take it with a bevel — that's the inner-stick angle.</li>
+            <li>Space inner sticks: distance between outer centerpoints <b>÷ (n − 1)</b>.</li>
+            <li>Drill the inner sticks; nudge points to taste; angle a tenon to forgive an off mortise.</li>
+            <li>Drill the comb at an angle; dry-fit and assemble — it pulls strays into line.</li>
+          </ol>
+        </div>
+        <p class="intro">With the outer sticks, arms, and legs established, fill in the rest of the back and cap it with the comb. The chair's shape and posture come together here.</p>
+
+        <h3 class="sub">Space and drill the inner sticks</h3>
+        <p>Assemble what you have so far. Rotate the two outer back sticks until they sit at roughly the same angle along the layout line, and take that angle with a bevel gauge — that's the angle for the inner sticks (unless you have a “spicy” plan, like a curved crest, in which case you can vary them deliberately). Space the inner sticks evenly (or don't): divide the distance between the centerpoints of the two outer sticks by (n − 1), where n is the total number of back sticks, and you have the spacing.</p>
+        <p>This is the moment to nudge things for the look you want — move drill points fore, aft, left, or right to accentuate whatever vibe you're after, and try sticks in different holes to find the best fit for each. If a seat mortise came out a little off, cut that stick's tenon at a slight compensating angle so the stick still lands where it should.</p>
+
+        <h3 class="sub">Fit the comb</h3>
+        <p>Set the comb's height by eye and by comfort — hold it against the sticks, sit in what you have so far, and see where it wants to be; there is no magic number. Trim the stick tops to suit, then drill the comb to receive them — at an angle, to match the sticks' lean, with a bit matched to the tenons you'll cut on the stick tops. The mortises can be stopped (blind) or drilled clean through: through-tenons can be wedged and left proud in the JP manner, while stopped holes leave the comb's top edge unbroken. Dry-fit and assemble; glue comes later, at final assembly. The comb is what makes a forgiving chair: as it goes on, it gathers the sticks and pulls any strays into line, which is why you can afford a little wander in the individual stick angles.</p>
+      </section>
+
+      <hr class="divider">
+
+      <!-- ===== SECTION 8 (final shaping) ===== -->
+      <section id="sec8" class="build">
+        <p class="sec-label">Section 8</p>
+        <h2 class="sec-title">Final Shaping of the Parts</h2>
+        <p class="sec-goal"><b>Goal:</b> Bring every part to its finished profile before glue-up.</p>
+        <div class="bench-card">
+          <ol>
+            <li>Refine the <b>arms &amp; comb</b> with a drawknife (spokeshave or block plane for tricky grain); add any stylistic touches.</li>
+            <li><b>Legs:</b> carry the taper further, or cut a double taper — without thinning away the strength.</li>
+            <li><b>Middle sticks:</b> match the outer sticks for a uniform fan, or leave them a touch varied.</li>
+            <li><b>Surfaces &amp; edges:</b> scrape out tear-out; chamfer or round the seat edges and any sharp arris.</li>
+          </ol>
+        </div>
+        <p class="intro">Before glue-up, take everything to its finished shape. The joinery is settled and you can see the whole chair — this is where it stops being a pile of sticks and starts being yours.</p>
+
+        <h3 class="sub">Arms and comb</h3>
+        <p>Refine the arms and the comb with a drawknife — round the arms over, ease their ends, bring the comb to its final profile. If a piece has grumpy, swirling grain that the drawknife wants to tear, switch to a spokeshave or block plane; they take a smaller bite and handle reversing grain more kindly. This is also the place for stylistic touches — a faceted arm, a shaped comb, a chamfered end, something cool carved in.</p>
+
+        <h3 class="sub">Legs</h3>
+        <p>The legs already carry the taper you put in earlier; now you can carry it further if you like. Continue the taper farther down the leg for a more delicate line, or cut a double taper — slim toward the foot and again up near the seat, leaving a swell in the middle — for a livelier shape. Keep an eye on strength: don't thin a leg so far it loses its backbone.</p>
+
+        <h3 class="sub">The middle sticks</h3>
+        <p>If you want the inner back sticks to read as a uniform set with the outer ones, refine their shape now — match their diameter and taper to the outer sticks so the fan looks intentional. Or leave them a touch varied; on a folk chair that reads as character, not error.</p>
+
+        <h3 class="sub">Surfaces and edges</h3>
+        <p>Clean up any tear-out with a card scraper or a spokeshave — a scraper especially loves the spots where the drawknife fought the grain. Then chamfer or round the edges of the seat so they don't bite the backs of a sitter's knees, and ease any other sharp arris your hand will meet. A few passes of detailing here make the difference between a rough chair and a finished one.</p>
+        <div class="callout folk">
+          <div class="co-head">The folk approach</div>
+          <div class="co-body">None of this has to be uniform or perfect. Tool facets, a slightly heavier arm on one side, a comb that isn't dead-symmetric — these are the fingerprints of a hand-made chair, and they are welcome. Shape to please your own eye.</div>
+        </div>
+      </section>
+
+      <hr class="divider">
+
+      <!-- ===== SECTION 9 (assembly & leveling) ===== -->
+      <section id="sec9" class="build">
+        <p class="sec-label">Section 9</p>
+        <h2 class="sec-title">Assembly &amp; Leveling</h2>
+        <p class="sec-goal"><b>Goal:</b> The chair glued up, standing true, and reclined to taste.</p>
+        <div class="bench-card">
+          <p class="bc-head">Glue up</p>
+          <ol>
+            <li>Assemble <b>in build order</b>, gluing as you go.</li>
+            <li>For legs: seat most of the way, then glue the <b>leg</b> (not the mortise) before driving home.</li>
+            <li>Wedge a leg-to-arm joint for a positive lock; wedge the comb only if it's loose.</li>
+          </ol>
+          <p class="bc-head">Level</p>
+          <ol>
+            <li>On a dead-flat surface, shim the seat level side to side.</li>
+            <li>Set the recline by shimming the back (or front) feet; scribe each leg and saw to the line.</li>
+          </ol>
+        </div>
+        <p class="intro">Now bring it all together for good, and stand it on its feet so it sits the way you want.</p>
+
+        <h3 class="sub">Glue up</h3>
+        <p>Assemble in the order you built the chair, gluing as you go. Any decent wood glue does the job; use hide glue if you'd like the joints to be reversible someday. For the legs, seat each one most of the way, then put the glue on the leg before driving it home — if you put glue down inside the mortise instead, you'll squeeze out a mess and may hydraulic-lock the joint. A wedge across a leg-to-arm joint is a nice touch where you want a positive lock. The comb only needs a wedge if its tenons aren't a tight fit; if they're snug, leave them. Through-tenons can be left proud and stylized — domed or chamfered — or cut flush, as you like.</p>
+        <div class="callout tip">
+          <div class="co-head">A rule worth keeping</div>
+          <div class="co-body"><span class="co-title">Build order.</span>Put the chair together in the order you made it: outer back sticks → arm → front leg → back leg → remaining back sticks → comb. To take it apart, reverse it — comb first, sticks last. Forcing parts out of order is how joints crack.</div>
+        </div>
+        <figure class="fig-plate caption-block">
+          <img src="media/fig-assemble-order.svg" width="1600" height="836" loading="lazy" decoding="async" alt="Numbered assembly sequence: outer back sticks, arm, front leg, back leg, then the remaining back sticks.">
+          <figcaption>Assemble — and disassemble — in the order the chair was built.</figcaption>
+        </figure>
+
+        <h3 class="sub">Level the seat, then set the recline</h3>
+        <figure class="fig-plate caption-block">
+          <img src="media/fig-level-scribe-legs.svg" width="1600" height="1078" loading="lazy" decoding="async" alt="The assembled chair on a flat surface, feet shimmed level, with a pencil resting on a block to scribe every leg at one height.">
+          <figcaption>Stand the chair on a flat surface, shim level, and scribe each leg to one height.</figcaption>
+        </figure>
+        <p>Stand the assembled chair on a dead-flat surface. First get the seat level side to side, using blocks and shims under the feet until it stops rocking. Then set the front-to-back attitude — the recline — to the sitter's taste by shimming the back (or front) feet. When it sits the way you want, scribe each leg with a block and a half-pencil and saw to the line; the four feet now meet the floor together.</p>
+        <div class="callout caution">
+          <div class="co-head">Caution</div>
+          <div class="co-body">If you gave the back sticks a high angle, don't recline the seat too far, or the chair gets tippy — the sitter's weight ends up behind the back feet. If it does feel tippy: either take a little off the front legs to stand it up straighter, or drill a hole in the back of the seat and add a fifth leg (an old, honest folk fix — see the Greenhill Six-legged Chair).</div>
+        </div>
+      </section>
+
+      <hr class="divider">
+
+      <!-- ===== SECTION 10 (pinning, wedging & finishing) ===== -->
+      <section id="sec10" class="build">
+        <p class="sec-label">Section 10</p>
+        <h2 class="sec-title">Pinning, Wedging &amp; Finishing</h2>
+        <p class="sec-goal"><b>Goal:</b> The key joints locked, the tenons dressed, and a finish on the chair.</p>
+        <div class="bench-card">
+          <p class="bc-head">Pin &amp; wedge</p>
+          <ol>
+            <li>Loose leg-to-seat → pin with a trenail through the <b>long-grain</b> side (never end grain).</li>
+            <li>Leg-to-arm → pin, wedge, or both.</li>
+            <li><b>Do NOT</b> pin the arm to the back stick — it must flex.</li>
+            <li>Wedge the comb only if its tenons aren't already tight.</li>
+            <li>Wedging: saw the kerf <b>across</b> the grain, ~8° wedge; drive across the grain.</li>
+          </ol>
+          <p class="bc-head">Finish</p>
+          <ol>
+            <li>Pare / saw the proud tenons to final shape; last pass with a scraper.</li>
+            <li>Finish to taste — oil, wax, milk paint, or a bush coat of paint. Then sit in it.</li>
+          </ol>
+        </div>
+        <p class="intro">Lock the joints that need it, dress the proud tenons, and put a finish on the chair. How you do this is partly engineering and partly style.</p>
+
+        <h3 class="sub">Pinning and wedging</h3>
+        <p>A well-fitted Jimmy Possum stands largely on friction and the green-wood grip, but a few joints reward a positive lock:</p>
+        <ul class="plain">
+          <li>If a leg-to-seat joint is loose, pin it with a trenail or dowel driven through the long-grain side of the joint (never through end grain, which would split).</li>
+          <li>Leg-to-arm joints can be pinned, wedged, or both — they carry real load.</li>
+          <li>Do not pin the arm to the back stick. That joint needs to move as the back sticks flex under a sitter.</li>
+          <li>Wedge the comb only if its tenons aren't already a tight fit; otherwise leave it.</li>
+          <li>Every tenon may be cut flush or left proud and stylized — domed, chamfered, or shaped — as you like.</li>
+        </ul>
+        <div class="callout tip">
+          <div class="co-head">Technique</div>
+          <div class="co-body"><span class="co-title">On wedges.</span>Saw the kerf across the grain of the part being wedged and drive the wedge across that grain — it tightens the joint instead of splitting the wood. Dave Sawyer's rule, passed on by Langsner: about 8° included angle, dead-flat faces, and a small blunt bevel on the leading edge so it doesn't splinter going in.</div>
+        </div>
+        <figure class="photo">
+          <img src="media/photo-author-whiteoak-walnut.jpg" width="903" height="1200" loading="lazy" decoding="async" alt="A two-timber chair in pale oak and dark walnut, its wedged tenon tops standing proud.">
+          <figcaption>A white-oak-and-walnut Jimmy Possum of my own — the through-tenons stand proud and wedged on the arms and back sticks. Photo: me.</figcaption>
+        </figure>
+
+        <h3 class="sub">Finish</h3>
+        <p>Pare or saw the proud tenon tops to their final look, dome or chamfer them if you left them proud, and give the whole chair a last going-over with a scraper. Then finish to taste — oil, wax, milk paint, or the traditional bush coat of paint (the old chairs were often green or grey). Oil is simplest and shows off the tooled surfaces; paint hides humbler wood and is every bit as authentic. Last step of every chair: <em>sit in it.</em></p>
+      </section>
+
+      <hr class="divider">
+
+      <!-- ===== SADDLING (EXTRAS) ===== -->
+      <section id="saddling" class="build">
+        <p class="sec-label">Extras</p>
+        <h2 class="sec-title">Saddling the Seat</h2>
+        <p class="sec-goal"><b>Optional:</b> historic Jimmy Possum chairs were left flat.</p>
+        <div class="bench-card">
+          <ol>
+            <li>Hog out the bulk with an adze or gouge, <b>across</b> the grain.</li>
+            <li>Refine with an inshave / scorp; smooth with a travisher (with the grain); finish with a scraper.</li>
+            <li>Keep the deepest point under the sitter — about a <b>thumb's depth</b>.</li>
+            <li><b>Dry blank only</b> — a green slab will check and distort.</li>
+          </ol>
+        </div>
+        <p class="intro">Saddling means carving a shallow hollow into the seat to cradle the sitter. Historic Jimmy Possum chairs were left flat — authentic, and comfortable with the chair's raked stance — so this is optional. But if you'd like the extra comfort, here's how.</p>
+        <figure class="fig-plate caption-block">
+          <img src="media/fig-saddling-tools.svg" width="1600" height="960" loading="lazy" decoding="async" alt="Contour plan and section of the seat hollow, deepest aft of center, with the four saddling tools in working order beside it.">
+          <figcaption>Coarse to fine: hog out with an adze or gouge, refine with a scorp, smooth with a travisher, finish with a scraper.</figcaption>
+        </figure>
+
+        <h3 class="sub">Coarse to fine</h3>
+        <p>Saddling moves through a sequence of tools, each finer than the last. Hog out the bulk of the hollow quickly with an adze or a large gouge, working across the grain where the cutting is easiest. Refine the shape with an inshave or scorp — a curved drawknife for hollows. Smooth the surface with a travisher, a small curved-sole plane made for the job, working with the grain now. Finish with a scraper. Keep the deepest point under where the sitter's weight falls, and don't overdo the depth — about a thumb's depth is plenty.</p>
+        <div class="callout caution">
+          <div class="co-head">Caution</div>
+          <div class="co-body">Carve a dry seat blank only. A green slab will check and split as it dries, and a saddled green seat will distort. This is why the seat is the one part we start dry.</div>
+        </div>
+        <div class="callout historic">
+          <div class="co-head">A note on authenticity</div>
+          <div class="co-body">Leaving the seat flat is not a shortcut — it is the tradition. Saddle yours only if you want to.</div>
+        </div>
+      </section>
+
+      <hr class="divider">
+
+      <!-- ===== GALLERY ===== -->
+      <section id="gallery">
+        <p class="sec-label">Gallery</p>
+        <h2 class="sec-title">A Gallery of Authentic Jimmy Possums</h2>
+        <p class="intro">A last look at the tradition you're joining — mostly antique and vintage chairs from “Jimmy Possum: An Unbroken Tradition” at the Queen Victoria Museum &amp; Art Gallery, Launceston, alongside one of my own. Every one is a single chair, made by hand for its owner. Notice the family resemblance and the endless small variations. Makers are credited where the exhibition recorded them. (Exhibition photographs: Lewis Laskin, 2022.)</p>
+        <div class="gallery-grid">
+          <figure>
+            <img src="media/gallery-walnut-maryland-hall-thumb.jpg" data-full="media/gallery-walnut-maryland-hall.jpg" width="361" height="480" loading="lazy" decoding="async" alt="A dark walnut chair against a pale wall.">
+            <figcaption>A walnut Jimmy Possum chair I built.</figcaption>
+          </figure>
+          <figure>
+            <img src="media/hero-upside-down-armrest-1900-thumb.jpg" data-full="media/hero-upside-down-armrest-1900.jpg" width="360" height="480" loading="lazy" decoding="async" alt="An antique chair with inverted armrests, against a deep navy museum wall.">
+            <figcaption>The Upside Down Armrest Chair, c.1900 — maker unrecorded (exhibit 13). QVMAG, Launceston.</figcaption>
+          </figure>
+          <figure>
+            <img src="media/gallery-william-larcombe-thumb.jpg" data-full="media/gallery-william-larcombe.jpg" width="360" height="480" loading="lazy" decoding="async" alt="A tall-backed stick chair beside the Larcombe family wall text in the museum.">
+            <figcaption>The William Larcombe Chair — William Larcombe, b. 1862, of Reedy Marsh near Deloraine (exhibit 21). QVMAG, Launceston.</figcaption>
+          </figure>
+          <figure>
+            <img src="media/gallery-antique-example-thumb.jpg" data-full="media/gallery-antique-example.jpg" width="360" height="480" loading="lazy" decoding="async" alt="An antique example in profile.">
+            <figcaption>The raked legs and legs-through-seat joinery are unmistakable. Maker unrecorded, Meander Valley. QVMAG, Launceston.</figcaption>
+          </figure>
+          <figure>
+            <img src="media/photo-antique-original-paint-thumb.jpg" data-full="media/photo-antique-original-paint.jpg" width="360" height="480" loading="lazy" decoding="async" alt="An antique chair in worn original paint.">
+            <figcaption>An antique Jimmy Possum with its original paint — a broad slab seat and a raked stance. Maker unrecorded. QVMAG, Launceston.</figcaption>
+          </figure>
+          <figure>
+            <img src="media/history-greenhill-small-chair-thumb.jpg" data-full="media/history-greenhill-small-chair.jpg" width="360" height="480" loading="lazy" decoding="async" alt="A small chair in worn green house paint.">
+            <figcaption>Painted survivors — green and grey were common bush finishes. The Small Greenhill Chair by George Greenhill, 1850–1937 (exhibit 2). QVMAG, Launceston.</figcaption>
+          </figure>
+          <figure>
+            <img src="media/gallery-figured-1-thumb.jpg" data-full="media/gallery-figured-1.jpg" width="360" height="480" loading="lazy" decoding="async" alt="A chair in wildly figured timber.">
+            <figcaption>Figured timber, left to speak for itself — The Wingback Chair by Mathew Simms, 2015 (exhibit 7). QVMAG, Launceston.</figcaption>
+          </figure>
+          <figure>
+            <img src="media/gallery-green-platform-thumb.jpg" data-full="media/gallery-green-platform.jpg" width="360" height="480" loading="lazy" decoding="async" alt="A green-painted chair on a museum platform.">
+            <figcaption>Painted green — a common bush finish. The Greenhill Platform Chair by George Greenhill at centre (exhibit 3), among its green-painted kin. QVMAG, Launceston.</figcaption>
+          </figure>
+          <figure>
+            <img src="media/gallery-tall-dark-thumb.jpg" data-full="media/gallery-tall-dark.jpg" width="360" height="480" loading="lazy" decoding="async" alt="A tall-backed stick chair in dark timber — the Lovejoy Chair.">
+            <figcaption>The Lovejoy Chair, c.1980 — a deliberate fake from the antiques boom, maker unknown (exhibit 32). QVMAG, Launceston.</figcaption>
+          </figure>
+          <figure>
+            <img src="media/gallery-anomaly-chair-thumb.jpg" data-full="media/gallery-anomaly-chair.jpg" width="360" height="480" loading="lazy" decoding="async" alt="A low, wide-armed antique chair with curved arms on a round museum plinth.">
+            <figcaption>The Anomaly Chair — maker unknown; bought by the Launceston City Council in 1979 (exhibit 30). QVMAG collection, Launceston.</figcaption>
+          </figure>
+          <figure>
+            <img src="media/gallery-greenhill-sixlegged-thumb.jpg" data-full="media/gallery-greenhill-sixlegged.jpg" width="360" height="480" loading="lazy" decoding="async" alt="A green-painted chair with notched arms and extra legs.">
+            <figcaption>The Greenhill Six-legged Chair, c.1890 — George Greenhill (exhibit 4); the museum links it to his 1886 journal line, “made chair for wife, white sow had eight pigs.” QVMAG, Launceston.</figcaption>
+          </figure>
+          <figure>
+            <img src="media/gallery-warm-3q-thumb.jpg" data-full="media/gallery-warm-3q.jpg" width="360" height="480" loading="lazy" decoding="async" alt="A chair seen from a high three-quarter angle.">
+            <figcaption>Warm timber and the unmistakable raked stance. Maker unrecorded. QVMAG, Launceston.</figcaption>
+          </figure>
+          <figure>
+            <img src="media/gallery-green-william-larcombe-thumb.jpg" data-full="media/gallery-green-william-larcombe.jpg" width="360" height="480" loading="lazy" decoding="async" alt="A tall green-painted armchair on a round museum plinth.">
+            <figcaption>The Green William Larcombe Chair, c.1895 — William Larcombe (exhibit 22). QVMAG, Launceston.</figcaption>
+          </figure>
+          <figure>
+            <img src="media/gallery-grahams-chair-1986-thumb.jpg" data-full="media/gallery-grahams-chair-1986.jpg" width="360" height="480" loading="lazy" decoding="async" alt="A blond-timber armchair with a gently curved crest.">
+            <figcaption>Graham’s Chair, 1986 — Mathew Simms; the tradition, unbroken (exhibit 6). QVMAG, Launceston.</figcaption>
+          </figure>
+          <figure>
+            <img src="media/gallery-warm-arm-thumb.jpg" data-full="media/gallery-warm-arm.jpg" width="360" height="480" loading="lazy" decoding="async" alt="A wide-seated armchair.">
+            <figcaption>A generous seat in warm wood — the Curved Headrest Chair, c.1900, attributed to “Jimmy the Bushranger” (exhibit 15). QVMAG, Launceston.</figcaption>
+          </figure>
+          <figure>
+            <img src="media/gallery-green-2-thumb.jpg" data-full="media/gallery-green-2.jpg" width="360" height="480" loading="lazy" decoding="async" alt="A green-painted chair.">
+            <figcaption>The George Larcombe Chair, c.1900, blackwood — George Larcombe, 1872–1934 (exhibit 20, centre), with William Larcombe’s green chair beyond (exhibit 22). QVMAG, Launceston.</figcaption>
+          </figure>
+          <figure>
+            <img src="media/gallery-pale-thumb.jpg" data-full="media/gallery-pale.jpg" width="360" height="480" loading="lazy" decoding="async" alt="A chair in pale timber.">
+            <figcaption>A pale, straight-grained example — maker unrecorded (exhibit 39). QVMAG, Launceston.</figcaption>
+          </figure>
+          <figure>
+            <img src="media/gallery-armchair-raked-thumb.jpg" data-full="media/gallery-armchair-raked.jpg" width="360" height="480" loading="lazy" decoding="async" alt="An armchair with strongly raked legs.">
+            <figcaption>An armchair, legs raking front to back. Maker unrecorded. QVMAG, Launceston.</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <hr class="divider">
+
+      <!-- ===== SOURCES ===== -->
+      <section id="sources">
+        <p class="sec-label">Sources</p>
+        <h2 class="sec-title">Sources &amp; Further Reading</h2>
+        <p class="intro">This guide draws on a small shelf of primary sources — the books in my library — plus the chairs themselves, seen at the Queen Victoria Museum &amp; Art Gallery. Each is worth your time.</p>
+        <div class="sources">
+          <h3>On the Jimmy Possum</h3>
+          <ol>
+            <li>Queen Victoria Museum &amp; Art Gallery (2022). <i>“Jimmy Possum: An Unbroken Tradition.”</i> Launceston, Tasmania. Curated with research by Dr. Mike Epworth and Bronwyn Harm. — The exhibition behind this guide's photographs and much of its history, including the Greenhill journal and the Meander Valley makers.</li>
+            <li>McWilliams, M., Dufour, M., Sharp, J., &amp; Thorp, A. (1978). <i>Chairs made by Bush Carpenters in Tasmania, during the 19th and early 20th Centuries.</i> Tasmanian School of Art, Mt Nelson. — The foundational field research on Jimmy Possum and the Larcombe-family chairs of the Deloraine district.</li>
+          </ol>
+          <h3>Green-wood chairmaking technique</h3>
+          <ol>
+            <li>Alexander, J. (2021). <i>Make a Chair from a Tree</i>, 3rd ed. <b>Lost Art Press.</b> — The classic on green-wood, hand-shaved chairmaking; riving, drawknife technique, and the rough-to-octagon progression.</li>
+            <li>Langsner, D. (2020). <i>Country Woodcraft: Then &amp; Now.</i> <b>Lost Art Press.</b> — The froe, riving brakes, splitting logs, and wedges (the leg-as-wedge and the 8° wedge rule).</li>
+            <li>Galbert, P. (2015). <i>Chairmaker's Notebook.</i> <b>Lost Art Press.</b> — The roughing-vs-refining model of drawknife work (his carving vs. shaving), the low bevel-down grip, planning the log from a cutlist, and the wood-movement science behind How the Wood Moves. Several diagrams in this guide are redrawn after his sketches.</li>
+            <li>Glenn, A. D. (2023). <i>Backwoods Chairmakers.</i> <b>Lost Art Press.</b> (Foreword by Curtis Buchanan.) — Portraits of the Appalachian post-and-rung tradition; the folk-chair framing, the green-wood joinery principle, and the split-the-whole-log-first tip in Section 1.</li>
+            <li>Schwarz, C. (2024). <i>The American Peasant.</i> <b>Lost Art Press.</b> — The “stack” (sandwich) drilling method used here for the outer back sticks, a technique Schwarz developed with Rudy Everts.</li>
+            <li>Schwarz, C. <i>The Stick Chair Book</i>, 2nd rev. ed. (2025). <b>Lost Art Press.</b> — Background on boring seat mortises by hand, the “half-pencil” scribing trick, and general guidance on back-lean angles for dining vs. lounging; note that the Jimmy Possum's rake-only geometry sidesteps the staked chair's compound sightlines.</li>
+            <li>Buchanan, C., &amp; Lefkowitz, J. <i>Democratic Arm Chair</i> construction drawings (2023–24). curtisbuchananchairmaker.com. — A model build “recipe” and the convention of super-drying tenons before final assembly.</li>
+          </ol>
+          <h3>Online</h3>
+          <ol>
+            <li>Laskin, L. (2023). “The Stick Chair from Down Under.” Lost Art Press blog — the author's account of meeting these chairs in Tasmania. <a href="https://blog.lostartpress.com/2023/01/25/the-stick-chair-from-down-under/" target="_blank" rel="noopener">blog.lostartpress.com</a></li>
+            <li>Schwarz, C. (2022). “Meeting Jimmy Possum.” <a href="https://christopherschwarz.substack.com/p/meeting-jimmy-possum" target="_blank" rel="noopener">christopherschwarz.substack.com</a></li>
+            <li>Epworth, M. (2020). “The Legend of the Jimmy Possum Chair.” <i>Mortise &amp; Tenon Magazine</i>, Issue 8. <a href="https://mortiseandtenonmag.com" target="_blank" rel="noopener">mortiseandtenonmag.com</a></li>
+          </ol>
+        </div>
+      </section>
+
+      <footer>
+        <span>The Jimmy Possum Chair · A Field Guide</span>
+        <span>By <b>Lewis Laskin</b></span>
+        <p class="foot-rights">Free and for educational purposes only. Text, diagrams and photographs © Lewis Laskin except where noted; quoted passages and archival images remain © their respective owners (see Sources), reproduced for education and commentary. Not for redistribution or resale.</p>
+      </footer>
+
+    </main>
+  </div>
+
+  <!-- lightbox -->
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Enlarged image" aria-hidden="true">
+    <button class="lb-close" aria-label="Close">×</button>
+    <img alt="">
+    <p class="lb-cap"></p>
+  </div>
+
+  <!-- cookie / consent banner -->
+  <div class="cookie-banner" id="cookie-banner" role="region" aria-label="Cookie notice" hidden>
+    <p class="cb-text">This site uses cookies exclusively for Lewis to better understand if and how people are using the website.</p>
+    <div class="cb-actions">
+      <button class="cb-accept" id="cb-accept">Got it</button>
+      <button class="cb-decline" id="cb-decline">Decline</button>
+    </div>
+  </div>
+
+  <!-- semi-sticky web footer (auto-hides on scroll down, returns on scroll up; web view only) -->
+  <div class="webfoot" id="webfoot">
+    <span>Text, diagrams and photographs © <span id="wf-year">2026</span> Lewis Laskin except where noted · Quoted passages and archival images remain © their respective owners, reproduced for education and commentary.</span>
+  </div>
+
+  <script src="script.js?v=10"></script>
+</body>
+</html>

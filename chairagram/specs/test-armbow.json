@@ -1,0 +1,137 @@
+{
+  "meta": {
+    "specVersion": "0.2",
+    "name": "Test armbow comb-back",
+    "units": "in",
+    "family": "stick-chair",
+    "notes": "INVENTED TEST FIXTURE — NOT a golden spec and NOT a measured chair. Every number here was written to exercise the SPEC v0.2 curve paths (traced seat outline, comb curved in plan, steam-bent armbow with short spindles, splayed legs, blind stick tenons into the comb bottom); none of it was measured off a real piece. The proportions are Schwarz-ish stick-chair territory so the drawing looks like a chair, but do not build from it and do not treat any value as ground truth — that is what specs/jp-armchair.json and specs/jp-bench.json are for. The comb is traced as a true 24 in arc so the plan prints a fitted radius; the armbow is traced as a 9 1/2 in radius U so its span and apex depth are derived, not stored."
+  },
+  "seat": {
+    "width": 21,
+    "depth": 17,
+    "thickness": 1.75,
+    "heightFront": 17.25,
+    "heightBack": 16.5,
+    "plan": {
+      "type": "outline",
+      "points": [
+        [-9.4, 1.4],
+        [-6.2, 0.25],
+        [0, 0],
+        [6.2, 0.25],
+        [9.4, 1.4],
+        [10.5, 5],
+        [10.2, 9.5],
+        [8.6, 14],
+        [5, 16.6],
+        [0, 17],
+        [-5, 16.6],
+        [-8.6, 14],
+        [-10.2, 9.5],
+        [-10.5, 5]
+      ]
+    }
+  },
+  "legs": [
+    {
+      "id": "front-left",
+      "mortise": { "x": -7.6, "z": 3.6 },
+      "rake": -8,
+      "splay": 11,
+      "section": 1.5,
+      "sectionFoot": 1.15,
+      "postDiameter": 1,
+      "throughSeat": true,
+      "throughArm": false,
+      "wedged": true
+    },
+    {
+      "id": "front-right",
+      "mortise": { "x": 7.6, "z": 3.6 },
+      "rake": -8,
+      "splay": 11,
+      "section": 1.5,
+      "sectionFoot": 1.15,
+      "postDiameter": 1,
+      "throughSeat": true,
+      "throughArm": false,
+      "wedged": true
+    },
+    {
+      "id": "back-left",
+      "mortise": { "x": -8.2, "z": 12.8 },
+      "rake": 18,
+      "splay": 14,
+      "section": 1.5,
+      "sectionFoot": 1.15,
+      "postDiameter": 1,
+      "throughSeat": true,
+      "throughArm": false,
+      "wedged": true
+    },
+    {
+      "id": "back-right",
+      "mortise": { "x": 8.2, "z": 12.8 },
+      "rake": 18,
+      "splay": 14,
+      "section": 1.5,
+      "sectionFoot": 1.15,
+      "postDiameter": 1,
+      "throughSeat": true,
+      "throughArm": false,
+      "wedged": true
+    }
+  ],
+  "sticks": {
+    "count": 9,
+    "diameter": 0.625,
+    "flatsPlanedFront": false,
+    "rowZ": 14.2,
+    "spread": 13.5,
+    "lean": 15.5,
+    "throughCrest": false
+  },
+  "crest": {
+    "length": 20,
+    "height": 3.2,
+    "thickness": 0.9,
+    "bottomAboveSeat": 20.5,
+    "tiltRef": "sticks",
+    "liveEdge": false,
+    "planCurve": {
+      "points": [
+        [-9.712, 0],
+        [-6.582, 1.132],
+        [-3.323, 1.821],
+        [0, 2.053],
+        [3.323, 1.821],
+        [6.582, 1.132],
+        [9.712, 0]
+      ]
+    }
+  },
+  "arms": {
+    "style": "bow",
+    "aboveSeat": 9,
+    "bow": {
+      "section": 1.25,
+      "planCurve": {
+        "points": [
+          [-8.61, 1.985],
+          [-9.48, 6.621],
+          [-8.012, 11.104],
+          [-4.569, 14.329],
+          [0, 15.5],
+          [4.569, 14.329],
+          [8.012, 11.104],
+          [9.48, 6.621],
+          [8.61, 1.985]
+        ]
+      },
+      "spindles": {
+        "count": 8,
+        "diameter": 0.5625
+      }
+    }
+  }
+}

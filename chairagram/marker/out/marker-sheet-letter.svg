@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="279.4mm" height="215.9mm" viewBox="0 0 279.4 215.9" data-variant="letter">
+  <title>chairagram marker sheet — US Letter (landscape)</title>
+  <desc>Print at 100%. Geometry of record is marker-manifest.json.</desc>
+  <style>
+    .ink { fill: #000000; }
+    .txt { fill: #000000; font-family: Helvetica, Arial, sans-serif; }
+  </style>
+  <rect id="paper" x="0" y="0" width="279.4" height="215.9" fill="#ffffff"/>
+  <g id="tag-0" data-tag-id="0" data-role="front-left" data-x="12" data-y="143.4" data-size="60">
+    <rect id="tag-0-quiet" x="12" y="143.4" width="60" height="60" fill="#ffffff"/>
+    <path id="tag-0-bits" class="ink" d="M18 149.4h48v6h-48ZM18 155.4h6v42h-6ZM36 155.4h6v6h-6ZM48 155.4h6v24h-6ZM60 155.4h6v42h-6ZM24 161.4h6v12h-6ZM42 167.4h6v12h-6ZM54 167.4h6v30h-6ZM30 173.4h6v6h-6ZM24 179.4h6v18h-6ZM36 179.4h6v18h-6ZM30 185.4h6v12h-6ZM48 185.4h6v12h-6ZM42 191.4h6v6h-6Z"/>
+  </g>
+  <g id="tag-1" data-tag-id="1" data-role="front-right" data-x="207.4" data-y="143.4" data-size="60">
+    <rect id="tag-1-quiet" x="207.4" y="143.4" width="60" height="60" fill="#ffffff"/>
+    <path id="tag-1-bits" class="ink" d="M213.4 149.4h48v6h-48ZM213.4 155.4h6v42h-6ZM231.4 155.4h6v12h-6ZM249.4 155.4h12v6h-12ZM219.4 161.4h6v6h-6ZM255.4 161.4h6v36h-6ZM243.4 167.4h12v12h-12ZM219.4 173.4h6v6h-6ZM237.4 173.4h6v6h-6ZM225.4 179.4h6v18h-6ZM243.4 179.4h6v18h-6ZM219.4 185.4h6v12h-6ZM237.4 185.4h6v12h-6ZM231.4 191.4h6v6h-6ZM249.4 191.4h6v6h-6Z"/>
+  </g>
+  <g id="tag-2" data-tag-id="2" data-role="back-right" data-x="207.4" data-y="12" data-size="60">
+    <rect id="tag-2-quiet" x="207.4" y="12" width="60" height="60" fill="#ffffff"/>
+    <path id="tag-2-bits" class="ink" d="M213.4 18h48v6h-48ZM213.4 24h6v42h-6ZM231.4 24h6v18h-6ZM255.4 24h6v42h-6ZM219.4 30h6v6h-6ZM237.4 30h6v18h-6ZM249.4 30h6v12h-6ZM225.4 36h6v30h-6ZM243.4 36h6v18h-6ZM219.4 42h6v24h-6ZM231.4 48h6v6h-6ZM249.4 48h6v18h-6ZM231.4 60h18v6h-18Z"/>
+  </g>
+  <g id="tag-3" data-tag-id="3" data-role="back-left" data-x="12" data-y="12" data-size="60">
+    <rect id="tag-3-quiet" x="12" y="12" width="60" height="60" fill="#ffffff"/>
+    <path id="tag-3-bits" class="ink" d="M18 18h48v6h-48ZM18 24h6v42h-6ZM42 24h12v6h-12ZM60 24h6v42h-6ZM24 30h18v6h-18ZM30 36h12v6h-12ZM30 42h6v6h-6ZM42 42h12v6h-12ZM36 48h12v6h-12ZM54 48h6v18h-6ZM24 54h6v12h-6ZM42 54h12v12h-12ZM30 60h12v6h-12Z"/>
+  </g>
+  <rect id="datum-line" class="ink" x="78" y="202.9" width="123.4" height="1"/>
+  <rect id="tick-front" class="ink" x="139.3" y="187.4" width="0.8" height="16.5"/>
+  <rect id="tick-back" class="ink" x="139.3" y="12" width="0.8" height="12"/>
+  <rect id="tick-left" class="ink" x="12" y="107.3" width="12" height="0.8"/>
+  <rect id="tick-right" class="ink" x="255.4" y="107.3" width="12" height="0.8"/>
+  <polygon id="tick-front-arrow" class="ink" points="139.7,203.4 136.2,196.4 143.2,196.4"/>
+  <rect id="centerline-dash-0" class="ink" x="139.4" y="159.4" width="0.6" height="6"/>
+  <rect id="centerline-dash-1" class="ink" x="139.4" y="149.4" width="0.6" height="6"/>
+  <rect id="centerline-dash-2" class="ink" x="139.4" y="139.4" width="0.6" height="6"/>
+  <rect id="centerline-dash-3" class="ink" x="139.4" y="129.4" width="0.6" height="6"/>
+  <rect id="centerline-dash-4" class="ink" x="139.4" y="120.7" width="0.6" height="4.7"/>
+  <rect id="centerline-dash-5" class="ink" x="139.4" y="89.7" width="0.6" height="6"/>
+  <rect id="centerline-dash-6" class="ink" x="139.4" y="79.7" width="0.6" height="6"/>
+  <text id="print-warning" class="txt" x="139.7" y="29" font-size="3.8" text-anchor="middle" font-weight="bold">PRINT AT 100% — NEVER 'FIT TO PAGE'</text>
+  <text id="print-note-1" class="txt" x="139.7" y="33.5" font-size="2.8" text-anchor="middle" font-weight="normal">Measure a bar. If it isn't exactly 100 mm / 4 in,</text>
+  <text id="print-note-2" class="txt" x="139.7" y="37" font-size="2.8" text-anchor="middle" font-weight="normal">type what you measure into the app.</text>
+  <rect id="ruler-100mm-bar" class="ink" x="89.7" y="40.5" width="100" height="3"/>
+  <rect id="ruler-100mm-tick-0" class="ink" x="89.2" y="43.5" width="1" height="3.5"/>
+  <rect id="ruler-100mm-tick-1" class="ink" x="99.4" y="43.5" width="0.6" height="2.5"/>
+  <rect id="ruler-100mm-tick-2" class="ink" x="109.4" y="43.5" width="0.6" height="2.5"/>
+  <rect id="ruler-100mm-tick-3" class="ink" x="119.4" y="43.5" width="0.6" height="2.5"/>
+  <rect id="ruler-100mm-tick-4" class="ink" x="129.4" y="43.5" width="0.6" height="2.5"/>
+  <rect id="ruler-100mm-tick-5" class="ink" x="139.4" y="43.5" width="0.6" height="2.5"/>
+  <rect id="ruler-100mm-tick-6" class="ink" x="149.4" y="43.5" width="0.6" height="2.5"/>
+  <rect id="ruler-100mm-tick-7" class="ink" x="159.4" y="43.5" width="0.6" height="2.5"/>
+  <rect id="ruler-100mm-tick-8" class="ink" x="169.4" y="43.5" width="0.6" height="2.5"/>
+  <rect id="ruler-100mm-tick-9" class="ink" x="179.4" y="43.5" width="0.6" height="2.5"/>
+  <rect id="ruler-100mm-tick-10" class="ink" x="189.2" y="43.5" width="1" height="3.5"/>
+  <text id="ruler-100mm-label-0" class="txt" x="89.7" y="50.5" font-size="2.8" text-anchor="start" font-weight="normal">0</text>
+  <text id="ruler-100mm-label-1" class="txt" x="109.7" y="50.5" font-size="2.8" text-anchor="middle" font-weight="normal">20</text>
+  <text id="ruler-100mm-label-2" class="txt" x="129.7" y="50.5" font-size="2.8" text-anchor="middle" font-weight="normal">40</text>
+  <text id="ruler-100mm-label-3" class="txt" x="149.7" y="50.5" font-size="2.8" text-anchor="middle" font-weight="normal">60</text>
+  <text id="ruler-100mm-label-4" class="txt" x="169.7" y="50.5" font-size="2.8" text-anchor="middle" font-weight="normal">80</text>
+  <text id="ruler-100mm-label-5" class="txt" x="189.7" y="50.5" font-size="2.8" text-anchor="end" font-weight="normal">100 mm</text>
+  <rect id="ruler-4in-bar" class="ink" x="88.9" y="54" width="101.6" height="3"/>
+  <rect id="ruler-4in-tick-0" class="ink" x="88.4" y="57" width="1" height="3.5"/>
+  <rect id="ruler-4in-tick-1" class="ink" x="114" y="57" width="0.6" height="2.5"/>
+  <rect id="ruler-4in-tick-2" class="ink" x="139.4" y="57" width="0.6" height="2.5"/>
+  <rect id="ruler-4in-tick-3" class="ink" x="164.8" y="57" width="0.6" height="2.5"/>
+  <rect id="ruler-4in-tick-4" class="ink" x="190" y="57" width="1" height="3.5"/>
+  <rect id="ruler-4in-tick-5" class="ink" x="101.3" y="57" width="0.6" height="1.6"/>
+  <rect id="ruler-4in-tick-6" class="ink" x="126.7" y="57" width="0.6" height="1.6"/>
+  <rect id="ruler-4in-tick-7" class="ink" x="152.1" y="57" width="0.6" height="1.6"/>
+  <rect id="ruler-4in-tick-8" class="ink" x="177.5" y="57" width="0.6" height="1.6"/>
+  <text id="ruler-4in-label-0" class="txt" x="88.9" y="64" font-size="2.8" text-anchor="start" font-weight="normal">0</text>
+  <text id="ruler-4in-label-1" class="txt" x="114.3" y="64" font-size="2.8" text-anchor="middle" font-weight="normal">1</text>
+  <text id="ruler-4in-label-2" class="txt" x="139.7" y="64" font-size="2.8" text-anchor="middle" font-weight="normal">2</text>
+  <text id="ruler-4in-label-3" class="txt" x="165.1" y="64" font-size="2.8" text-anchor="middle" font-weight="normal">3</text>
+  <text id="ruler-4in-label-4" class="txt" x="190.5" y="64" font-size="2.8" text-anchor="end" font-weight="normal">4 in</text>
+  <text id="write-in-label" class="txt" x="139.7" y="69" font-size="2.8" text-anchor="middle" font-weight="normal">write your measured length here</text>
+  <rect id="write-in-box-top" class="ink" x="109.7" y="70.5" width="60" height="0.6"/>
+  <rect id="write-in-box-bottom" class="ink" x="109.7" y="76.9" width="60" height="0.6"/>
+  <rect id="write-in-box-left" class="ink" x="109.7" y="70.5" width="0.6" height="7"/>
+  <rect id="write-in-box-right" class="ink" x="169.1" y="70.5" width="0.6" height="7"/>
+  <text id="datum-label" class="txt" x="139.7" y="171.4" font-size="5" text-anchor="middle" font-weight="bold">SEAT FRONT</text>
+  <text id="datum-sublabel" class="txt" x="139.7" y="176.9" font-size="3.2" text-anchor="middle" font-weight="normal">this line goes under the front edge of the seat</text>
+  <text id="center-label" class="txt" x="139.7" y="182.4" font-size="3.2" text-anchor="middle" font-weight="normal">CENTER — align with the chair centerline</text>
+  <text id="instr-1" class="txt" x="139.7" y="101.7" font-size="3.6" text-anchor="middle" font-weight="normal">FLOOR — slide the sheet under the chair: SEAT FRONT line plumb below the</text>
+  <text id="instr-2" class="txt" x="139.7" y="106.7" font-size="3.6" text-anchor="middle" font-weight="normal">seat's front edge, CENTER ticks on the chair centerline.</text>
+  <text id="instr-3" class="txt" x="139.7" y="111.7" font-size="3.6" text-anchor="middle" font-weight="normal">SEAT — for the top-down photo, move the sheet onto the seat, same alignment.</text>
+  <text id="variant-label" class="txt" x="139.7" y="119.7" font-size="2.6" text-anchor="middle" font-weight="normal">chairagram marker sheet · US Letter (landscape) · tag36h11 ids 0 1 2 3 · 60 mm tags</text>
+</svg>

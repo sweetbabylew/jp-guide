@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>chairagram</title>
+<meta name="description" content="Turn photos of a chair into a chairmaker's measured drawing. Everything runs in your browser; photos are never uploaded.">
+<style>
+/* Same paper-and-ink palette as the annotator. Light only, no dependencies. */
+:root {
+  --paper: #ffffff;
+  --bg: #f2f0ec;
+  --ink: #14161a;
+  --sub: #5d6672;
+  --faint: #8b94a0;
+  --rule: #d9d5cd;
+  --blue: #33628f;
+  --blue-soft: #eaf0f6;
+  --sans: system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; padding: 48px 20px 64px;
+  font: 15px/1.6 var(--sans); color: var(--ink); background: var(--bg);
+  -webkit-text-size-adjust: 100%;
+}
+main { max-width: 640px; margin: 0 auto; }
+h1 { font-size: 30px; font-weight: 600; margin: 0 0 6px; letter-spacing: -0.01em; }
+.lede { color: var(--sub); margin: 0 0 32px; font-size: 16px; }
+.card {
+  display: block; padding: 18px 20px; margin-bottom: 12px;
+  background: var(--paper); border: 1px solid var(--rule); border-radius: 4px;
+  text-decoration: none; color: inherit;
+}
+.card:hover { border-color: var(--blue); background: var(--blue-soft); }
+.card strong { display: block; font-size: 16px; margin-bottom: 3px; }
+.card span { color: var(--sub); font-size: 14px; }
+.note {
+  margin-top: 28px; padding-top: 18px; border-top: 1px solid var(--rule);
+  color: var(--faint); font-size: 13px;
+}
+.note p { margin: 0 0 8px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>chairagram</h1>
+  <p class="lede">Photographs of a chair in, a chairmaker's measured drawing out —
+    seat plan with sightlines, elevations, and the drilling angles to build from.</p>
+
+  <a class="card" href="app/">
+    <strong>Open the annotator</strong>
+    <span>Attach your photos, calibrate, click the landmarks, get the drawing.</span>
+  </a>
+
+  <a class="card" href="marker/out/marker-sheet-letter.svg">
+    <strong>Print the calibration sheet — Letter</strong>
+    <span>Print at 100%, never fit-to-page. Lay it under the chair, then on the seat.</span>
+  </a>
+
+  <a class="card" href="marker/out/marker-sheet-a4.svg">
+    <strong>Print the calibration sheet — A4</strong>
+    <span>Same sheet, A4 paper. The app tells the two apart on its own.</span>
+  </a>
+
+  <div class="note">
+    <p><strong>Your photos never leave this device.</strong> Everything — detection,
+      calibration, drawing — runs in your browser. There is no account and no upload.</p>
+    <p>A drawing is only as good as what you measured; the app says so on every sheet
+      it makes. Not a substitute for final shop drawings.</p>
+  </div>
+</main>
+</body>
+</html>
