@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>chairmak.ing — Lewis Laskin</title>
-<meta name="description" content="Chairmaking by Lewis Laskin: a field guide to building the Jimmy Possum chair by hand, and chairagram, a free tool that turns photos of a chair into a measured drawing.">
+<meta name="description" content="Chairmaking by Lewis Laskin: a field guide to the Jimmy Possum chair, chairagram (photos to measured drawing), a chairmaker's tool list with where to buy, and upcoming chairmaking classes across the US.">
 <link rel="canonical" href="https://chairmak.ing/">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -49,6 +49,18 @@ a.card:hover { border-color: var(--blue); background: var(--blue-soft); }
 a.card strong { display: block; font-size: 19px; font-weight: 600; margin-bottom: 5px; }
 a.card span { display: block; color: var(--sub); font-size: 15px; }
 a.card em { display: block; margin-top: 9px; color: var(--faint); font-size: 13.5px; font-style: normal; }
+.feedback {
+  margin-top: 26px; padding: 20px 24px;
+  background: transparent; border: 1px dashed var(--rule); border-radius: 4px;
+}
+.feedback strong { display: block; font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+.feedback span { display: block; color: var(--sub); font-size: 14.5px; margin-bottom: 14px; }
+.btn {
+  display: inline-block; padding: 8px 16px; border-radius: 4px;
+  background: var(--blue); color: #fff; text-decoration: none;
+  font-size: 14.5px; font-weight: 600;
+}
+.btn:hover { background: #2a5278; }
 footer {
   margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--rule);
   color: var(--faint); font-size: 13.5px;
@@ -81,9 +93,42 @@ footer a { color: var(--sub); }
     <em>Runs entirely in your browser · your photos are never uploaded</em>
   </a>
 
+  <a class="card" href="/tools/">
+    <strong>The tool list</strong>
+    <span>Every tool for hand-tool stick chairmaking — working green from the log or
+      from sawn boards — with where to buy each one, in the order I'd buy them.</span>
+    <em>Prices included · no affiliate links</em>
+  </a>
+
+  <a class="card" href="/classes/">
+    <strong>Chairmaking classes</strong>
+    <span>Upcoming chair-building classes across the United States, and a directory of
+      the woodworking schools that list classes online.</span>
+    <em>Updated August 2026 · suggest a class</em>
+  </a>
+
+  <div class="feedback">
+    <strong>Make this site better</strong>
+    <span>Request a feature, report something broken, suggest a page — or just tell me
+      what you'd like to see here. It all lands in my inbox.</span>
+    <a class="btn" id="fb-btn" href="#" rel="nofollow">Send feedback</a>
+    <noscript><span style="margin-top:10px">JavaScript is off — email me at
+      <b>ll</b> at <b>eb5ww</b> dot com.</span></noscript>
+  </div>
+
   <footer>
     Written and built by Lewis Laskin.
   </footer>
 </main>
+<script>
+/* Feedback goes straight to my inbox; the address is assembled here so it
+   isn't sitting in the page source for harvesters. */
+(function () {
+  var a = ['ll', 'eb5ww.com'].join('@');
+  var el = document.getElementById('fb-btn');
+  if (el) el.href = 'mailto:' + a + '?subject=' +
+    encodeURIComponent('chairmak.ing — feedback');
+}());
+</script>
 </body>
 </html>
