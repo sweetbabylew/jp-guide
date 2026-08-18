@@ -44,7 +44,19 @@ a.card {
   display: block; padding: 22px 24px; margin-bottom: 14px;
   background: var(--paper); border: 1px solid var(--rule); border-radius: 4px;
   text-decoration: none; color: inherit;
+  position: relative; overflow: hidden;
 }
+/* Rubber stamp, pressed a little unevenly on purpose. */
+.stamp {
+  position: absolute; top: 50%; right: 18px; transform: translateY(-50%) rotate(-9deg);
+  border: 3px double #a23b2e; border-radius: 5px; padding: 3px 12px;
+  color: #a23b2e; font-weight: 800; font-size: 19px; letter-spacing: 0.13em;
+  text-transform: uppercase; white-space: nowrap;
+  opacity: 0.5; pointer-events: none; mix-blend-mode: multiply;
+  mask-image: radial-gradient(ellipse at 42% 55%, black 62%, rgba(0,0,0,0.72) 100%);
+  -webkit-mask-image: radial-gradient(ellipse at 42% 55%, black 62%, rgba(0,0,0,0.72) 100%);
+}
+@media (max-width: 480px) { .stamp { font-size: 15px; right: 10px; } }
 a.card:hover { border-color: var(--blue); background: var(--blue-soft); }
 a.card strong { display: block; font-size: 19px; font-weight: 600; margin-bottom: 5px; }
 a.card span { display: block; color: var(--sub); font-size: 15px; }
@@ -80,6 +92,7 @@ footer a { color: var(--sub); }
   </header>
 
   <a class="card" href="/jimmy-possum/">
+    <span class="stamp" aria-hidden="true">Draft</span>
     <strong>The Jimmy Possum Chair — A Field Guide</strong>
     <span>How to build a folk stick chair from the bush of northern Tasmania, by hand,
       starting from a green log: the history, the wood science, and every step of the making.</span>
@@ -87,10 +100,11 @@ footer a { color: var(--sub); }
   </a>
 
   <a class="card" href="/chairagram/">
+    <span class="stamp" aria-hidden="true">In development</span>
     <strong>chairagram</strong>
     <span>A free tool that turns photographs of a chair into a chairmaker's measured
       drawing — seat plan with sightlines, elevations, and the angles to drill by.</span>
-    <em>Runs entirely in your browser · your photos are never uploaded</em>
+    <em>Runs entirely in your browser</em>
   </a>
 
   <a class="card" href="/tools/">

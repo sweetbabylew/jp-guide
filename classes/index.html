@@ -44,16 +44,16 @@ h2 { font-size: 20px; font-weight: 600; margin: 40px 0 14px; }
 /* Class cards */
 .class {
   background: var(--paper); border: 1px solid var(--rule); border-radius: 4px;
-  padding: 16px 20px; margin-bottom: 10px;
-  display: grid; grid-template-columns: 118px 1fr; gap: 4px 18px;
+  padding: 11px 16px; margin-bottom: 7px;
+  display: grid; grid-template-columns: 108px 1fr; gap: 2px 16px;
 }
 .when { color: var(--ink); font-size: 14px; font-weight: 600; padding-top: 2px; }
 .when .yr { display: block; color: var(--faint); font-weight: 400; font-size: 12.5px; }
 .class .body { min-width: 0; }
-.class h3 { font-size: 16.5px; font-weight: 600; margin: 0 0 2px; }
+.class h3 { font-size: 15.5px; font-weight: 600; margin: 0 0 1px; }
 .class h3 a { color: var(--ink); text-decoration: none; }
 .class h3 a:hover { color: var(--blue); text-decoration: underline; }
-.meta { color: var(--sub); font-size: 14px; }
+.meta { color: var(--sub); font-size: 13.5px; }
 .meta .price { color: var(--ink); font-weight: 600; white-space: nowrap; }
 .flag {
   display: inline-block; margin-left: 8px; padding: 1px 7px; border-radius: 3px;
@@ -65,6 +65,26 @@ h2 { font-size: 20px; font-weight: 600; margin: 40px 0 14px; }
   .when { padding-top: 0; }
   .when .yr { display: inline; margin-left: 6px; }
 }
+
+/* Month dividers + filter controls */
+h3.month {
+  font-size: 13.5px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase;
+  color: var(--sub); margin: 26px 0 10px; padding-bottom: 4px;
+  border-bottom: 1px solid var(--rule);
+}
+.controls { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin: 22px 0 4px; }
+.chip {
+  padding: 5px 13px; border-radius: 999px; border: 1px solid var(--rule);
+  background: var(--paper); color: var(--sub); font: inherit; font-size: 13.5px;
+  cursor: pointer;
+}
+.chip[aria-pressed="true"] { border-color: var(--blue); background: var(--blue-soft); color: var(--blue); font-weight: 600; }
+.hidefull-label { margin-left: auto; font-size: 13.5px; color: var(--sub); display: flex; gap: 6px; align-items: center; cursor: pointer; }
+body[data-region="NE"] .class:not([data-region="NE"]),
+body[data-region="S"] .class:not([data-region="S"]),
+body[data-region="MW"] .class:not([data-region="MW"]),
+body[data-region="W"] .class:not([data-region="W"]),
+body.hidefull .class[data-gone="1"] { display: none; }
 
 /* Schools directory */
 .school {
@@ -123,9 +143,19 @@ footer a { color: var(--sub); }
       and prices are theirs. Listings checked 17 August 2026. No affiliation, no commissions.</p>
   </header>
 
+  <div class="controls" role="group" aria-label="Filter classes">
+    <button class="chip rchip" data-r="all" aria-pressed="true">Everywhere</button>
+    <button class="chip rchip" data-r="NE" aria-pressed="false">Northeast</button>
+    <button class="chip rchip" data-r="S" aria-pressed="false">South</button>
+    <button class="chip rchip" data-r="MW" aria-pressed="false">Midwest</button>
+    <button class="chip rchip" data-r="W" aria-pressed="false">West</button>
+    <label class="hidefull-label"><input type="checkbox" id="hidefull"> hide full &amp; closed</label>
+  </div>
+
   <!-- CLASSES:BEGIN -->
 <h2 id="upcoming">Upcoming classes</h2>
-  <div class="class">
+  <h3 class="month">August 2026</h3>
+  <div class="class" data-region="NE" data-gone="1">
     <div class="when">Aug 21–23 <span class="yr">2026</span></div>
     <div class="body">
       <h3><a href="https://www.thechairmakerstoolbox.com/classes/sculpted-mini-stools-with-annie-meyer-and-ln-adams" rel="noopener">Sculpted Mini Stools</a> <span class="flag">applications closed</span></h3>
@@ -133,35 +163,36 @@ footer a { color: var(--sub); }
       <span class="note">A Chairmaker’s Toolbox affinity class for trans and non-binary makers; 2026 applications closed May 31.</span>
     </div>
   </div>
-  <div class="class">
+  <div class="class" data-region="MW" data-gone="0">
     <div class="when">Aug 22–23 <span class="yr">2026</span></div>
     <div class="body">
       <h3><a href="https://www.marcadams.com/workshop/take-seat-making-turned-painted-stool-kimberly-winkle/" rel="noopener">Take a Seat: Making a Turned &amp; Painted Stool</a></h3>
       <div class="meta">Kimberly Winkle · Marc Adams School of Woodworking · Franklin, IN · <span class="price">$550 + $60 materials</span></div>
     </div>
   </div>
-  <div class="class">
+  <div class="class" data-region="NE" data-gone="0">
     <div class="when">Aug 24–30 <span class="yr">2026</span></div>
     <div class="body">
       <h3><a href="https://nbss.edu/community-education/woodworking/grand-rocker/" rel="noopener">Grand Rocker</a> <span class="flag">waitlist</span></h3>
       <div class="meta">Aled Lewis · North Bennet Street School · Boston, MA · <span class="price">$1,750</span></div>
     </div>
   </div>
-  <div class="class">
+  <div class="class" data-region="W" data-gone="0">
     <div class="when">Aug 24–28 <span class="yr">2026</span></div>
     <div class="body">
       <h3><a href="https://www.andersonranch.org/workshops/workshop/handcarved-making-a-two-board-chair-w1312-26/" rel="noopener">Handcarved: Making a Two-Board Chair</a> <span class="flag">waitlist</span></h3>
       <div class="meta">Charles Thompson · Anderson Ranch Arts Center · Snowmass Village, CO · <span class="price">$1,200</span></div>
     </div>
   </div>
-  <div class="class">
+  <h3 class="month">September 2026</h3>
+  <div class="class" data-region="MW" data-gone="0">
     <div class="when">Sep 3–6 <span class="yr">2026</span></div>
     <div class="body">
       <h3><a href="https://northhouse.org/course-session/fine-furniture-windsor-comb-back-armchair-or-rocking-chair-9-3-2026-0900" rel="noopener">Windsor Comb Back Armchair or Rocking Chair</a></h3>
       <div class="meta">David Abeel and Joe Tietge · North House Folk School · Grand Marais, MN · <span class="price">$455 + $450 materials</span></div>
     </div>
   </div>
-  <div class="class">
+  <div class="class" data-region="MW" data-gone="0">
     <div class="when">Sep 5 or Sep 7 <span class="yr">two sessions</span></div>
     <div class="body">
       <h3><a href="https://northhouse.org/course-session/fine-furniture-natural-edged-windsor-bench-9-5-2026-0900" rel="noopener">Natural-Edged Windsor Bench</a> <span class="flag">waitlist</span></h3>
@@ -169,21 +200,21 @@ footer a { color: var(--sub); }
       <span class="note">Sep 5 session is waitlisted; Sep 7 has seats.</span>
     </div>
   </div>
-  <div class="class">
+  <div class="class" data-region="NE" data-gone="1">
     <div class="when">Sep 6–12 <span class="yr">2026</span></div>
     <div class="body">
       <h3><a href="https://www.vermonthandworks.com/woodworking-basketry" rel="noopener">Green Wood Chairmaking: Windsor Or Ladderback</a> <span class="flag">sold out</span></h3>
       <div class="meta">Eric Cannizzaro · Vermont Handworks · Charlotte, VT · <span class="price">$1,750</span></div>
     </div>
   </div>
-  <div class="class">
+  <div class="class" data-region="S" data-gone="1">
     <div class="when">Sep 7–11 <span class="yr">2026</span></div>
     <div class="body">
       <h3><a href="http://www.penningtonwindsorchairs.com/class-schedule" rel="noopener">Democratic Side Chair</a> <span class="flag">sold out</span></h3>
       <div class="meta">Greg Pennington · Pennington Windsor Chairs · Hendersonville, TN · <span class="price">$1,800</span></div>
     </div>
   </div>
-  <div class="class">
+  <div class="class" data-region="NE" data-gone="1">
     <div class="when">Sep 7–11 <span class="yr">2026</span></div>
     <div class="body">
       <h3><a href="https://www.thechairmakerstoolbox.com/classes" rel="noopener">Windsor Stool Design and Build</a> <span class="flag">applications closed</span></h3>
@@ -191,14 +222,14 @@ footer a { color: var(--sub); }
       <span class="note">Scholarship class hosted at Peter Galbert’s shop; 2026 applications closed June 26.</span>
     </div>
   </div>
-  <div class="class">
+  <div class="class" data-region="NE" data-gone="0">
     <div class="when">Sep 9–13 <span class="yr">2026</span></div>
     <div class="body">
       <h3><a href="https://canvas.snowfarm.org/classes/3216" rel="noopener">Greenwood Post &amp; Rung Stool</a> <span class="flag">1 spot left</span></h3>
       <div class="meta">Charles Thompson · Snow Farm: The New England Craft Program · Williamsburg, MA · <span class="price">$690</span></div>
     </div>
   </div>
-  <div class="class">
+  <div class="class" data-region="NE" data-gone="0">
     <div class="when">Sep 13 <span class="yr">2026</span></div>
     <div class="body">
       <h3><a href="https://www.daviddouyardchairmaker.com/classschedule/2026/9/13/berkshire-rocking-chair" rel="noopener">Berkshire Rocking Chair</a></h3>
@@ -206,7 +237,7 @@ footer a { color: var(--sub); }
       <span class="note">Taught at Peter Galbert’s shop.</span>
     </div>
   </div>
-  <div class="class">
+  <div class="class" data-region="MW" data-gone="0">
     <div class="when">Sep 14–18 <span class="yr">2026</span></div>
     <div class="body">
       <h3><a href="https://www.marcadams.com/workshop/designing-chairs-michael-fortune/" rel="noopener">Designing Chairs with Michael Fortune</a></h3>
@@ -214,91 +245,92 @@ footer a { color: var(--sub); }
       <span class="note">Design class — you build a full-size sittable mockup, not a finished chair.</span>
     </div>
   </div>
-  <div class="class">
+  <div class="class" data-region="NE" data-gone="0">
     <div class="when">Sep 19–20 <span class="yr">2026</span></div>
     <div class="body">
       <h3><a href="https://www.hisawyer.com/brookfield-craft-center/schedules/activity-set/1887423" rel="noopener">Turning a Stool with a Skew</a></h3>
       <div class="meta">Scott C. · Brookfield Craft Center · Brookfield, CT · <span class="price">$229 + $30 materials</span></div>
     </div>
   </div>
-  <div class="class">
+  <div class="class" data-region="W" data-gone="0">
     <div class="when">Sep 20 <span class="yr">2026</span></div>
     <div class="body">
       <h3><a href="https://www.dovetailworkshop.com/event-details/pocket-hole-stool-2026-09-20-13-00" rel="noopener">Pocket Hole Stool</a></h3>
       <div class="meta">Dovetail Community Workshop · Albuquerque, NM · <span class="price">$125 + $25 materials</span></div>
     </div>
   </div>
-  <div class="class">
+  <div class="class" data-region="MW" data-gone="0">
     <div class="when">Sep 21–27 <span class="yr">2026</span></div>
     <div class="body">
       <h3><a href="https://www.marcadams.com/workshop/make-contemporary-designed-windsor-settee-david-wright/" rel="noopener">Make a Contemporary Designed Windsor Settee with David Wright</a></h3>
       <div class="meta">David Wright · Marc Adams School of Woodworking · Franklin, IN · <span class="price">$1,470 + $265 materials</span></div>
     </div>
   </div>
-  <div class="class">
+  <div class="class" data-region="NE" data-gone="0">
     <div class="when">Sep 21–Oct 2 <span class="yr">2026</span></div>
     <div class="body">
       <h3><a href="https://woodschool.org/the-hand-sculpted-chair/" rel="noopener">The Hand-Sculpted Chair: Dialogue with wood through blades</a></h3>
       <div class="meta">Takahiro Yoshino &amp; Yuri Kobayashi · Center for Furniture Craftsmanship · Rockport, ME · <span class="price">$2,075</span></div>
     </div>
   </div>
-  <div class="class">
+  <div class="class" data-region="MW" data-gone="0">
     <div class="when">Sep 21 <span class="yr">2026</span></div>
     <div class="body">
       <h3><a href="https://sbwi.edu/learn-woodworking" rel="noopener">Windsor Continuous Arm Chair</a></h3>
       <div class="meta">Luke Barnett · Sam Beauford Woodworking Institute · Adrian, MI · <span class="price">$1,450</span></div>
     </div>
   </div>
-  <div class="class">
+  <div class="class" data-region="MW" data-gone="1">
     <div class="when">Sep 26 <span class="yr">2026</span></div>
     <div class="body">
       <h3><a href="https://fireweedwoodshop.wildapricot.org/event-6734608" rel="noopener">Build a Three Legged Stool! (women + marginalized genders)</a> <span class="flag">sold out</span></h3>
       <div class="meta">Grace Ambrose · Fireweed Community Woodshop · Minneapolis, MN · <span class="price">$320 + $100 materials</span></div>
     </div>
   </div>
-  <div class="class">
+  <div class="class" data-region="NE" data-gone="1">
     <div class="when">Sep 27 <span class="yr">2026</span></div>
     <div class="body">
       <h3><a href="https://www.petergalbert.com/schedule/2018/6/10/modern-rocker-3yyp5-y4a9z-r8ljb-nh2yt-sbeew-sa7gd-bkeng-ffx5t-xhppy-7br3a" rel="noopener">Birdcage Rocking Chair</a> <span class="flag">sold out</span></h3>
       <div class="meta">Peter Galbert Chairmaker · Berwick, ME · <span class="price">$2,400</span></div>
     </div>
   </div>
-  <div class="class">
+  <div class="class" data-region="S" data-gone="0">
     <div class="when">Sep 27–Oct 2 <span class="yr">2026</span></div>
     <div class="body">
       <h3><a href="https://folkschool.configio.com/pd/4045/six-slat-appalachian-ladder-back-rocking-chai" rel="noopener">Six-slat Appalachian Ladder Back Rocking Chair &amp; Woven Seat</a></h3>
       <div class="meta">Jeff Wyatt · John C. Campbell Folk School · Brasstown, NC · <span class="price">$730</span></div>
     </div>
   </div>
-  <div class="class">
+  <div class="class" data-region="NE" data-gone="0">
     <div class="when">Sep 28–Oct 3 <span class="yr">2026</span></div>
     <div class="body">
       <h3><a href="https://www.andrewjack.net/classes.html" rel="noopener">Fan Back Side Chair</a></h3>
       <div class="meta">Andrew Jack Chairs · Sheffield, MA · <span class="price">$1,500</span></div>
     </div>
   </div>
-  <div class="class">
+  <h3 class="month">October 2026</h3>
+  <div class="class" data-region="NE" data-gone="0">
     <div class="when">Oct 1–4 <span class="yr">2026</span></div>
     <div class="body">
       <h3><a href="https://canvas.snowfarm.org/classes/3232" rel="noopener">Build a Windsor-style Stool</a> <span class="flag">1 spot left</span></h3>
       <div class="meta">Kelly Harris · Snow Farm: The New England Craft Program · Williamsburg, MA · <span class="price">$570</span></div>
     </div>
   </div>
-  <div class="class">
+  <div class="class" data-region="MW" data-gone="0">
     <div class="when">Oct 2–4 <span class="yr">2026</span></div>
     <div class="body">
       <h3><a href="https://northhouse.org/course-session/chairmaking-an-introduction-10-2-2026-0900" rel="noopener">Chairmaking: An Introduction</a> <span class="flag">waitlist</span></h3>
       <div class="meta">Lauren Newby · North House Folk School · Grand Marais, MN · <span class="price">$310 + $120 materials</span></div>
     </div>
   </div>
-  <div class="class">
+  <div class="class" data-region="NE" data-gone="1">
     <div class="when">Oct 3 &amp; Oct 4 <span class="yr">2026</span></div>
     <div class="body">
       <h3><a href="https://nbss.edu/community-education/woodworking/build-a-windsor-bench-2/" rel="noopener">Build a Windsor Bench</a> <span class="flag">sold out</span></h3>
       <div class="meta">Oliver Strand · North Bennet Street School · Boston, MA · <span class="price">$400</span></div>
     </div>
   </div>
-  <div class="class">
+  <div class="class" data-region="S" data-gone="0">
     <div class="when">Oct 5–10 <span class="yr">2026</span></div>
     <div class="body">
       <h3><a href="https://heritagewoodschool.com/craftsman-rocking-chair/" rel="noopener">Craftsman Rocking Chair (6 Day Class)</a></h3>
@@ -306,21 +338,21 @@ footer a { color: var(--sub); }
       <span class="note">Runs again March 15–20 and June 14–19, 2027.</span>
     </div>
   </div>
-  <div class="class">
+  <div class="class" data-region="NE" data-gone="0">
     <div class="when">Oct 7–11 <span class="yr">2026</span></div>
     <div class="body">
       <h3><a href="https://petersvalley.org/workshops/windsor-stool-design-build/" rel="noopener">Windsor Stool Design &amp; Build</a> <span class="flag">waitlist</span></h3>
       <div class="meta">Annalise Rubida · Peters Valley School of Craft · Layton, NJ · <span class="price">$845 + $120 materials</span></div>
     </div>
   </div>
-  <div class="class">
+  <div class="class" data-region="NE" data-gone="0">
     <div class="when">Oct 8–10 <span class="yr">2026</span></div>
     <div class="body">
       <h3><a href="https://www.andydglenn.com/classes-in-maine" rel="noopener">The Hoop Stool</a> <span class="flag">waitlist</span></h3>
       <div class="meta">Andy Glenn · Waldoboro, ME · <span class="price">$875</span></div>
     </div>
   </div>
-  <div class="class">
+  <div class="class" data-region="MW" data-gone="0">
     <div class="when">Two-weekend slots <span class="yr">Oct 2026 – Jun 2027</span></div>
     <div class="body">
       <h3><a href="https://williamboylechairmaker.com/store/p/one-on-one-chair-making-instruction" rel="noopener">Windsor Armchair or Rocker — one-on-one instruction</a></h3>
@@ -328,14 +360,14 @@ footer a { color: var(--sub); }
       <span class="note">Eight days across two consecutive Thu–Sun weekends; two students max; many bookable dates.</span>
     </div>
   </div>
-  <div class="class">
+  <div class="class" data-region="W" data-gone="0">
     <div class="when">Oct 9 <span class="yr">2026</span></div>
     <div class="body">
       <h3><a href="https://wildcraftstudioschool.com/(oct)-hand-carved-three-legged-stools.html" rel="noopener">Hand Carved Three-Legged Stools</a></h3>
       <div class="meta">Rose Holdorf · WildCraft Studio School · Portland, OR · <span class="price">$385 + $85 materials</span></div>
     </div>
   </div>
-  <div class="class">
+  <div class="class" data-region="" data-gone="0">
     <div class="when">Oct 11 <span class="yr">2026</span></div>
     <div class="body">
       <h3><a href="https://www.daviddouyardchairmaker.com/classschedule/2026/10/11/boggs-berea-rocking-chair" rel="noopener">Boggs Berea Rocking Chair</a></h3>
@@ -343,56 +375,57 @@ footer a { color: var(--sub); }
       <span class="note">Location on his class page.</span>
     </div>
   </div>
-  <div class="class">
+  <div class="class" data-region="NE" data-gone="0">
     <div class="when">Oct 19–24 <span class="yr">2026</span></div>
     <div class="body">
       <h3><a href="https://www.andydglenn.com/classes-in-maine" rel="noopener">Lounge Chair</a> <span class="flag">waitlist</span></h3>
       <div class="meta">Andy Glenn · Waldoboro, ME · <span class="price">$1,700</span></div>
     </div>
   </div>
-  <div class="class">
+  <div class="class" data-region="S" data-gone="1">
     <div class="when">Oct 19–23 <span class="yr">2026</span></div>
     <div class="body">
       <h3><a href="http://www.penningtonwindsorchairs.com/class-schedule" rel="noopener">Velda Rocker</a> <span class="flag">sold out</span></h3>
       <div class="meta">Greg Pennington · Pennington Windsor Chairs · Hendersonville, TN · <span class="price">$1,800</span></div>
     </div>
   </div>
-  <div class="class">
+  <div class="class" data-region="S" data-gone="0">
     <div class="when">Oct 25–30 <span class="yr">2026</span></div>
     <div class="body">
       <h3><a href="https://arrowmont.org/workshop/plant-based-woodworking-greenwood-chairmaking" rel="noopener">Plant-Based Woodworking: Greenwood Chairmaking</a> <span class="flag">waitlist</span></h3>
       <div class="meta">Gina Siepel · Arrowmont School of Arts and Crafts · Gatlinburg, TN · <span class="price">$852 + $50 materials</span></div>
     </div>
   </div>
-  <div class="class">
+  <div class="class" data-region="NE" data-gone="0">
     <div class="when">Oct 26–Dec 14 <span class="yr">2026</span></div>
     <div class="body">
       <h3><a href="https://www.philadelphiafurnitureworkshop.com/project-courses/total-beginner-3-ladderback-chair" rel="noopener">Build a Ladderback Chair (Total Beginner 3)</a></h3>
       <div class="meta">Craig Stevens · Philadelphia Furniture Workshop · Philadelphia, PA · <span class="price">$875</span></div>
     </div>
   </div>
-  <div class="class">
+  <div class="class" data-region="NE" data-gone="0">
     <div class="when">Oct 31 &amp; Nov 1 <span class="yr">2026</span></div>
     <div class="body">
       <h3><a href="https://nbss.edu/community-education/woodworking/build-a-windsor-bench/" rel="noopener">Build a Windsor Bench</a></h3>
       <div class="meta">Oliver Strand · North Bennet Street School · Boston, MA · <span class="price">$400</span></div>
     </div>
   </div>
-  <div class="class">
+  <h3 class="month">November 2026</h3>
+  <div class="class" data-region="NE" data-gone="0">
     <div class="when">Nov 2 <span class="yr">2026</span></div>
     <div class="body">
       <h3><a href="https://www.petergalbert.com/schedule/2017/8/16/continuous-arm-class-mw2ns-7tcwx-kp977-zd248-zdyep-nnary-nrga4-kprgx-hw7hn-fx6zx-3hmz3-zsz2k-zjkbz-l67gg-7nl4s" rel="noopener">Build a 3 Legged Stool with Tim Manney</a></h3>
       <div class="meta">Tim Manney · Peter Galbert Chairmaker · Berwick, ME · <span class="price">$1,700</span></div>
     </div>
   </div>
-  <div class="class">
+  <div class="class" data-region="NE" data-gone="0">
     <div class="when">Nov 2–6 <span class="yr">2026</span></div>
     <div class="body">
       <h3><a href="https://yestermorrow.org/learn/courses/fine-woodworking-chair-making" rel="noopener">Fine Woodworking: Chair Making</a></h3>
       <div class="meta">Yestermorrow Design/Build School · Waitsfield, VT · <span class="price">$1,350</span></div>
     </div>
   </div>
-  <div class="class">
+  <div class="class" data-region="S" data-gone="1">
     <div class="when">Nov 2–7 <span class="yr">2026</span></div>
     <div class="body">
       <h3><a href="https://pinecroftwoodschool.com/people-collection-rocker-cmt/" rel="noopener">People Collection Rocker</a> <span class="flag">applications closed</span></h3>
@@ -400,119 +433,122 @@ footer a { color: var(--sub); }
       <span class="note">Run with The Chairmaker’s Toolbox for makers under-represented in woodworking; 2026 applications closed August 14.</span>
     </div>
   </div>
-  <div class="class">
+  <div class="class" data-region="NE" data-gone="1">
     <div class="when">Nov 2–9 <span class="yr">2026</span></div>
     <div class="body">
       <h3><a href="https://sawyermade.com/classes/" rel="noopener">Tall SackBack Arm Chair</a> <span class="flag">sold out</span></h3>
       <div class="meta">George Sawyer · Sawyer Made · South Woodbury, VT · <span class="price">$1,800</span></div>
     </div>
   </div>
-  <div class="class">
+  <div class="class" data-region="W" data-gone="0">
     <div class="when">Nov 6 <span class="yr">2026</span></div>
     <div class="body">
       <h3><a href="https://wildcraftstudioschool.com/post-and-rung-stools-(nov).html" rel="noopener">Post &amp; Rung Stools</a></h3>
       <div class="meta">Rose Holdorf · WildCraft Studio School · Portland, OR · <span class="price">$410 + $80 materials</span></div>
     </div>
   </div>
-  <div class="class">
+  <div class="class" data-region="NE" data-gone="0">
     <div class="when">Nov 8–14 <span class="yr">2026</span></div>
     <div class="body">
       <h3><a href="https://www.andrewjack.net/classes.html" rel="noopener">Continuous Arm Rocker</a> <span class="flag">1 spot left</span></h3>
       <div class="meta">Andrew Jack Chairs · Sheffield, MA · <span class="price">$1,600</span></div>
     </div>
   </div>
-  <div class="class">
+  <div class="class" data-region="S" data-gone="1">
     <div class="when">Nov 9–13 <span class="yr">2026</span></div>
     <div class="body">
       <h3><a href="http://www.penningtonwindsorchairs.com/class-schedule" rel="noopener">Contemporary Continuous Arm Rocker</a> <span class="flag">sold out</span></h3>
       <div class="meta">Greg Pennington · Pennington Windsor Chairs · Hendersonville, TN · <span class="price">$1,800</span></div>
     </div>
   </div>
-  <div class="class">
+  <div class="class" data-region="S" data-gone="1">
     <div class="when">Nov 9–14 <span class="yr">2026</span></div>
     <div class="body">
       <h3><a href="https://austinschooloffurniture.com/product/modern-rocker/" rel="noopener">Modern Rocker</a> <span class="flag">sold out</span></h3>
       <div class="meta">Alexis Dolese · Austin School of Furniture &amp; Design · Austin, TX · <span class="price">$1,425</span></div>
     </div>
   </div>
-  <div class="class">
+  <div class="class" data-region="NE" data-gone="0">
     <div class="when">Nov 9 <span class="yr">2026</span></div>
     <div class="body">
       <h3><a href="https://www.petergalbert.com/schedule/2017/9/11/side-chair-class-a8pwn-dcfcn-zldhg-9e3re-z7gmg-gpfw6-5sx2d-nwtrg-f8z7a-sdn6g-ldmwj-9w2rn-hcgc9-6nrgg-p83b9" rel="noopener">The “Temple Chair”</a></h3>
       <div class="meta">Peter Galbert Chairmaker · Berwick, ME · <span class="price">$2,000</span></div>
     </div>
   </div>
-  <div class="class">
+  <div class="class" data-region="S" data-gone="0">
     <div class="when">Nov 15–22 <span class="yr">2026</span></div>
     <div class="body">
       <h3><a href="https://folkschool.configio.com/pd/4111/windsor-side-chair-for-beginners" rel="noopener">Windsor Side Chair for Beginners</a> <span class="flag">waitlist</span></h3>
       <div class="meta">Tyler Rogers · John C. Campbell Folk School · Brasstown, NC · <span class="price">$1,185</span></div>
     </div>
   </div>
-  <div class="class">
+  <div class="class" data-region="S" data-gone="1">
     <div class="when">Nov 16–21 <span class="yr">2026</span></div>
     <div class="body">
       <h3><a href="https://pinecroftwoodschool.com/class-green-wood-grand-rocker/" rel="noopener">Greenwood Grand Rocker</a> <span class="flag">sold out</span></h3>
       <div class="meta">Andy Glenn · The Woodworking School at Pine Croft · Berea, KY · <span class="price">$1,900</span></div>
     </div>
   </div>
-  <div class="class">
+  <div class="class" data-region="S" data-gone="1">
     <div class="when">Nov 16–21 <span class="yr">2026</span></div>
     <div class="body">
       <h3><a href="https://handtoolwoodworking.com/loop-back-classes/" rel="noopener">Loop Back Side Chair</a> <span class="flag">sold out</span></h3>
       <div class="meta">Elia Bizzarri — Hand Tool Woodworking · Hillsborough, NC · <span class="price">$1,800</span></div>
     </div>
   </div>
-  <div class="class">
+  <div class="class" data-region="NE" data-gone="0">
     <div class="when">Nov 29–Dec 6 <span class="yr">2026</span></div>
     <div class="body">
       <h3><a href="https://www.andrewjack.net/classes.html" rel="noopener">Continuous Arm High Chair</a></h3>
       <div class="meta">Andrew Jack Chairs · Sheffield, MA · <span class="price">$1,600</span></div>
     </div>
   </div>
-  <div class="class">
+  <div class="class" data-region="NE" data-gone="0">
     <div class="when">Nov 30 <span class="yr">2026</span></div>
     <div class="body">
       <h3><a href="https://www.petergalbert.com/schedule/2018/9/3/make-a-low-back-armchair-with-bern-chandley-zawbe-k6hr2-8m7hp" rel="noopener">The #14 Chair</a></h3>
       <div class="meta">Bern Chandley · Peter Galbert Chairmaker · Berwick, ME · <span class="price">$2,400</span></div>
     </div>
   </div>
-  <div class="class">
+  <h3 class="month">December 2026</h3>
+  <div class="class" data-region="S" data-gone="1">
     <div class="when">Dec 7–11 <span class="yr">2026</span></div>
     <div class="body">
       <h3><a href="http://www.penningtonwindsorchairs.com/class-schedule" rel="noopener">Democratic Arm Chair Rocker</a> <span class="flag">sold out</span></h3>
       <div class="meta">Greg Pennington · Pennington Windsor Chairs · Hendersonville, TN · <span class="price">$1,800</span></div>
     </div>
   </div>
-  <div class="class">
+  <div class="class" data-region="NE" data-gone="0">
     <div class="when">Dec 14 <span class="yr">2026</span></div>
     <div class="body">
       <h3><a href="https://www.petergalbert.com/schedule/2018/9/3/make-a-low-back-armchair-with-bern-chandley-zawbe-k6hr2-8m7hp-jy4re-9w2jh" rel="noopener">Lowbow Armchair</a></h3>
       <div class="meta">Bern Chandley · Peter Galbert Chairmaker · Berwick, ME · <span class="price">$2,400</span></div>
     </div>
   </div>
-  <div class="class">
+  <h3 class="month">January 2027</h3>
+  <div class="class" data-region="S" data-gone="0">
     <div class="when">Jan 10–17 <span class="yr">2027</span></div>
     <div class="body">
       <h3><a href="https://folkschool.configio.com/pd/4304/sack-back-windsor-rocker" rel="noopener">Sack Back Windsor Rocker</a></h3>
       <div class="meta">Brian Cunfer &amp; Tim Bevacqua · John C. Campbell Folk School · Brasstown, NC · <span class="price">$1,350</span></div>
     </div>
   </div>
-  <div class="class">
+  <h3 class="month">March 2027</h3>
+  <div class="class" data-region="MW" data-gone="0">
     <div class="when">Mar 9–11 <span class="yr">2027</span></div>
     <div class="body">
       <h3><a href="https://northhouse.org/course-session/fireside-stool-3-9-2027-0900" rel="noopener">Fireside Stool</a></h3>
       <div class="meta">Lauren Newby · North House Folk School · Grand Marais, MN · <span class="price">$335 + $160 materials</span></div>
     </div>
   </div>
-  <div class="class">
+  <div class="class" data-region="S" data-gone="0">
     <div class="when">Mar 19–21 <span class="yr">2027</span></div>
     <div class="body">
       <h3><a href="https://pinecroftwoodschool.com/2026-class/" rel="noopener">Three Legged Stools with Rob Spiece and Katie Bister</a></h3>
       <div class="meta">Rob Spiece and Katie Bister · The Woodworking School at Pine Croft · Berea, KY</div>
     </div>
   </div>
-  <div class="class">
+  <div class="class" data-region="S" data-gone="0">
     <div class="when">Mar 29 <span class="yr">2027</span></div>
     <div class="body">
       <h3><a href="https://www.sustainlife.org/shop/windsor-chair-6-day/" rel="noopener">Sack-Back Windsor Chair (6-day)</a></h3>
@@ -520,49 +556,52 @@ footer a { color: var(--sub); }
       <span class="note">From an oak log, traditional hand methods; class of four.</span>
     </div>
   </div>
-  <div class="class">
+  <h3 class="month">April 2027</h3>
+  <div class="class" data-region="MW" data-gone="0">
     <div class="when">Apr 23–25 <span class="yr">2027</span></div>
     <div class="body">
       <h3><a href="https://northhouse.org/course-session/childs-windsor-side-chair-4-23-2027-0900" rel="noopener">Child&#x27;s Windsor Side Chair</a></h3>
       <div class="meta">Joe Tietge · North House Folk School · Grand Marais, MN · <span class="price">$335 + $195 materials</span></div>
     </div>
   </div>
-  <div class="class">
+  <h3 class="month">May 2027</h3>
+  <div class="class" data-region="S" data-gone="0">
     <div class="when">May 10–22 and Aug 2–14 <span class="yr">2027</span></div>
     <div class="body">
       <h3><a href="https://heritagewoodschool.com/brazos-rocker/" rel="noopener">Brazos Rocker (12 day class)</a></h3>
       <div class="meta">Mark Borman / Stan Beckworth · Heritage School of Woodworking (Ploughshare) · Waco, TX · <span class="price">$3,800</span></div>
     </div>
   </div>
-  <div class="class">
+  <div class="class" data-region="S" data-gone="0">
     <div class="when">May 16–21 <span class="yr">2027</span></div>
     <div class="body">
       <h3><a href="https://folkschool.configio.com/pd/4587/build-a-stick-chair" rel="noopener">Build a Stick Chair</a> <span class="flag">waitlist</span></h3>
       <div class="meta">Lisa Nguyen &amp; Grace Ambrose · John C. Campbell Folk School · Brasstown, NC · <span class="price">$950</span></div>
     </div>
   </div>
-  <div class="class">
+  <div class="class" data-region="S" data-gone="0">
     <div class="when">May 30–Jun 4 <span class="yr">2027</span></div>
     <div class="body">
       <h3><a href="https://folkschool.configio.com/pd/4545/windsor-comb-back-rocking-chair" rel="noopener">Windsor Comb Back Rocking Chair</a></h3>
       <div class="meta">David Abeel &amp; Joseph Tietge · John C. Campbell Folk School · Brasstown, NC · <span class="price">$950</span></div>
     </div>
   </div>
-  <div class="class">
+  <h3 class="month">June 2027</h3>
+  <div class="class" data-region="NE" data-gone="0">
     <div class="when">Jun 5–20 <span class="yr">2027</span></div>
     <div class="body">
       <h3><a href="https://www.vermonthandworks.com/chairmakingintensives" rel="noopener">Chairmaking Intensive</a></h3>
       <div class="meta">Eric Cannizzaro · Vermont Handworks · Charlotte, VT · <span class="price">$3,600</span></div>
     </div>
   </div>
-  <div class="class">
+  <div class="class" data-region="S" data-gone="0">
     <div class="when">Jun 6–11 <span class="yr">2027</span></div>
     <div class="body">
       <h3><a href="https://folkschool.configio.com/pd/4506/norra-bistro-chair-table-combo" rel="noopener">Norra Bistro Chair &amp; Table Combo</a></h3>
       <div class="meta">Dave Abeel &amp; Joe Teitge · John C. Campbell Folk School · Brasstown, NC · <span class="price">$950</span></div>
     </div>
   </div>
-  <div class="class">
+  <div class="class" data-region="S" data-gone="0">
     <div class="when">Jun 27–Jul 2 <span class="yr">2027</span></div>
     <div class="body">
       <h3><a href="https://folkschool.configio.com/pd/4613/design-build-your-own-stool" rel="noopener">Design &amp; Build Your Own Stool</a></h3>
@@ -883,6 +922,30 @@ his Berea rocker is taught by David Douyard (above).</p>
 </main>
 <script>
 (function () {
+  var chips = document.querySelectorAll('.rchip');
+  function refreshMonths() {
+    document.querySelectorAll('h3.month').forEach(function (m) {
+      var el = m.nextElementSibling, any = false;
+      while (el && !el.classList.contains('month') && !el.matches('h2')) {
+        if (el.classList.contains('class') && getComputedStyle(el).display !== 'none') { any = true; break; }
+        el = el.nextElementSibling;
+      }
+      m.style.display = any ? '' : 'none';
+    });
+  }
+  chips.forEach(function (c) {
+    c.addEventListener('click', function () {
+      chips.forEach(function (o) { o.setAttribute('aria-pressed', o === c ? 'true' : 'false'); });
+      if (c.dataset.r === 'all') delete document.body.dataset.region;
+      else document.body.dataset.region = c.dataset.r;
+      refreshMonths();
+    });
+  });
+  var hf = document.getElementById('hidefull');
+  if (hf) hf.addEventListener('change', function () {
+    document.body.classList.toggle('hidefull', hf.checked);
+    refreshMonths();
+  });
   /* Address assembled here so it isn't sitting in the source for harvesters. */
   var a = ['ll', 'eb5ww.com'].join('@');
   var body = ['School / venue:', 'Teacher:', 'Class title:', 'Dates:', 'Price:', 'Link:',

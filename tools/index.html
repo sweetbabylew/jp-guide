@@ -45,43 +45,53 @@ h1 { font-size: 30px; font-weight: 600; margin: 0 0 10px; letter-spacing: -0.015
 .smallprint a { color: var(--sub); }
 
 /* Filter chips */
-.filters { margin: 26px 0 8px; display: flex; gap: 8px; flex-wrap: wrap; }
+.filters { margin: 26px 0 4px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
 .chip {
   padding: 6px 14px; border-radius: 999px; border: 1px solid var(--rule);
   background: var(--paper); color: var(--sub); font: inherit; font-size: 14px;
   cursor: pointer;
 }
 .chip[aria-pressed="true"] { border-color: var(--blue); background: var(--blue-soft); color: var(--blue); font-weight: 600; }
+.expand-toggle { margin-left: auto; font-size: 13px; color: var(--sub); background: none; border: 0; cursor: pointer; text-decoration: underline; padding: 6px 0; }
 
 /* Category sections */
-h2 { font-size: 20px; font-weight: 600; margin: 36px 0 6px; }
-.cat-note { color: var(--sub); font-size: 14.5px; margin: 0 0 16px; }
+h2 { font-size: 20px; font-weight: 600; margin: 34px 0 4px; }
+.cat-note { color: var(--sub); font-size: 14.5px; margin: 0 0 12px; }
 
-/* Tool cards */
-.tool {
+/* Tool rows — collapsed by default */
+details.tool {
   background: var(--paper); border: 1px solid var(--rule); border-radius: 4px;
-  padding: 18px 22px; margin-bottom: 12px;
+  margin-bottom: 8px;
 }
-.tool h3 { font-size: 17px; font-weight: 600; margin: 0 0 2px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+details.tool summary {
+  list-style: none; cursor: pointer; padding: 12px 16px;
+  display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;
+}
+details.tool summary::-webkit-details-marker { display: none; }
+details.tool summary::before {
+  content: '+'; color: var(--faint); font-weight: 600; width: 14px; flex: none;
+}
+details.tool[open] summary::before { content: '–'; }
+details.tool summary:hover { color: var(--blue); }
+.tname { font-size: 15.5px; font-weight: 600; }
 .badge {
-  font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  font-size: 10.5px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
   padding: 2px 8px; border-radius: 3px; white-space: nowrap;
 }
 .badge.green { color: var(--moss); background: var(--moss-soft); }
 .badge.dry { color: var(--sand); background: var(--sand-soft); }
-.badge.both { color: var(--blue); background: var(--blue-soft); }
-.tool .use { color: var(--sub); font-size: 14.5px; margin: 4px 0 10px; }
-.buy { margin: 0; padding-left: 22px; }
+.from { margin-left: auto; color: var(--faint); font-size: 13.5px; white-space: nowrap; }
+.tbody { padding: 2px 16px 16px 40px; }
+.tbody .use { color: var(--sub); font-size: 14.5px; margin: 0 0 10px; }
+.buy { margin: 0; padding-left: 20px; }
 .buy li { font-size: 14.5px; margin: 7px 0; }
 .buy a { color: var(--blue); text-decoration: none; }
 .buy a:hover { text-decoration: underline; }
 .price { font-weight: 600; white-space: nowrap; }
 .opt-note { display: block; color: var(--faint); font-size: 13px; line-height: 1.5; margin-top: 1px; }
-.tool .foot-note { color: var(--faint); font-size: 13.5px; margin: 8px 0 0; }
-body[data-filter="green"] .tool[data-tag="dry"] { display: none; }
-body[data-filter="dry"] .tool[data-tag="green"] { display: none; }
-body[data-filter="green"] h2[data-empty-green],
-body[data-filter="dry"] h2[data-empty-dry] { display: none; }
+.foot-note { color: var(--faint); font-size: 13px; margin: 10px 0 0; }
+body[data-filter="green"] details.tool[data-tag="dry"] { display: none; }
+body[data-filter="dry"] details.tool[data-tag="green"] { display: none; }
 
 footer {
   margin-top: 44px; padding-top: 20px; border-top: 1px solid var(--rule);
@@ -91,7 +101,8 @@ footer a { color: var(--sub); }
 @media (max-width: 480px) {
   body { padding: 32px 16px 56px; }
   h1 { font-size: 26px; }
-  .tool { padding: 16px 16px; }
+  .tbody { padding-left: 16px; }
+  .from { display: none; }
 }
 </style>
 </head>
@@ -103,11 +114,16 @@ footer a { color: var(--sub); }
     <h1>The tool list</h1>
     <p class="lede">Every tool I'd put in a hand-tool stick chairmaker's kit — whether you're
       working <b>green</b>, riving parts straight from a log, or working <b>dry</b>, building
-      from sawn boards out of the lumberyard. Most of the kit serves both paths; the tools you
-      only need when starting from a log are tagged <span class="badge green">green wood only</span>.</p>
-    <p class="smallprint">Buying links are ordered by my preference — first link is the one I'd buy.
-      Prices are what each seller listed in August 2026 and will drift. None of these are affiliate
-      links; nobody pays to be here. Spot something wrong or missing?
+      from sawn boards out of the lumberyard. Most of the kit serves both paths; tools that
+      only matter on one are tagged <span class="badge green">green wood only</span> or
+      <span class="badge dry">dry stock only</span>. Tap a tool to see what it does and where
+      to buy it.</p>
+    <p class="smallprint">This is the kit I actually work from: it started as the packing list for
+      my own class travel kit, folded in the tool lists Elia Bizzarri and Lost Art Press send
+      their chair students, and the class set I helped spec for a school program this year.
+      Buying links are in my order of preference — first link is the one I'd buy. Prices are
+      what each seller listed in August 2026 and will drift; none of these are affiliate links
+      and nobody pays to be here. Spot something wrong or missing?
       <a id="tools-fb" href="#" rel="nofollow">Tell me</a>.</p>
   </header>
 
@@ -115,374 +131,458 @@ footer a { color: var(--sub); }
     <button class="chip" data-f="all" aria-pressed="true">Everything</button>
     <button class="chip" data-f="green" aria-pressed="false">Green wood — from the log</button>
     <button class="chip" data-f="dry" aria-pressed="false">Dry stock — from sawn boards</button>
+    <button class="expand-toggle" id="expand-all">expand all</button>
   </div>
 
   <!-- TOOLS:BEGIN -->
-  <h2>Edge tools</h2>
+  <h2>Shaving &amp; seat sculpting</h2>
   <p class="cat-note">The shaping half of the kit — these do the work machines would otherwise do.</p>
-  <article class="tool" data-tag="both">
-  <h3>Drawknife</h3>
+  <details class="tool" data-tag="both">
+  <summary><span class="tname">Drawknife</span><span class="from">from $118</span></summary>
+  <div class="tbody">
   <p class="use">Two-handed knife you pull toward yourself to take the corners off a blank fast — how legs, sticks, arms and stretchers get roughed to shape before any finer tool touches them.</p>
   <ol class="buy">
-    <li><a href="https://barrtools.com/products/chair-builder-draw-knife" rel="noopener">Barr Tools (Barr Specialty Tools) — Chair Builder Draw Knife</a> <span class="price">$198.00</span> <span class="opt-note">In stock. Hand forged in the USA, ships sharpened. Barr&#x27;s site describes the geometry as optimized for chair legs, rungs and back posts. Leather edge guard sold separately.</span></li>
-    <li><a href="https://toolsforworkingwood.com/store/item/MS-IDRAWK.XX" rel="noopener">Tools for Working Wood — Drawknives by Ray Iles</a> <span class="price">$118.00 (Small, 6&quot; blade) / $129.00 (Large, 8&quot; blade) / $159.00 (Gent&#x27;s, 6&quot; blade)</span> <span class="opt-note">All three sizes in stock. O1 high-carbon steel, English beech or yew handles. The Large (8&quot;) is the general chairmaking size; the Small/Gent&#x27;s suits spindles and fine work. Best value in a new, quality drawknife.</span></li>
-    <li><a href="https://www.highlandwoodworking.com/products/auriou-9in-straight-drawknife" rel="noopener">Highland Woodworking — Auriou 9&quot; Straight Drawknife / Auriou 6&quot; Cranked Handle Drawknife</a> <span class="price">$174.50 (9&quot; straight) / $161.00 (6&quot; cranked handle)</span> <span class="opt-note">Both in stock. French-forged. The 6&quot; cranked-handle version ($161.00) is the more chair-oriented of the two — cranked handles clear the shaving horse. Listed here because the two Barr chairmaker&#x27;s-specific models are frequently out of stock.</span></li>
-    <li><a href="https://www.ebay.com/sch/i.html?_nkw=vintage+drawknife" rel="noopener">eBay (vintage) — Vintage drawknife</a> <span class="price">typically $25–$60</span> <span class="opt-note">named American makers in usable condition (James Swan, Peck Stow &amp; Wilcox, Pexto, Jennings) sit at $30–$50 plus ~$10 shipping; rough or unbranded ones open at $10–$20 on auction. Budget $30–60 all-in for something worth rehandling and honing. Avoid the pitted &#x27;for parts or restoration&#x27; listings unless you enjoy that.</span></li>
+    <li><a href="https://lonontools.com/collections/drawknives-and-shaves" rel="noopener">Lonon Tools — drawknife, bevel-up or bevel-down</a> <span class="price">from $238</span><span class="opt-note">Forged in North Carolina by Jason Lonon’s small shop — the maker I picked when a whole class set needed outfitting this year. Both bevel patterns available.</span></li>
+    <li><a href="https://toolsforworkingwood.com/store/item/MS-IDRAWK.XX" rel="noopener">Tools for Working Wood — Ray Iles drawknives</a> <span class="price">$118–$159</span><span class="opt-note">O1 steel, English beech or yew handles. The Large (8″) is the general chairmaking size. Best value in a new, quality drawknife.</span></li>
+    <li><a href="https://barrtools.com/products/chair-builder-draw-knife" rel="noopener">Barr Tools — Chair Builder Draw Knife</a> <span class="price">$198</span><span class="opt-note">Hand forged in the USA, ships sharpened; geometry tuned for chair legs, rungs and back posts.</span></li>
+    <li><a href="https://www.ebay.com/sch/i.html?_nkw=vintage+drawknife" rel="noopener">eBay — vintage drawknife</a> <span class="price">typically $25–$60</span><span class="opt-note">Named American makers (Swan, Pexto, Witherby) in usable condition run $30–$50. Budget $30–$60 all-in and expect to hone. A thin blade takes tight curves better.</span></li>
   </ol>
-  </article>
-  <article class="tool" data-tag="both">
-  <h3>Spokeshave</h3>
-  <p class="use">Short-soled shave that refines a leg, stick or arm-bow after the drawknife — takes whisper shavings and follows curves a plane cannot.</p>
+  </div>
+  </details>
+  <details class="tool" data-tag="both">
+  <summary><span class="tname">Spokeshave</span><span class="from">from $107</span></summary>
+  <div class="tbody">
+  <p class="use">Short-soled shave that refines a leg, stick or arm after the drawknife — whisper shavings that follow curves a plane cannot.</p>
   <ol class="buy">
-    <li><a href="https://www.lie-nielsen.com/products/1-sp-boggs-f-boggs-spokeshaves" rel="noopener">Lie-Nielsen Toolworks — Boggs Flat Spokeshave (1-SP-Boggs-F) / Boggs Curved Spokeshave (1-SP-Boggs-C)</a> <span class="price">$165.00 (flat) / $195.00 (curved)</span> <span class="opt-note">OUT OF STOCK direct — the page reads &#x27;This product is not available&#x27; with a &#x27;Notify Me When Available&#x27; button, for both flat and curved. Bronze body, hickory handles, 2&quot; A2 blade, 12 oz. A third sole, the Boggs Concave, is listed at $225.00. Worth the notify-me signup; otherwise buy via Highland below.</span></li>
-    <li><a href="https://www.highlandwoodworking.com/products/lie-nielsenboggsflatspokeshave" rel="noopener">Highland Woodworking — Lie-Nielsen Boggs Spokeshaves</a> <span class="price">$178.00 (Flat Bottom) / $208.00 (Curved Bottom)</span> <span class="opt-note">Curved Bottom IS in stock at $208.00. ; Flat Bottom is out of stock. Dealer markup over Lie-Nielsen&#x27;s own $165/$195, but it is the only place currently shipping a Boggs.</span></li>
-    <li><a href="https://www.leevalley.com/en-us/shop/tools/hand-tools/spokeshaves/44834-veritas-low-angle-spokeshave" rel="noopener">Lee Valley — Veritas Low-Angle Spokeshave, PM-V11</a> <span class="price">$107.00</span> <span class="opt-note">Best value in a new spokeshave that will not need fettling. Cast aluminum body, just over 6 oz, 2&quot; PM-V11 blade at 20° bevel. If you want the heavier traditional feel, the Veritas Flat Spokeshave in PM-V11 is $165.00</span></li>
-    <li><a href="https://www.ebay.com/sch/i.html?_nkw=stanley+151+spokeshave" rel="noopener">eBay (vintage) — Stanley No. 151 adjustable spokeshave</a> <span class="price">typically $30–$65</span> <span class="opt-note">clean complete examples ran $32, $42, $49.99, $52 (pair), $64.99, $74.95; auctions with bids sat at $9.95–$36 and were still climbing. Budget $30–65 for a good one.</span></li>
+    <li><a href="https://www.leevalley.com/en-us/shop/tools/hand-tools/spokeshaves/44834-veritas-low-angle-spokeshave" rel="noopener">Lee Valley — Veritas flat spokeshave</a> <span class="price">$107–$165</span><span class="opt-note">Flat-bottom is the one every student needs; round-bottom is a luxury. I find the Veritas friendlier to adjust than the Lie-Nielsen — and the Lost Art Press class list calls Veritas the best new 151-pattern shave. Low-angle $107; the traditional flat PM-V11 shave is $165.</span></li>
+    <li><a href="https://www.lie-nielsen.com/products/1-sp-boggs-f-boggs-spokeshaves" rel="noopener">Lie-Nielsen — Boggs spokeshaves</a> <span class="price">$165 flat / $195 curved</span><span class="opt-note">Bronze-bodied, Brian Boggs pattern; the other shave you’ll see in every chair shop. Out of stock direct at last check — Highland ships the curved at $208.</span></li>
+    <li><a href="https://www.ebay.com/sch/i.html?_nkw=stanley+151+spokeshave" rel="noopener">eBay — vintage Stanley No. 151</a> <span class="price">typically $30–$65</span><span class="opt-note">The pattern the new ones copy. Clean examples $32–$75; budget $30–$65.</span></li>
   </ol>
-  </article>
-  <article class="tool" data-tag="both">
-  <h3>Travisher</h3>
-  <p class="use">Curved-sole shave, pushed or pulled across the grain, that sweeps the scorp marks out of a hollowed seat and leaves the finished saddle surface.</p>
+  </div>
+  </details>
+  <details class="tool" data-tag="both">
+  <summary><span class="tname">Travisher</span><span class="from">from $126</span></summary>
+  <div class="tbody">
+  <p class="use">Curved-sole shave swept across the grain to clean the scorp marks out of a hollowed seat and leave the finished saddle surface.</p>
   <ol class="buy">
-    <li><a href="http://cminihanwoodworks.blogspot.com/p/travishers_26.html" rel="noopener">Claire Minihan Woodworks — Travisher — Standard sweep (4-1/4&quot; radius) or Shallow sweep (6-1/2&quot; radius)</a> <span class="price">$500.00 (walnut or cherry) / $525.00 (curly maple) / $550–$700 (exotic woods)</span> <span class="opt-note">LONG WAITLIST — the page states &#x27;the current lead time is 24-26 months.&#x27; No cart; you order by emailing cminihanwoodworking@gmail.com with your sweep and wood choice. Widely regarded as the best travisher made in the US. Get on the list now and buy something cheaper to use in the meantime.</span></li>
-    <li><a href="https://thewindsorworkshop.co.uk/product/travisher-deluxe/" rel="noopener">The Windsor Workshop (James Mursell), UK — Travisher – Deluxe (Delrin body, brass toe insert) / Travisher – Wood (hard maple)</a> <span class="price">£195.00 ex VAT, £234.00 inc VAT (Deluxe) / £165.00 ex VAT, £198.00 inc VAT (Wood) — GBP, not USD</span> <span class="opt-note">In stock (live &#x27;Add to basket&#x27;). Ships to the US — Mursell&#x27;s storefront travisher.com states the tools &#x27;can be purchased safely and securely from this website and shipped anywhere in the world,&#x27; and the product page asks non-UK buyers to include a phone number for the carrier.</span></li>
-    <li><a href="https://handtoolwoodworking.com/travishers/" rel="noopener">Elia Bizzarri — Hand Tool Woodworking — Travisher, 3.5&quot; radius or 12&quot; radius, walnut (made by Seth Elliott to Peter Galbert&#x27;s design)</a> <span class="price">$300.00 (finished, either radius) / $150.00 (&#x27;in the raw&#x27;, unfinished)</span> <span class="opt-note">US maker, currently selling — this is the practical alternative to a two-year wait. O1 blade at RC 60-62. The $150 &#x27;in the raw&#x27; option ships with the blade unsharpened and the body unshaped and unsanded, so you finish it yourself. Replacement blades $50 (+$10 for a brass sole).</span></li>
-    <li><a href="https://www.highlandwoodworking.com/products/travisher" rel="noopener">Highland Woodworking — Travisher (Crown Plane, Mike Dunbar pattern)</a> <span class="price">$126.00</span> <span class="opt-note">In stock and by far the cheapest new travisher from a real retailer. 3&quot; wide blade, 4-1/2&quot; sole radius, maple body, reproduction of one of Mike Dunbar&#x27;s antiques. Highland warns the sole may arrive in hornbeam rather than ebony depending on ebony supply. Blade is not sold separately.</span></li>
+    <li><a href="https://handtoolwoodworking.com/travishers/" rel="noopener">Elia Bizzarri — travisher (Seth Elliott, to Peter Galbert’s design)</a> <span class="price">$300 finished / $150 in the raw</span><span class="opt-note">US-made and actually available — the practical buy. O1 blade; the $150 ‘in the raw’ ships unshaped and unsharpened for you to finish.</span></li>
+    <li><a href="https://thewindsorworkshop.co.uk/product/travisher-deluxe/" rel="noopener">The Windsor Workshop (James Mursell, UK) — wood or Delrin travisher</a> <span class="price">£198–£234 inc VAT</span><span class="opt-note">What I spec’d when kitting out a class set. Ships to the US; the Delrin-soled Deluxe is forgiving enough that some skip the scorp entirely.</span></li>
+    <li><a href="http://cminihanwoodworks.blogspot.com/p/travishers_26.html" rel="noopener">Claire Minihan Woodworks — travisher</a> <span class="price">$500–$550</span><span class="opt-note">Widely considered the best made in the US — and the current lead time is 24–26 months. Get on the list now and use something else meanwhile.</span></li>
+    <li><a href="https://www.highlandwoodworking.com/products/travisher" rel="noopener">Highland Woodworking — Crown Plane travisher (Dunbar pattern)</a> <span class="price">$126</span><span class="opt-note">The budget door into a real travisher; maple body, 4-1/2″ sole radius.</span></li>
   </ol>
-  </article>
-  <article class="tool" data-tag="both">
-  <h3>Scorp / inshave</h3>
-  <p class="use">A curled-up drawknife pulled two-handed across the seat blank — the tool that actually digs the hollow of the saddle once the waste is roughed out.</p>
+  </div>
+  </details>
+  <details class="tool" data-tag="both">
+  <summary><span class="tname">Scorp / inshave</span><span class="from">from $139</span></summary>
+  <div class="tbody">
+  <p class="use">A curled-up drawknife pulled two-handed across the seat blank — the tool that digs the hollow of the saddle once the waste is roughed out.</p>
   <ol class="buy">
-    <li><a href="https://barrtools.com/products/mike-dunbar-style-scorp-5-16-x-1-1-4-x-4" rel="noopener">Barr Tools (Barr Specialty Tools) — Mike Dunbar-Style Scorp (5/16&quot; x 1-1/4&quot; x 4&quot;)</a> <span class="price">$198.00</span> <span class="opt-note">In stock. Hand forged in the USA, ships sharpened and ready to use. Barr&#x27;s copy: &#x27;designed for hollowing chair seats efficiently and comfortably. not too aggressive, not too timid.&#x27;</span></li>
-    <li><a href="https://toolsforworkingwood.com/store/item/MS-ISCORP" rel="noopener">Tools for Working Wood — Scorp by Ray Iles</a> <span class="price">$139.00</span> <span class="opt-note">In stock. Roughly 4&quot; diameter sweep, high-carbon steel, air-dried English beech handles in linseed oil. TFWW notes it &#x27;comes ground, but needs a final honing for best performance&#x27; — plan on honing before first use.</span></li>
-    <li><a href="https://www.leevalley.com/en-us/shop/tools/hand-tools/spokeshaves/54888-veritas-pullshave" rel="noopener">Lee Valley — Veritas Pullshave, PM-V11</a> <span class="price">$179.00</span> <span class="opt-note">Not a traditional scorp — a convex spokeshave reconfigured with a rear handle and front knob. Lee Valley says it &#x27;will do the work associated with traditional inshaves and travishers,&#x27; so it is the one tool that can cover both jobs if you are buying a single seat tool.</span></li>
-    <li><a href="https://www.ebay.com/sch/i.html?_nkw=inshave+scorp" rel="noopener">eBay (vintage) — Vintage scorp / inshave</a> <span class="price">typically $25–$95</span> <span class="opt-note">a 2.5&quot; cooper&#x27;s scorp at $25.99, a 5&quot; curved-blade inshave at $59.99, cooper&#x27;s inshaves at $75–$79.99, a West German chairmaker&#x27;s double-handled scorp at $65 (auction) / $95 (buy-it-now), and a marked 1873 chairmaker&#x27;s scorp at $165.</span></li>
+    <li><a href="https://lonontools.com/products/wl5tgvms9tbf659u6hhgq7juxwlng5" rel="noopener">Lonon Tools — chair maker’s inshave</a> <span class="price">from $355</span><span class="opt-note">Elliptical 5160 blade with a shallow center sweep — leaves a surface the travisher barely has to chase. Batches sell out; watch the shop. On the Lost Art Press class list by name.</span></li>
+    <li><a href="https://barrtools.com/products/mike-dunbar-style-scorp-5-16-x-1-1-4-x-4" rel="noopener">Barr Tools — Mike Dunbar-style scorp</a> <span class="price">$198</span><span class="opt-note">Elia’s class list calls Barr’s ‘the best right out of the box.’ Ships sharpened.</span></li>
+    <li><a href="https://toolsforworkingwood.com/store/item/MS-ISCORP" rel="noopener">Tools for Working Wood — Ray Iles scorp</a> <span class="price">$139</span><span class="opt-note">About a 4″ sweep; comes ground, wants a final hone before first use.</span></li>
+    <li><a href="https://www.leevalley.com/en-us/shop/tools/hand-tools/spokeshaves/54888-veritas-pullshave" rel="noopener">Lee Valley — Veritas Pullshave</a> <span class="price">$179</span><span class="opt-note">Not a traditional scorp — but it covers scorp and travisher both if you’re buying a single seat tool.</span></li>
   </ol>
-  </article>
-  <article class="tool" data-tag="green">
-  <h3>Hand adze (seat hollowing) <span class="badge green">green wood only</span></h3>
-  <p class="use">Swung one-handed between your knees to chop the bulk of the saddle out of a seat blank, before the scorp and travisher clean it up.</p>
+  </div>
+  </details>
+  <details class="tool" data-tag="green">
+  <summary><span class="tname">Hand adze</span> <span class="badge green">green wood only</span><span class="from">from $200</span></summary>
+  <div class="tbody">
+  <p class="use">Swung one-handed between your knees to chop the bulk of the saddle out of a seat blank before the scorp and travisher clean it up.</p>
   <ol class="buy">
-    <li><a href="https://barrtools.com/products/hand-adz" rel="noopener">Barr Tools (Barr Specialty Tools) — Hand Adz</a> <span class="price">$200.00</span> <span class="opt-note">SOLD OUT. Hand forged in the USA. Barr also lists a heavier Hewing Adze through Highland at $255.00, also sold out — that one is a timber-framing tool, not a seat tool. Worth checking back; Barr restocks.</span></li>
-    <li><a href="https://www.mainecoastcraft.com/store/c12/Adzes.html" rel="noopener">Maine Coast Craft (US dealer for Hans Karlsson) — HK 60mm adze short handle + sheath / HK 60mm long-handled adze / HK 50mm bowl adze / HK 35mm bowl adze</a> <span class="price">$384.00 / $389.00 / $373.00 / $367.00</span> <span class="opt-note">All four sizes sold out at last check. This is the current US outlet for Hans Karlsson now that Country Workshops has closed; there is no notify-me, so you have to watch the page. The 60mm has a flat middle section to the edge, which is what makes it good for a chair seat rather than a deep bowl. UK dealers</span></li>
-    <li><a href="https://www.highlandwoodworking.com/products/biber-classic-bowl-adze" rel="noopener">Highland Woodworking — Biber Classic Bowl Adze (Mueller Forge, Austria)</a> <span class="price">$210.00</span> <span class="opt-note">IN STOCK — currently the best adze you can actually buy today. Highland&#x27;s description names the job directly: &#x27;well suited for green wood bowl carving and shaping the contours for chair seat bottoms.&#x27; Out-cannel (outside bevel) grind, which lets the bevel ride the stock for controlled paring cuts.</span></li>
-    <li><a href="https://www.ebay.com/sch/i.html?_nkw=bowl+adze" rel="noopener">eBay (vintage) — Vintage bowl / hollowing adze</a> <span class="price">typically $20–$110</span> <span class="opt-note">a 2-5/8&quot; bowl/sculpting adze at $28 on auction, an antique hand-forged curved bowl adze at $59.99, a cooper&#x27;s adze at $19.99, European hand-forged antiques at $109–$149 plus ~$36 shipping. Budget $30–80 for a usable head; rehandling is expected.</span></li>
+    <li><a href="https://www.highlandwoodworking.com/products/biber-classic-bowl-adze" rel="noopener">Highland Woodworking — Biber classic bowl adze (Mueller, Austria)</a> <span class="price">$210</span><span class="opt-note">The best adze you can actually buy today — in stock, out-cannel grind, and Highland’s copy names chair-seat work directly.</span></li>
+    <li><a href="https://barrtools.com/products/hand-adz" rel="noopener">Barr Tools — hand adze</a> <span class="price">$200</span><span class="opt-note">Sold out at last check. Barr’s heavier hewing adze (via Highland, $255) is a timber tool, not a seat tool.</span></li>
+    <li><a href="https://www.mainecoastcraft.com/store/c12/Adzes.html" rel="noopener">Maine Coast Craft — Hans Karlsson adzes</a> <span class="price">$367–$389</span><span class="opt-note">The US outlet for Karlsson now that Country Workshops is gone. All four sizes sold out at last check, no notify-me — you have to watch the page.</span></li>
+    <li><a href="https://www.ebay.com/sch/i.html?_nkw=bowl+adze" rel="noopener">eBay — vintage bowl adze</a> <span class="price">typically $20–$110</span><span class="opt-note">Budget $30–$80 for a usable head; rehandling is expected.</span></li>
   </ol>
-  </article>
-  <article class="tool" data-tag="green">
-  <h3>Hewing / carving hatchet <span class="badge green">green wood only</span></h3>
-  <p class="use">Hews a riven billet down close to final shape before the drawknife touches it, and knocks the corners off log sections on the chopping block.</p>
+  <p class="foot-note">Two lengths earn their keep — a short one for control, a long one for hogging. Jason Lonon forges short seat adzes in batches (lonontools.com); Barr makes the long ones.</p>
+  </div>
+  </details>
+  <details class="tool" data-tag="both">
+  <summary><span class="tname">Card scraper</span><span class="from">from $11</span></summary>
+  <div class="tbody">
+  <p class="use">A flexed steel card that follows the curve of a saddled seat or an arm and shears off the last tool marks and tearout — the cheapest edge tool in the kit.</p>
   <ol class="buy">
-    <li><a href="https://www.highlandwoodworking.com/products/swedishcarvingaxe" rel="noopener">Highland Woodworking — Gränsfors Bruk Large Swedish Carving Axe (Double / Right / Left Bevel)</a> <span class="price">$285.00</span> <span class="opt-note">All three bevel options in stock. 2 lb head, 4-1/2&quot; curved edge, 14&quot; textured handle, grain-leather sheath included.</span></li>
-    <li><a href="https://www.highlandwoodworking.com/products/gransfors-bruk-small-carving-axe-1" rel="noopener">Highland Woodworking — Gränsfors Bruk Small Carving Axe (Double / Right / Left Bevel)</a> <span class="price">$265.00</span> <span class="opt-note">All three bevels in stock. Same design as the Large Swedish Carving Axe scaled to about 80%. Highland: &#x27;perfect for those who are just starting out with carving, or who prefer a lighter tool.&#x27; The Medium (90% scale) sits between them at $275.00</span></li>
-    <li><a href="https://www.highlandwoodworking.com/products/gransforsbrukscarpentersaxe" rel="noopener">Highland Woodworking — Gränsfors Bruk Carpenter&#x27;s Axe</a> <span class="price">$235.00</span> <span class="opt-note">In stock. Straight edge with a low blade angle, 1-1/2 lb head, 3-1/2&quot; face, 18&quot; hickory handle, leather sheath. The curve on the lower edge of the head gives a choked-up grip. The only Gränsfors Highland describes as working well in dry wood, so it is the pick if you want one axe that is not purely a green-wood tool.</span></li>
-    <li><a href="https://www.ebay.com/sch/i.html?_nkw=hewing+hatchet" rel="noopener">eBay (vintage) — Vintage hewing hatchet / broad hatchet</a> <span class="price">typically $20–$70</span> <span class="opt-note">Wm. Mann at $45, American Axe &amp; Tool at $44, Keen Kutter at $55, Occident/Seattle Hardware at $56.56, Winchester at $70; heads-only and auction starts at $12.50–$34.99. Budget $35–55 for a good American broad hatchet with a sound eye, and expect to rehandle.</span></li>
+    <li><a href="https://lostartpress.com/products/crucible-card-scraper" rel="noopener">Lost Art Press — Crucible card scraper</a> <span class="price">$25</span><span class="opt-note">Curved so you don’t have to bow it with your thumbs — copied from the scraper Welsh chairmaker Chris Williams brought to his first US class.</span></li>
+    <li><a href="https://www.highlandwoodworking.com/products/bahco474cardscraper" rel="noopener">Highland Woodworking — Bahco 474 scraper</a> <span class="price">$11–$12.50</span><span class="opt-note">The original Sandvik steel. The thin .023″ flexes more, which is what you want on a seat; the .032″ is the stiff general-purpose card.</span></li>
+    <li><a href="https://www.leevalley.com/en-us/shop/tools/hand-tools/scrapers/32671-bahco-scraper" rel="noopener">Lee Valley — Williams (ex-Bahco) scraper</a> <span class="price">$14.50</span><span class="opt-note">Same tool, rebranded. Buy from whoever you’re already ordering from.</span></li>
+    <li><a href="https://www.highlandwoodworking.com/products/curvedscrapersetthick" rel="noopener">Highland Woodworking — Veritas curved scraper set</a> <span class="price">$19.50/set</span><span class="opt-note">Three shapes including a French curve for concave surfaces and spindles.</span></li>
   </ol>
-  </article>
-  <article class="tool" data-tag="both">
-  <h3>Card scraper</h3>
-  <p class="use">A flexed steel card that follows the curve of a saddled seat or an arm and shears off the last tool marks and tearout — the finishing edge tool, and the cheapest one in the kit.</p>
+  </div>
+  </details>
+  <details class="tool" data-tag="both">
+  <summary><span class="tname">Cabinet rasp</span><span class="from">from $28.5</span></summary>
+  <div class="tbody">
+  <p class="use">Shapes arm ends, hands and seat edges faster than any edge tool where grain swirls — the Lost Art Press list calls a 10–12″ medium rasp the arm-shaping tool.</p>
   <ol class="buy">
-    <li><a href="https://lostartpress.com/products/crucible-card-scraper" rel="noopener">Lost Art Press (Crucible Tool) — Crucible Card Scraper</a> <span class="price">$25.00</span> <span class="opt-note">In stock. Gently curved along both long edges with a second accelerated curve at the corners — copied from the scraper Welsh chairmaker Chris Williams brought to his first US class in 2018. The point is that you do not have to bow it with your thumbs, which is what kills the tool for anyone with arthritis.</span></li>
-    <li><a href="https://www.highlandwoodworking.com/products/bahco474cardscraper" rel="noopener">Highland Woodworking — Bahco 474 Card Scraper (.032&quot;) / Bahco 474 Thin Card Scraper (.023&quot;)</a> <span class="price">$12.50 (.032&quot;) / $11.00 (.023&quot;)</span> <span class="opt-note">Both in stock. The original &#x27;Sandvik scraper&#x27; — Swedish cold-rolled, hardened and tempered chrome-nickel steel that takes and holds a burr far longer than generic scrapers. The .032&quot; is the stiffer general-purpose one; the .023&quot; thin version flexes more, which is what you want on a seat.</span></li>
-    <li><a href="https://www.leevalley.com/en-us/shop/tools/hand-tools/scrapers/32671-bahco-scraper" rel="noopener">Lee Valley — Williams (formerly Bahco) Scraper, 2-3/8&quot; × 5-7/8&quot;, 0.8mm (0.032&quot;)</a> <span class="price">$14.50</span> <span class="opt-note">Same tool, rebranded — Bahco&#x27;s hand-tool line now carries the Williams name. Rc 48-52, sleeve included. Slightly more than Highland&#x27;s price; buy from whichever you are already ordering from.</span></li>
-    <li><a href="https://www.highlandwoodworking.com/products/curvedscrapersetthick" rel="noopener">Highland Woodworking — Veritas Curved Scraper Set (set of 3) — Thick or Thin</a> <span class="price">$19.50 per set</span> <span class="opt-note">Both thickness sets in stock at $19.50. Three shapes per set: a rectangle with convex and concave ends that Highland&#x27;s own copy calls &#x27;ideal for bowl work and chair making&#x27;, a French-curve for concave surfaces and spindles, and a gently cambered one for glue lines and pinpoint scraping.</span></li>
+    <li><a href="https://www.leevalley.com/en-us/shop/tools/hand-tools/files-and-rasps/rasps/20135-wood-and-cabinet-rasps" rel="noopener">Lee Valley — Auriou cabinet rasp</a> <span class="price">$126</span><span class="opt-note">Hand-stitched French teeth; the one Chris Schwarz names as his favorite. 10-grain medium is the chair pick.</span></li>
+    <li><a href="https://toolsforworkingwood.com/store/item/GT-CMRASP.XX/gramercy-tools-hand-cut-cabinetmakers-rasps" rel="noopener">Tools for Working Wood — Gramercy hand-cut rasps</a> <span class="price">$89.95–$199.95</span><span class="opt-note">Hand-stitched in the same tradition, often in stock when Auriou isn’t.</span></li>
+    <li><a href="https://www.leevalley.com/en-us/shop/tools/hand-tools/files-and-rasps/rasps/20135-wood-and-cabinet-rasps" rel="noopener">Lee Valley / Highland — machine-cut rasps</a> <span class="price">from $28.50</span><span class="opt-note">A budget rasp still shapes an arm; it just leaves more scraping behind.</span></li>
   </ol>
-  </article>
-  <h2>Boring and reaming</h2>
-  <p class="cat-note">Legs meet seats as tapered round mortise-and-tenon joints; this is that joint’s toolkit.</p>
-  <article class="tool" data-tag="both">
-  <h3>Tapered reamer (leg and arm-stump mortises)</h3>
+  </div>
+  </details>
+  <details class="tool" data-tag="both">
+  <summary><span class="tname">Shinto saw rasp</span><span class="from">from $48</span></summary>
+  <div class="tbody">
+  <p class="use">Rows of saw teeth riveted into a rasp — hogs curved seat edges and underarm curves without clogging, then flips to a finer face.</p>
+  <ol class="buy">
+    <li><a href="https://www.highlandwoodworking.com/products/shintosawrasp" rel="noopener">Highland Woodworking — Shinto saw rasp</a> <span class="price">$48</span><span class="opt-note">The standard 11″ two-grit pattern.</span></li>
+    <li><a href="https://www.leevalley.com/en-us/shop/tools/hand-tools/files-and-rasps/rasps/65692-japanese-saw-rasp" rel="noopener">Lee Valley — Shinto saw rasp</a> <span class="price">$63.50</span><span class="opt-note">Same tool with a handle.</span></li>
+  </ol>
+  </div>
+  </details>
+  <h2>Boring &amp; reaming</h2>
+  <p class="cat-note">Legs meet seats as round or tapered mortise-and-tenon joints; this is that joint’s toolkit. One rule above all: the reamer’s angle and the tenon cutter’s angle must match.</p>
+  <details class="tool" data-tag="both">
+  <summary><span class="tname">Tapered reamer</span><span class="from">from $34.5</span></summary>
+  <div class="tbody">
   <p class="use">Turns a straight bored hole into a tapered socket, so a matching tapered tenon wedges tighter the harder the chair is sat in.</p>
   <ol class="buy">
-    <li><a href="https://www.timmanney.com/work/reamers" rel="noopener">Tim Manney (maker, direct) — Tapered Reamer, 6 degrees, 1/2&quot; to 1-1/4&quot;, ~15&quot; long</a> <span class="price">$305</span> <span class="opt-note">Price from his reamer page. His store page currently says reamers are out of stock; batches roughly monthly, newsletter gets 24h early access. Considered the best made.</span></li>
-    <li><a href="https://handtoolwoodworking.com/reamers/" rel="noopener">Elia Bizzarri / Hand Tool Woodworking (maker, direct) — Chairmaking Reamer, 6 degrees, blade 3/8&quot; to 1-1/4&quot;</a> <span class="price">$170 finished; $85 raw; $35 blade only</span> <span class="opt-note">Riven hickory body, removable handle, set-screw depth adjustment. Also sold in a Set of Five (reamer + 3 tenon cutters + dowel plate) for $560 maple / $600 walnut. No stock status shown on the page.</span></li>
-    <li><a href="https://www.leevalley.com/en-us/shop/tools/hand-tools/drills/54864-standard-taper-reamers" rel="noopener">Lee Valley / Veritas — Large Standard Taper Reamer, 3/16&quot; to 1-3/16&quot;, 12.8 degrees, 5/16&quot; hex shank</a> <span class="price">$46.50 (large) / $34.50 (small, 3/16&quot;–3/4&quot;)</span> <span class="opt-note">The cheapest way into reaming and the exact model on Schwarz&#x27;s stick-chair class list. Must be paired with Veritas Tapered Tenon Cutters, not a 6-degree cutter.</span></li>
-    <li><a href="https://www.leevalley.com/en-us/shop/tools/hand-tools/54865-veritas-pro-taper-reamer" rel="noopener">Lee Valley / Veritas — Veritas Pro Taper Reamer (05J6101), 12.8 degrees, reams 7/16&quot; to 1-3/16&quot;</a> <span class="price">$66.50</span> <span class="opt-note">Adjustable spring-steel blade (depth for hard vs soft wood, angle for fit). Tapered square shank — meant for a two-jaw brace, not a drill.</span></li>
+    <li><a href="https://www.timmanney.com/work/reamers" rel="noopener">Tim Manney — 6° tapered reamer</a> <span class="price">$305</span><span class="opt-note">The one I’d buy, and the one I spec’d for a class set. Batches roughly monthly; his newsletter gets a day’s head start on each drop.</span></li>
+    <li><a href="https://handtoolwoodworking.com/reamers/" rel="noopener">Elia Bizzarri — 6° chairmaking reamer</a> <span class="price">$170 finished / $85 raw</span><span class="opt-note">Riven hickory body, set-screw depth adjustment. Also sold in a set with three tenon cutters and a dowel plate ($560–$600).</span></li>
+    <li><a href="https://www.leevalley.com/en-us/shop/tools/hand-tools/drills/54864-standard-taper-reamers" rel="noopener">Lee Valley — Veritas standard taper reamers</a> <span class="price">$34.50–$46.50</span><span class="opt-note">The cheapest way into reaming and the model on the Lost Art Press kiln-dried class list. 12.8° — pair only with Veritas tapered tenon cutters.</span></li>
+    <li><a href="https://www.leevalley.com/en-us/shop/tools/hand-tools/54865-veritas-pro-taper-reamer" rel="noopener">Lee Valley — Veritas pro taper reamer</a> <span class="price">$66.50</span><span class="opt-note">Adjustable blade, square shank — meant for a two-jaw brace, not a drill.</span></li>
   </ol>
-  </article>
-  <article class="tool" data-tag="both">
-  <h3>Tenon cutter / rounder (to match the reamer)</h3>
-  <p class="use">Cuts the round or tapered tenon on the end of a leg, stick or arm post so it fits the socket you just reamed.</p>
+  <p class="foot-note">6° tools (Manney, Bizzarri, Studio Happis) go together; 12.8° tools (Veritas) go together. Mixing systems is how tenons end up loose.</p>
+  </div>
+  </details>
+  <details class="tool" data-tag="both">
+  <summary><span class="tname">Tenon cutter</span><span class="from">from $65.9</span></summary>
+  <div class="tbody">
+  <p class="use">Cuts the round or tapered tenon on the end of a leg, stick or arm post so it fits the socket you just bored or reamed.</p>
   <ol class="buy">
-    <li><a href="https://handtoolwoodworking.com/tenon-cutters/" rel="noopener">Elia Bizzarri / Hand Tool Woodworking (maker, direct) — 6-degree Leg Tenon Cutter 11/16&quot;; Arm-Stump Tenon Cutter 1/2&quot;; Spindle Tenon Cutter 1/2&quot; (cylindrical)</a> <span class="price">$140 (sycamore or maple); $145 elm; $160 walnut; raw/unfinished $70</span> <span class="opt-note">Listed available. Custom 8-degree and 11-degree tapers made to order at $175 in maple. Set of Five (three cutters + 6-degree reamer + dowel plate) $560 maple / $600 walnut.</span></li>
-    <li><a href="https://toolsforworkingwood.com/store/item/MS-IROUND.XX" rel="noopener">Tools for Working Wood — Rounder (rounding plane) by Ray Iles, beech body, O1 blade — 1/2&quot;, 9/16&quot;, 5/8&quot;, 3/4&quot;, 7/8&quot;, 1&quot;</a> <span class="price">$93.00 each; set of all 6 $530.10</span> <span class="opt-note">5/8&quot; and 7/8&quot; NOT AVAILABLE at time of checking; 1/2&quot;, 9/16&quot;, 3/4&quot;, 1&quot; in stock. Set of 6 also unavailable. Straight tenons, not tapered.</span></li>
-    <li><a href="https://www.leevalley.com/en-us/shop/tools/hand-tools/dowel-and-tenon-cutters/54835-veritas-tapered-tenon-cutters" rel="noopener">Lee Valley / Veritas — Veritas Tapered Tenon Cutters — 3/8&quot;, 7/16&quot;, 1/2&quot;, 9/16&quot;, 5/8&quot;</a> <span class="price">$65.90 each; set of 3 (3/8&quot;, 1/2&quot;, 5/8&quot;) $165.00</span> <span class="opt-note">Hand-cranked like a pencil sharpener. These are the mate to the 12.8-degree Lee Valley reamers above. The 5/8&quot; is on Schwarz&#x27;s class list.</span></li>
-    <li><a href="https://www.leevalley.com/en-us/shop/tools/hand-tools/dowel-and-tenon-cutters/42299-veritas-power-tenon-cutters" rel="noopener">Lee Valley / Veritas — Veritas Power Tenon Cutters — 5/8&quot; through 2&quot;</a> <span class="price">$115.00 (5/8&quot;); $119.80 (3/4&quot;); $125.00 (1&quot;)</span> <span class="opt-note">Straight tenons with radiused shoulders. Hex shank, drill or brace, not for a drill press. A separate Veritas &#x27;Power Tapered&#x27; system (60-degree shoulder, countersinks sold separately) also exists at similar prices.</span></li>
+    <li><a href="https://www.leevalley.com/en-us/shop/tools/hand-tools/dowel-and-tenon-cutters/54835-veritas-tapered-tenon-cutters" rel="noopener">Lee Valley — Veritas power tenon cutters</a> <span class="price">$115–$125 each</span><span class="opt-note">5/8, 3/4 and 1″ are the sizes a class lives on; I reach for 7/8 and 1-1/4 plus the little 3/8–1/2 minis all the time. Run in a drill or by hand.</span></li>
+    <li><a href="https://handtoolwoodworking.com/tenon-cutters/" rel="noopener">Elia Bizzarri — 6° tapered tenon cutters</a> <span class="price">from $140</span><span class="opt-note">Leg (11/16), arm-stump and spindle sizes; custom angles to order. Pairs with the 6° reamers above.</span></li>
+    <li><a href="https://studiohappis.com/shop" rel="noopener">Studio Happis (Kelly Harris) — tapering plane</a> <span class="price">$475</span><span class="opt-note">A patented tapering plane developed with Peter Galbert and Tim Manney: 6°, 5/8 exit, adjustable depth. Small batches — sold out at last check, join the notify list.</span></li>
+    <li><a href="https://www.leevalley.com/en-us/shop/tools/hand-tools/dowel-and-tenon-cutters/54835-veritas-tapered-tenon-cutters" rel="noopener">Lee Valley — Veritas tapered tenon cutters</a> <span class="price">$65.90 each / set of 3 $165</span><span class="opt-note">The 12.8° partners to the Veritas reamers.</span></li>
   </ol>
-  </article>
-  <article class="tool" data-tag="both">
-  <h3>Spoon bits</h3>
-  <p class="use">Bores clean holes at steep compound angles and lets you steer the angle mid-hole — the traditional Windsor chairmaker&#x27;s bit.</p>
+  </div>
+  </details>
+  <details class="tool" data-tag="both">
+  <summary><span class="tname">Spoon bits</span><span class="from">from $66.95</span></summary>
+  <div class="tbody">
+  <p class="use">The traditional chairmaker’s boring bit — starts on a steep angle without skating and leaves a round-bottomed mortise that won’t blow through a seat.</p>
   <ol class="buy">
-    <li><a href="https://toolsforworkingwood.com/store/item/GT-SB.XX/" rel="noopener">Tools for Working Wood (Gramercy Tools, own brand) — Gramercy Tools Spoon Bits — 3/8&quot;, 7/16&quot;, 1/2&quot;, 9/16&quot;, 5/8&quot;, 3/4&quot;, 7/8&quot;, 1&quot;</a> <span class="price">$66.95 (3/8&quot;, 7/16&quot;, 1/2&quot;); $84.94 (9/16&quot;, 5/8&quot;, 3/4&quot;); $109.95 (7/8&quot;, 1&quot;)</span> <span class="opt-note">In stock except 1/2&quot;, which is listed Not Available. 5% off automatically when you buy four or more.</span></li>
-    <li><a href="https://toolsforworkingwood.com/store/item/GT-SB.A10" rel="noopener">Tools for Working Wood — Gramercy Tools Spoon Bit — 5/8&quot;</a> <span class="price">$84.94</span> <span class="opt-note">Direct link to the single most useful chairmaking size. In stock.</span></li>
+    <li><a href="https://toolsforworkingwood.com/store/item/GT-SB.XX/" rel="noopener">Tools for Working Wood — Gramercy spoon bits</a> <span class="price">$66.95–$84.94</span><span class="opt-note">Made for chair work; 3/8, 7/16 and 1/2 cover sticks and rungs — Elia’s list calls 3/8, 1/2 and 11/16 the standard sizes.</span></li>
   </ol>
-  </article>
-  <article class="tool" data-tag="both">
-  <h3>WoodOwl / Star-M Ultra Smooth Tri-Cut auger bits</h3>
-  <p class="use">The workhorse bit for boring leg and stick mortises through a seat — three flutes, very clean walls, minimal blowout.</p>
+  </div>
+  </details>
+  <details class="tool" data-tag="both">
+  <summary><span class="tname">Auger bits (WoodOwl)</span><span class="from">from $30.87</span></summary>
+  <div class="tbody">
+  <p class="use">Modern tri-cut augers that bore chair mortises clean in either a brace or a drill — the bits on my own packing list.</p>
   <ol class="buy">
-    <li><a href="https://taytools.com/products/woodowl-ultra-smooth-bits" rel="noopener">Taylor Toolworks (taytools) — WoodOwl Ultra Smooth Tri-Cut Auger Bit, 7-1/2&quot; length</a> <span class="price">$30.87 (1/2&quot;); $30.98 (5/8&quot;); $33.25 (3/4&quot;); $41.15 (1&quot;)</span> <span class="opt-note">10+ in stock across sizes; 3/8&quot; is out of stock. 12&quot; versions run $51.49–$132.93 and 18&quot; versions $70.00–$176.94. Single product page with a size selector.</span></li>
+    <li><a href="https://taytools.com/products/woodowl-ultra-smooth-bits" rel="noopener">Taylor Toolworks — WoodOwl Ultra Smooth tri-cut bits</a> <span class="price">$30.87–$33.25</span><span class="opt-note">The lead-screw tri-cuts run best in a hand brace; if you’re boring with a power drill, buy WoodOwl’s OverDrive pattern instead.</span></li>
   </ol>
-  </article>
-  <article class="tool" data-tag="both">
-  <h3>Brad-point bits</h3>
-  <p class="use">Clean-entry bits for the smaller, straighter holes — stretcher mortises, pilot holes, hardware — where an auger is overkill.</p>
+  </div>
+  </details>
+  <details class="tool" data-tag="both">
+  <summary><span class="tname">Brad-point bits</span><span class="from">from $8.7</span></summary>
+  <div class="tbody">
+  <p class="use">Clean-starting twist bits for stretcher mortises and hardware holes — 5/8″ earns its keep on stretchers.</p>
   <ol class="buy">
-    <li><a href="https://www.leevalley.com/en-us/shop/tools/power-tool-accessories/drill-bits/42247-hss-lipped-imperial-brad-point-drills" rel="noopener">Lee Valley / Veritas — HSS Lipped Imperial Brad-Point Drills, sold individually 5/64&quot; to 1&quot;</a> <span class="price">$8.70 (1/4&quot;); $15.40 (3/8&quot;); sizes 25/64&quot; to 1&quot; listed in a $16.70–$72.70 range</span> <span class="opt-note">All sizes shown as available. American twist drills reground on a Swiss CNC grinder — Lee Valley calls these the best brad points they&#x27;ve offered.</span></li>
+    <li><a href="https://www.leevalley.com/en-us/shop/tools/power-tool-accessories/drill-bits/42247-hss-lipped-imperial-brad-point-drills" rel="noopener">Lee Valley — brad-point bits</a> <span class="price">from $8.70</span><span class="opt-note">Buy singles in the sizes your chair uses rather than a set.</span></li>
   </ol>
-  </article>
-  <article class="tool" data-tag="both">
-  <h3>Bit brace</h3>
-  <p class="use">Hand-powered driver for augers, spoon bits and reamers — slow enough that you can feel and correct the angle as you bore.</p>
+  </div>
+  </details>
+  <details class="tool" data-tag="both">
+  <summary><span class="tname">Bit brace</span></summary>
+  <div class="tbody">
+  <p class="use">The hand-powered drill chairmakers still prefer for big augers — slow, controllable, and it never strips a mortise.</p>
   <ol class="buy">
-    <li><a href="https://www.ebay.com/sch/i.html?_nkw=stanley+923+bit+brace" rel="noopener">eBay (vintage) — Stanley No. 923 ratcheting bit brace, 8&quot;–14&quot; sweep</a> <span class="price">typically $25–70</span> <span class="opt-note">Price range is indicative only — taken from listing titles in search results, not a page I could load. Also search &#x27;Millers Falls brace&#x27; and &#x27;bit brace ratcheting&#x27; for equivalents.</span></li>
+    <li><a href="https://www.ebay.com/sch/i.html?_nkw=stanley+923+bit+brace" rel="noopener">eBay — vintage Stanley 923 or similar</a> <span class="price">typically $25–$70</span><span class="opt-note">A 10″ sweep is the general size. Nobody makes a better new one than the old ones.</span></li>
   </ol>
-  </article>
-  <article class="tool" data-tag="both">
-  <h3>Bit extender</h3>
-  <p class="use">Gets a bit through a thick seat or out to an armbow hole your drill body can&#x27;t reach.</p>
+  </div>
+  </details>
+  <details class="tool" data-tag="both">
+  <summary><span class="tname">Bit extension</span><span class="from">from $58</span></summary>
+  <div class="tbody">
+  <p class="use">Puts 18 inches between chuck and bit so you can sight a long drilling angle — and bore through a seat into an arm post.</p>
   <ol class="buy">
-    <li><a href="https://lostartpress.com/products/crucible-godrilla" rel="noopener">Lost Art Press / Crucible Tool — Crucible GoDrilla bit extender</a> <span class="price">$58.00</span> <span class="opt-note">Collet grips a hex bar in the chuck and 1/4&quot; hex tooling at the far end; extends 6&quot; to 24&quot;. Page shows no stock indicator; the tools collection listed it as in stock.</span></li>
+    <li><a href="https://lostartpress.com/products/crucible-godrilla" rel="noopener">Lost Art Press — Crucible Godrilla bit extension</a> <span class="price">$58</span><span class="opt-note">The 18″ extension that lives in my own packing list.</span></li>
   </ol>
-  </article>
-  <article class="tool" data-tag="both">
-  <h3>Dowel plate</h3>
-  <p class="use">Drives the top end of a stick through a hardened hole to size it exactly to the mortise you drilled.</p>
+  </div>
+  </details>
+  <details class="tool" data-tag="both">
+  <summary><span class="tname">Dowel plate</span><span class="from">from $25</span></summary>
+  <div class="tbody">
+  <p class="use">Sizes riven pegs and small tenons exactly — drive an oversize blank through the plate and it comes out round.</p>
   <ol class="buy">
-    <li><a href="https://handtoolwoodworking.com/tenon-cutters/" rel="noopener">Elia Bizzarri / Hand Tool Woodworking (maker, direct) — Dowel Plate — 3/10&quot;, 5/16&quot;, .320&quot;, .325&quot;, 3/8&quot;, .380&quot;, .385&quot;</a> <span class="price">$25.00 each</span> <span class="opt-note">Listed on his tenon cutters page. No separate stock status shown. A 3/8&quot; plate is included in the $560 Set of Five.</span></li>
+    <li><a href="https://handtoolwoodworking.com/tenon-cutters/" rel="noopener">Elia Bizzarri — dowel plate</a> <span class="price">$25</span><span class="opt-note">One per shop is plenty.</span></li>
   </ol>
-  </article>
-  <article class="tool" data-tag="both">
-  <h3>Sliding bevel (for setting and holding drilling angles)</h3>
-  <p class="use">Holds the resultant angle you&#x27;re drilling to, stood next to the bit as a reference while you bore.</p>
+  </div>
+  </details>
+  <details class="tool" data-tag="both">
+  <summary><span class="tname">Sliding bevel</span><span class="from">from $15.99</span></summary>
+  <div class="tbody">
+  <p class="use">Holds a drilling angle so you can sight your bit against it — the chairmaker’s angle-carrying tool. I pack two.</p>
   <ol class="buy">
-    <li><a href="https://lostartpress.com/products/crucible-sliding-bevel" rel="noopener">Lost Art Press / Crucible Tool — Crucible Sliding Bevel, 4&quot; alloy steel blade</a> <span class="price">$350.00</span> <span class="opt-note">Listed in stock. Designed with chairmaking in mind — patent-pending lock, adjusted with a straight screwdriver, separate rotation and slide screws. Machined in Kentucky. Expensive; the justification is that it holds a setting for days.</span></li>
-    <li><a href="https://www.leevalley.com/en-us/shop/tools/hand-tools/marking-and-measuring/bevels/32594-aluminum-sliding-bevel" rel="noopener">Lee Valley — Aluminum Sliding Bevel, 10&quot; stainless blade</a> <span class="price">$34.00</span> <span class="opt-note">Locking screw in the end of the stem so the tool flips for use on either side. Stock status did not render when I checked. 10&quot; is longer than ideal for seat work.</span></li>
-    <li><a href="https://taytools.com/products/shinwa-stainless-steel-sliding-bevel-gauges" rel="noopener">Taylor Toolworks (taytools) — Shinwa Stainless Steel Sliding Bevel Gauge, 6&quot; or 10&quot;</a> <span class="price">$15.99 (6&quot;); $20.99 (10&quot;)</span> <span class="opt-note">10+ available in both sizes. The 6&quot; is the size used at student benches in Schwarz&#x27;s chair class. Buy several.</span></li>
-    <li><a href="https://www.leevalley.com/en-us/shop/tools/hand-tools/marking-and-measuring/bevels/114778-crucible-sliding-bevel" rel="noopener">Lee Valley (Crucible Tool) — Crucible Sliding Bevel</a> <span class="price">$350.00</span> <span class="opt-note">Also listed at Lost Art Press at the same $350.00 and shown available there. Expensive, but it is the one designed around this exact job and it locks dead solid.</span></li>
+    <li><a href="https://taytools.com/products/shinwa-stainless-steel-sliding-bevel-gauges" rel="noopener">Taylor Toolworks — Shinwa sliding bevels</a> <span class="price">$15.99 (6″) / $20.99 (10″)</span><span class="opt-note">Cheap enough to own a pair and leave them set.</span></li>
+    <li><a href="https://www.leevalley.com/en-us/shop/tools/hand-tools/marking-and-measuring/bevels/114778-crucible-sliding-bevel" rel="noopener">Lee Valley — sliding bevel</a> <span class="price">$34</span><span class="opt-note">A step up in lock quality.</span></li>
+    <li><a href="https://lostartpress.com/products/crucible-sliding-bevel" rel="noopener">Lee Valley / Lost Art Press — Crucible sliding bevel</a> <span class="price">$350</span><span class="opt-note">The heirloom version.</span></li>
   </ol>
-  </article>
-  <article class="tool" data-tag="both">
-  <h3>Bevel setter / angle gauge</h3>
-  <p class="use">Sets the sliding bevel to an exact resultant angle before you drill, instead of eyeballing it off a protractor.</p>
+  </div>
+  </details>
+  <details class="tool" data-tag="both">
+  <summary><span class="tname">Bevel Monkey angle setter</span><span class="from">from $99</span></summary>
+  <div class="tbody">
+  <p class="use">Sets a sliding bevel to fractions of a degree — the difference between “about 12” and 12.4 when a plan calls for it.</p>
   <ol class="buy">
-    <li><a href="https://lostartpress.com/products/crucible-brass-bevel-monkey" rel="noopener">Lost Art Press / Crucible Tool — Crucible Brass Bevel Monkey</a> <span class="price">$99.00</span> <span class="opt-note">Sets a sliding bevel to fractions of a degree, 0 to 50 degrees off vertical with half-degree marks. Page shows no stock indicator; the tools collection listed it as in stock.</span></li>
+    <li><a href="https://lostartpress.com/products/crucible-brass-bevel-monkey" rel="noopener">Lost Art Press — Crucible brass Bevel Monkey</a> <span class="price">$99</span><span class="opt-note">Rides in my packing list next to the two bevels.</span></li>
   </ol>
-  </article>
-  <article class="tool" data-tag="both">
-  <h3>Laser level (sightline drilling aid)</h3>
-  <p class="use">Projects the sightline on the floor and wall so you can see whether you&#x27;re leaning the drill forward or back — a spotter that never blinks.</p>
+  </div>
+  </details>
+  <details class="tool" data-tag="both">
+  <summary><span class="tname">Laser level</span><span class="from">from $59.99</span></summary>
+  <div class="tbody">
+  <p class="use">Throws a sightline across the shop floor so a drilling pair can line the bit up on two axes at once — roughly one laser per person, and drill in pairs.</p>
   <ol class="buy">
-    <li><a href="https://www.amazon.com/Leveling-Rechargeable-Renovation-Carrying-Included/dp/B0DPHG2X7Z" rel="noopener">Amazon (Huepar) — Huepar self-levelling green cross-line laser level, 100 ft, rechargeable, with 25.6&quot; tripod and carry bag</a> <span class="price">$22.97</span> <span class="opt-note">Stock status not stated on the page. Tripod included, which matters — you need to raise and tilt it. Any equivalent green self-levelling cross-line unit will do.</span></li>
+    <li><a href="https://www.amazon.com/Leveling-Rechargeable-Renovation-Carrying-Included/dp/B0DPHG2X7Z" rel="noopener">Amazon — Huepar cross-line laser</a> <span class="price">$59.99</span><span class="opt-note">Any self-leveling cross-line unit works; this one is rechargeable.</span></li>
   </ol>
-  </article>
+  </div>
+  </details>
   <h2>Green-wood processing</h2>
-  <p class="cat-note">For starting from a log: splitting it, riving it, and holding it while you shave.</p>
-  <article class="tool" data-tag="green">
-  <h3>Froe <span class="badge green">green wood only</span></h3>
-  <p class="use">Driven into the end grain with a wooden club and levered side to side to split a log section along its grain into billets — the tool that gives riven chair parts their unbroken run-out-free grain.</p>
+  <p class="cat-note">For starting from a log: splitting it, riving it, and holding it while you shave. Skip this section entirely if you’re building from sawn boards.</p>
+  <details class="tool" data-tag="green">
+  <summary><span class="tname">Froe</span> <span class="badge green">green wood only</span><span class="from">from $70</span></summary>
+  <div class="tbody">
+  <p class="use">Splits a log section into chair blanks along the grain — rived parts follow the wood’s own fibers and are stronger than anything sawn.</p>
   <ol class="buy">
-    <li><a href="https://barrtools.com/products/froe-10-cutting-edge" rel="noopener">Barr Tools (Barr Specialty Tools) — Froe, 10&quot; Cutting Edge</a> <span class="price">$190.00</span> <span class="opt-note">In stock. Hand forged in the USA. 10&quot; edge is the right length for chair billets.</span></li>
-    <li><a href="https://www.highlandwoodworking.com/products/gransforsbruksfroe" rel="noopener">Highland Woodworking — Gränsfors Bruk Froe</a> <span class="price">$235.00</span> <span class="opt-note">In stock. 12&quot; hand-forged Swedish blade on an 18&quot; hickory handle.</span></li>
-    <li><a href="https://www.highlandwoodworking.com/products/shinglefroe" rel="noopener">Highland Woodworking — Shingle Froe</a> <span class="price">$70.00</span> <span class="opt-note">In stock. The cheapest new froe from a real retailer — lighter and shorter than the chairmaking froes above, so it is a starter tool rather than a lifetime one, but it will rive chair stock.</span></li>
-    <li><a href="https://www.ebay.com/sch/i.html?_nkw=vintage+froe" rel="noopener">eBay (vintage) — Vintage / antique froe</a> <span class="price">typically $30–$60</span> <span class="opt-note">antique hand-forged shingling froes at $50 and $60 buy-it-now, a blacksmith-made 10&quot; edge froe at $31 on auction, an old froe at $38 (bid) / $60 (buy-it-now).</span></li>
+    <li><a href="https://barrtools.com/products/froe-10-cutting-edge" rel="noopener">Barr Tools — froe, 10″ edge</a> <span class="price">$190</span><span class="opt-note">Hand forged, ships ready to use.</span></li>
+    <li><a href="https://www.highlandwoodworking.com/products/gransforsbruksfroe" rel="noopener">Highland Woodworking — Gränsfors Bruk froe</a> <span class="price">$235</span><span class="opt-note">Swedish, beautifully made, always in stock.</span></li>
+    <li><a href="https://www.lie-nielsen.com/products/spoonmakers-froe" rel="noopener">Lie-Nielsen — Langsner froe, 8″</a> <span class="price">$130 (12″: $150)</span><span class="opt-note">Named for Drew Langsner and on Elia’s recommended list. I don’t love it myself — mostly preference. Out of stock at last check.</span></li>
+    <li><a href="https://www.highlandwoodworking.com/products/shinglefroe" rel="noopener">Highland Woodworking — shingle froe</a> <span class="price">$70</span><span class="opt-note">The budget path; vintage froes on eBay run $30–$60 too.</span></li>
   </ol>
-  </article>
-  <article class="tool" data-tag="green">
-  <h3>Steel splitting wedges <span class="badge green">green wood only</span></h3>
-  <p class="use">Driven into the log&#x27;s end grain with a sledge to open the first split, before a froe can get a bite.</p>
+  </div>
+  </details>
+  <details class="tool" data-tag="green">
+  <summary><span class="tname">Splitting wedges</span> <span class="badge green">green wood only</span><span class="from">from $23.98</span></summary>
+  <div class="tbody">
+  <p class="use">Open the log before the froe ever touches it — a couple of thin wedges to start the split and heavy ones to run it.</p>
   <ol class="buy">
-    <li><a href="https://www.amazon.com/Estwing-Sure-Split-Wedge-Construction/dp/B00DT0PEUY" rel="noopener">Amazon — Estwing Sure Split Wedge E-5, 5 lb solid forged steel</a> <span class="price">$23.98</span> <span class="opt-note">In Stock. Made in USA, hand sharpened, fin design that resists bouncing back out.</span></li>
-    <li><a href="https://www.forestry-suppliers.com/p/75195/669910/council-5-lb-steel-splitting-wedge" rel="noopener">Forestry Suppliers — Council 5 lb. Steel Splitting Wedge</a> <span class="price">$33.75</span> <span class="opt-note">Council Tool, US-forged. Page shows no stock status.</span></li>
+    <li><a href="https://www.amazon.com/Estwing-Sure-Split-Wedge-Construction/dp/B00DT0PEUY" rel="noopener">Amazon — Estwing Sure Split wedge</a> <span class="price">$23.98</span><span class="opt-note">A 5 lb general splitter; six to ten big-box 5-pounders outfit a whole class.</span></li>
+    <li><a href="https://www.forestry-suppliers.com/p/75195/669910/council-5-lb-steel-splitting-wedge" rel="noopener">Forestry Suppliers — Council 5 lb wedge</a> <span class="price">$33.75</span><span class="opt-note">US-forged version of the same.</span></li>
   </ol>
-  </article>
-  <article class="tool" data-tag="green">
-  <h3>Wooden gluts + maul (froe club) <span class="badge green">green wood only</span></h3>
-  <p class="use">Gluts are wooden wedges that follow the steel ones to widen a split without bruising the blank; the maul or froe club is what you strike the froe with.</p>
-  <p class="foot-note">MAKE YOUR OWN — this is the point. Both come out of the same log you are riving, so the cost is zero and there is nothing to buy. A glut is a foot-long dry hardwood offcut tapered on two faces with a hatchet; make three or four, they are consumables. The club is a section of tough hardwood — hickory, dogwood, apple, hophornbeam — about 4-5&quot; through and 15&quot; long, with a handle carved on one end and the head left full diameter. Never hit a froe with a steel hammer: it mushrooms the poll and wrecks the tool. No commercial source is listed here because none was found that is worth recommending over making one; the closest bought option is the Kedinger/ME Hitt Froe + Mallet Set under Froe above, which is a maker commission with no published price.</p>
-  </article>
-  <article class="tool" data-tag="green">
-  <h3>Riving brake <span class="badge green">green wood only</span></h3>
-  <p class="use">A waist-high forked frame that grips the billet while you lever the froe, so both your hands stay on the tool and the wood does the resisting.</p>
-  <p class="foot-note">BUILD IT — no commercial product exists and none was found for sale. Two builds, both free: (1) drive two stout posts into the ground about 8&quot; apart with a third pole lashed across at waist height, so you can wedge the billet between the uprights and under the crossbar; or (2) bolt three 2x4s or three saplings into an A/X-frame with a Y-shaped gap you can jam the billet into, weighted or staked so it doesn&#x27;t walk. The only requirement is that it holds the billet at a height where you can put your whole upper body onto the froe handle. If you already have a shavehorse, its head will work as a rough substitute for smaller billets.</p>
-  </article>
-  <article class="tool" data-tag="both">
-  <h3>Shavehorse</h3>
-  <p class="use">A foot-powered clamp you sit astride — it grips a stick while you pull a drawknife or spokeshave toward you, and holds harder the harder you pull.</p>
+  <p class="foot-note">Thin starting wedges matter more than they look — vintage Collins wedges are Elia’s pick, and Jason Lonon forges thin ones in batches.</p>
+  </div>
+  </details>
+  <details class="tool" data-tag="green">
+  <summary><span class="tname">Gluts &amp; maul</span> <span class="badge green">green wood only</span></summary>
+  <div class="tbody">
+  <p class="use">Wooden wedges (gluts) run a long split after steel starts it; the maul drives everything. You make these, you don’t buy them.</p>
+  <p class="foot-note">Rive and shape gluts from dry hardwood; hew or turn a maul from a limb — first shop projects, free. If you’d rather buy the striking tool, the rawhide split-head hammer under Mallets does the froe work gently.</p>
+  </div>
+  </details>
+  <details class="tool" data-tag="green">
+  <summary><span class="tname">Riving brake</span> <span class="badge green">green wood only</span></summary>
+  <div class="tbody">
+  <p class="use">Holds a billet at working height while the froe levers a split down its length. Built, not bought.</p>
+  <p class="foot-note">A forked limb set in a stout frame, or two crossed rails — free from the firewood pile. I build mine rather than buy anything.</p>
+  </div>
+  </details>
+  <details class="tool" data-tag="green">
+  <summary><span class="tname">Shavehorse</span> <span class="badge green">green wood only</span><span class="from">from $17.5</span></summary>
+  <div class="tbody">
+  <p class="use">The foot-clamped vise you sit at to drawknife sticks and legs — the green chairmaker’s workbench.</p>
   <ol class="buy">
-    <li><a href="http://www.jefflefkowitzchairmaker.com/lefkowitz-shave-horse-manual" rel="noopener">Jeff Lefkowitz Chairmaker — Lefkowitz Shave Horse Manual + full-size plans (PDF download)</a> <span class="price">$35 suggested (pay what you can)</span> <span class="opt-note">The page states a $35 value and runs on pay-what-you-can, so you can pay less. Instant PDF: 78 pages, 199 illustrations, three files of scaled drawings and full-size templates. Builds from one 2x12x12 with hand tools and a drill.</span></li>
-    <li><a href="https://www.alexanderbrothers.com/product-page/lefkowitz-shave-horse-kits" rel="noopener">Alexander Brothers — Lefkowitz Shave Horse Kits — Hardware Pack, or Maple Kit with ash or cherry seat</a> <span class="price">$45.00 (Hardware Pack) / $575.00 (Maple Kit)</span> <span class="opt-note">Hardware Pack = all metal hardware and leather, you supply lumber. Maple Kit = all parts cut out plus hardware, plus a CNC rough-carved cherry or ash seat ready to scrape. Prices exclude sales tax. Buy Jeff&#x27;s manual separately.</span></li>
-    <li><a href="https://www.alexanderbrothers.com/product-page/lefkowitz-finished-shave-horse" rel="noopener">Alexander Brothers — Lefkowitz Finished Shave Horse (ash or hard maple, wiping varnish)</a> <span class="price">$1,400.00</span> <span class="opt-note">Pre-order, built to order, 4-6 weeks. Shipping is not charged at checkout and is invoiced separately. The no-build route.</span></li>
-    <li><a href="https://www.leevalley.com/en-us/shop/tools/plans/51100-traditional-english-shaving-horse-plan" rel="noopener">Lee Valley — Traditional English Shaving Horse Plan (Veritas, 05L19.01)</a> <span class="price">$17.50</span> <span class="opt-note">Chairmaker David Fleming&#x27;s design; works as a shaving horse and as a traditional chairmaker&#x27;s low bench. Intermediate build, no specialized hardware. Stock indicator did not resolve on the page.</span></li>
+    <li><a href="http://www.jefflefkowitzchairmaker.com/lefkowitz-shave-horse-manual" rel="noopener">Jeff Lefkowitz — shave horse plans &amp; manual</a> <span class="price">$35 suggested (pay what you can)</span><span class="opt-note">Full-size plans and a step-by-step manual for a Boggs-style ratchet horse that breaks down for travel. Built with hand tools and a drill.</span></li>
+    <li><a href="https://www.alexanderbrothers.com/product-page/lefkowitz-shave-horse-kits" rel="noopener">Alexander Brothers — Lefkowitz shave horse kit</a> <span class="price">$575 (hardware pack alone $45)</span><span class="opt-note">All maple parts cut out, seat rough-carved — assembly and minor shaping left to you. The hardware pack alone serves scratch-builders.</span></li>
+    <li><a href="https://www.alexanderbrothers.com/product-page/lefkowitz-finished-shave-horse" rel="noopener">Alexander Brothers — finished Lefkowitz shave horse</a> <span class="price">$1,400</span><span class="opt-note">Ready to ride.</span></li>
+    <li><a href="https://www.leevalley.com/en-us/shop/tools/plans/51100-traditional-english-shaving-horse-plan" rel="noopener">Lee Valley — traditional English shaving horse plan</a> <span class="price">$17.50</span><span class="opt-note">The classic dumbhead pattern if you’d rather build old-style.</span></li>
   </ol>
-  </article>
-  <article class="tool" data-tag="green">
-  <h3>Moisture meter <span class="badge green">green wood only</span></h3>
-  <p class="use">Tells you whether a seat blank or a leg is dry enough to assemble — you want legs drier than the seat, so the joint tightens as things equalise rather than loosening.</p>
+  <p class="foot-note">For hand-tool work that is NOT green woodworking, the patternmaker’s vise (under Bench) is basically the shave horse.</p>
+  </div>
+  </details>
+  <details class="tool" data-tag="green">
+  <summary><span class="tname">Hewing hatchet</span> <span class="badge green">green wood only</span><span class="from">from $235</span></summary>
+  <div class="tbody">
+  <p class="use">Hews a riven billet down close to shape before the drawknife touches it, and knocks corners off log sections at the chopping block.</p>
   <ol class="buy">
-    <li><a href="https://www.amazon.com/General-Tools-MMD4E-Moisture-High-Medium-Low/dp/B00275F5O2" rel="noopener">Amazon — General Tools MMD4E Digital Moisture Meter</a> <span class="price">$37.70</span> <span class="opt-note">In Stock.</span></li>
-    <li><a href="https://www.woodcraft.com/products/general-tools-digital-moisture-meter-pin-style" rel="noopener">Woodcraft — General Tools Digital Moisture Meter, Model MMD4E (pin style)</a> <span class="price">$62.99</span> <span class="opt-note">In Stock Online. Same meter, $25 more — listed only if you want it from a woodworking retailer.</span></li>
+    <li><a href="https://www.highlandwoodworking.com/products/swedishcarvingaxe" rel="noopener">Highland Woodworking — Gränsfors Bruk large carving axe</a> <span class="price">$285</span><span class="opt-note">2 lb head, 4-1/2″ curved edge; double or single bevel. The chairmaking standard.</span></li>
+    <li><a href="https://www.highlandwoodworking.com/products/gransfors-bruk-small-carving-axe-1" rel="noopener">Highland Woodworking — Gränsfors Bruk small carving axe</a> <span class="price">$265</span><span class="opt-note">Same design at 80% scale — lighter for long sessions or smaller hands.</span></li>
+    <li><a href="https://www.highlandwoodworking.com/products/gransforsbrukscarpentersaxe" rel="noopener">Highland Woodworking — Gränsfors Bruk carpenter’s axe</a> <span class="price">$235</span><span class="opt-note">The one Gränsfors that also works in dry wood.</span></li>
+    <li><a href="https://www.ebay.com/sch/i.html?_nkw=hewing+hatchet" rel="noopener">eBay — vintage broad hatchet</a> <span class="price">typically $20–$70</span><span class="opt-note">Budget $35–$55 for a good American head with a sound eye; expect to rehandle.</span></li>
   </ol>
-  </article>
-  <h2>Bench tools</h2>
-  <p class="cat-note">The ordinary hand-tool kit the chair work sits on top of.</p>
-  <article class="tool" data-tag="both">
-  <h3>Jack plane (No. 5)</h3>
-  <p class="use">Your do-everything bench plane: flattens and trues sawn boards for a dry-stock chair, and cleans up riven or bandsawn seat blanks, arm bows and edges on the green side.</p>
+  </div>
+  </details>
+  <details class="tool" data-tag="green">
+  <summary><span class="tname">Moisture meter</span> <span class="badge green">green wood only</span><span class="from">from $37.7</span></summary>
+  <div class="tbody">
+  <p class="use">Tells you when rungs and tenons are dry enough to lock a joint forever — the number behind the super-dry-tenon-into-damp-mortise trick.</p>
   <ol class="buy">
-    <li><a href="https://www.leevalley.com/en-us/shop/tools/hand-tools/planes/bench/72532-veritas-custom-number-5-jack-plane" rel="noopener">Lee Valley (Veritas) — Veritas Custom #5 Jack Plane (item 06P0571A, standard configuration)</a> <span class="price">$389.00</span> <span class="opt-note">14&quot; long, 2 1/2&quot; wide. Alternate frogs, blades, knobs and totes sold separately, so the configured price can climb. Lee Valley loads stock status client-side; it did not resolve on fetch.</span></li>
-    <li><a href="https://www.woodcraft.com/products/woodriver-5-bench-hand-plane-jack-plane-v3" rel="noopener">Woodcraft (WoodRiver) — WoodRiver #5 Bench Hand Plane - Jack Plane V3</a> <span class="price">$249.99</span> <span class="opt-note">Listed &quot;In Stock Online&quot; when checked. The usual new-tool value pick if the Veritas is too much.</span></li>
-    <li><a href="https://www.ebay.com/sch/i.html?_nkw=stanley+no+5+jack+plane" rel="noopener">eBay (vintage Stanley) — Vintage Stanley Bailey No. 5 jack plane</a> <span class="price">$35-95</span> <span class="opt-note">Live listings ranged $22.50 (rough/for-restoration) to $175 (NOS collector). Complete, usable users clustered $45-85: e.g. Type 10/11 at $64.99, Type 19 rosewood at $68, 1930s at $45. Budget an afternoon of cleanup plus flattening the sole.</span></li>
+    <li><a href="https://www.amazon.com/General-Tools-MMD4E-Moisture-High-Medium-Low/dp/B00275F5O2" rel="noopener">Amazon — General MMD4E pin meter</a> <span class="price">$37.70</span><span class="opt-note">The standard cheap pin meter; fine for chair work.</span></li>
+    <li><a href="https://www.woodcraft.com/products/general-tools-digital-moisture-meter-pin-style" rel="noopener">Woodcraft — General digital moisture meter</a> <span class="price">$62.99</span><span class="opt-note">Same idea from a woodworking shop.</span></li>
   </ol>
-  </article>
-  <article class="tool" data-tag="both">
-  <h3>Block plane</h3>
-  <p class="use">One-handed trimming plane for chamfers, easing the edges of arms and seats, and shaving wedges and tenon shoulders to fit.</p>
+  </div>
+  </details>
+  <h2>Bench, layout &amp; assembly</h2>
+  <p class="cat-note">The ordinary hand-tool kit the chair work sits on top of — planes, saws, striking tools, workholding and layout.</p>
+  <details class="tool" data-tag="both">
+  <summary><span class="tname">Jack plane (No. 5)</span><span class="from">from $249.99</span></summary>
+  <div class="tbody">
+  <p class="use">Flattens seat blanks, trues arms, tapers legs — the general-purpose plane of the kit. Mine travels with a smoother beside it.</p>
   <ol class="buy">
-    <li><a href="https://www.lie-nielsen.com/product/adjustable-mouth-block-planes-" rel="noopener">Lie-Nielsen Toolworks — No. 60-1/2 Low Angle Adjustable Mouth Block Plane</a> <span class="price">$200.00</span> <span class="opt-note">OUT OF STOCK at time of checking; the page offers an availability notification signup. Ductile iron with bronze cap, 6-1/4&quot; long, 1-3/8&quot; A2 blade.</span></li>
-    <li><a href="https://www.leevalley.com/en-us/shop/tools/hand-tools/planes/block/47881-veritas-low-angle-block-plane" rel="noopener">Lee Valley (Veritas) — Veritas Low-Angle Block Plane</a> <span class="price">From $189.00</span> <span class="opt-note">&quot;From&quot; price reflects blade-steel options (O1/A2/PM-V11). In stock alternative to the Lie-Nielsen.</span></li>
-    <li><a href="https://www.leevalley.com/en-us/shop/tools/hand-tools/planes/block/46791-veritas-apron-plane" rel="noopener">Lee Valley (Veritas) — Veritas Apron Plane</a> <span class="price">From $129.00</span> <span class="opt-note">Smaller and cheaper; lives in a pocket. Good if the block plane is mostly for chamfers and wedges.</span></li>
-    <li><a href="https://www.ebay.com/sch/i.html?_nkw=stanley+60-1%2F2+block+plane" rel="noopener">eBay (vintage Stanley) — Vintage Stanley No. 60-1/2 low-angle block plane</a> <span class="price">$30-80</span> <span class="opt-note">Live listings ran $9.99 (cracked/parts) to $159.99. Sound users sat around $35-60: $35, $39.95, $41.22, $45, $49.99, $59.99. Check the adjustable throat actually moves and the mouth is not chipped.</span></li>
+    <li><a href="https://www.ebay.com/sch/i.html?_nkw=stanley+no+5+jack+plane" rel="noopener">eBay — vintage Stanley No. 5</a> <span class="price">typically $35–$95</span><span class="opt-note">The Lost Art Press advice, and mine: a pre-war Stanley weighs less than any new premium jack and the handles are more comfortable. Grind a gentle curve into the iron.</span></li>
+    <li><a href="https://www.woodcraft.com/products/woodriver-5-bench-hand-plane-jack-plane-v3" rel="noopener">Woodcraft — WoodRiver No. 5</a> <span class="price">$249.99</span><span class="opt-note">A solid new plane if you don’t want a project.</span></li>
+    <li><a href="https://www.leevalley.com/en-us/shop/tools/hand-tools/planes/bench/72532-veritas-custom-number-5-jack-plane" rel="noopener">Lee Valley — Veritas jack plane</a> <span class="price">$389</span><span class="opt-note">The premium new option.</span></li>
   </ol>
-  </article>
-  <article class="tool" data-tag="both">
-  <h3>Ryoba / Japanese pull saw</h3>
-  <p class="use">Two-edged pull saw that rips and crosscuts with one blade: sizing sticks, legs and seat blanks, and sawing tenon cheeks and shoulders.</p>
+  </div>
+  </details>
+  <details class="tool" data-tag="both">
+  <summary><span class="tname">Block plane</span><span class="from">from $129</span></summary>
+  <div class="tbody">
+  <p class="use">One-handed trim plane for stick ends, chamfers and against-the-grain cleanup — the Lost Art Press list calls it one of the most essential tools in the kit.</p>
   <ol class="buy">
-    <li><a href="https://www.amazon.com/dp/B0D2QRLYBN" rel="noopener">Amazon (SUIZAN) — SUIZAN Ryoba Double Edge Saw 9.5&quot; (Assembly ver.)</a> <span class="price">$42.80</span> <span class="opt-note">Listed In Stock. Replaceable blade. The 9.5&quot; (240mm) size is the right general-purpose length for chair parts.</span></li>
-    <li><a href="https://www.highlandwoodworking.com/products/z-saw-ryoba" rel="noopener">Highland Woodworking (Z-Saw) — Z-Saw Ryoba Double Edged Saw</a> <span class="price">$48.50</span> <span class="opt-note">Cheapest credible route to a good ryoba; Z-Saw is a respected Japanese maker.</span></li>
-    <li><a href="https://www.leevalley.com/en-us/shop/tools/hand-tools/saws/japanese/112320-japanese-ryoba-saw" rel="noopener">Lee Valley — Japanese Ryoba Saw</a> <span class="price">$43.50</span> <span class="opt-note">Shown &quot;Online: Available&quot;. Replacement blade also stocked ($24.30).</span></li>
-    <li><a href="https://www.highlandwoodworking.com/products/japanesesilkyhibikiryobasaw" rel="noopener">Highland Woodworking (Silky) — Japanese Silky Hibiki Ryoba Saw</a> <span class="price">$89.99</span> <span class="opt-note">Premium option if you want a nicer saw than the disposable-blade class.</span></li>
+    <li><a href="https://www.lie-nielsen.com/product/adjustable-mouth-block-planes-" rel="noopener">Lie-Nielsen — 60-1/2 adjustable-mouth block plane</a> <span class="price">$200</span><span class="opt-note">The adjustable mouth is what lets you cut against the grain without tearout — the specific model the LAP list recommends.</span></li>
+    <li><a href="https://www.leevalley.com/en-us/shop/tools/hand-tools/planes/block/46791-veritas-apron-plane" rel="noopener">Lee Valley — Veritas block planes</a> <span class="price">from $129</span><span class="opt-note">Excellent and a little cheaper; the DX60/NX60 run $189+.</span></li>
+    <li><a href="https://www.ebay.com/sch/i.html?_nkw=stanley+60-1%2F2+block+plane" rel="noopener">eBay — vintage Stanley 60-1/2</a> <span class="price">typically $30–$80</span><span class="opt-note">The budget path; check the mouth isn’t chipped.</span></li>
   </ol>
-  </article>
-  <article class="tool" data-tag="both">
-  <h3>Flush-cut saw</h3>
-  <p class="use">Trims protruding through-tenons and wedges flush with the seat or arm without scratching the surface around them.</p>
+  </div>
+  </details>
+  <details class="tool" data-tag="both">
+  <summary><span class="tname">Ryoba / pull saw</span><span class="from">from $26.5</span></summary>
+  <div class="tbody">
+  <p class="use">Two-edged Japanese saw — rip teeth for tenon kerfs, crosscut for stick ends. One saw covers most chair cuts.</p>
   <ol class="buy">
-    <li><a href="https://www.leevalley.com/en-us/shop/tools/hand-tools/saws/japanese/32928-veritas-flush-cutting-saws" rel="noopener">Lee Valley (Veritas) — Veritas Double-Edge Flush-Cutting Saw</a> <span class="price">$36.50</span> <span class="opt-note">Shown &quot;Online: Available&quot;. Also sold by Highland at the same $36.50</span></li>
-    <li><a href="https://www.highlandwoodworking.com/products/japaneseflexibleflush-cutsaw" rel="noopener">Highland Woodworking — Japanese Flexible Flush-Cut Saw</a> <span class="price">$31.50</span> <span class="opt-note">Standard unset-tooth flexible blade.</span></li>
-    <li><a href="https://www.leevalley.com/en-us/shop/tools/hand-tools/saws/japanese/112319-japanese-kugihiki-saw" rel="noopener">Lee Valley — Japanese Kugihiki Saw</a> <span class="price">$34.50</span> <span class="opt-note">Shown &quot;Online: Available&quot;. Kugihiki is the traditional Japanese flush-cut pattern.</span></li>
-    <li><a href="https://www.highlandwoodworking.com/products/temple-tools-flush-cut-saw" rel="noopener">Highland Woodworking (Temple Tools) — Temple Tools Flexible Flush Cut Saw</a> <span class="price">$22.00</span> <span class="opt-note">Budget route. Fine for occasional wedge trimming.</span></li>
+    <li><a href="https://www.highlandwoodworking.com/products/z-saw-ryoba" rel="noopener">Highland Woodworking — Z-Saw ryoba</a> <span class="price">$26.50</span><span class="opt-note">Replaceable-blade workhorse; the value pick.</span></li>
+    <li><a href="https://www.amazon.com/dp/B0D2QRLYBN" rel="noopener">Amazon — Suizan 9-1/2″ ryoba</a> <span class="price">$42.80</span><span class="opt-note">The one everyone starts with.</span></li>
+    <li><a href="https://www.leevalley.com/en-us/shop/tools/hand-tools/saws/japanese/112319-japanese-kugihiki-saw" rel="noopener">Lee Valley — Japanese ryoba</a> <span class="price">$43.50</span><span class="opt-note">Comparable quality from a shop you’re already ordering from.</span></li>
   </ol>
-  </article>
-  <article class="tool" data-tag="both">
-  <h3>Shinto saw rasp</h3>
-  <p class="use">Removes waste fast on saddled seats, arm blanks and leg tapers - ten sawblades waffled together, so it cuts far quicker than a rasp and clears its own chips.</p>
+  <p class="foot-note">A small backsaw (dovetail or dozuki) and a coping saw round out my own saw till.</p>
+  </div>
+  </details>
+  <details class="tool" data-tag="both">
+  <summary><span class="tname">Flush-cut saw</span><span class="from">from $15</span></summary>
+  <div class="tbody">
+  <p class="use">Trims through-tenons and wedges flush with the seat without scarring it — the last saw a chair sees.</p>
   <ol class="buy">
-    <li><a href="https://www.highlandwoodworking.com/products/shintosawrasp" rel="noopener">Highland Woodworking — Shinto Saw Rasp (SKU 126401)</a> <span class="price">$48.00</span> <span class="opt-note">The actual Shinto brand. 1-1/8&quot; cutting surface; add-to-cart live, not marked sold out. Replacement blade $27.50</span></li>
-    <li><a href="https://www.leevalley.com/en-us/shop/tools/hand-tools/files-and-rasps/rasps/65692-japanese-saw-rasp" rel="noopener">Lee Valley — Japanese Saw Rasp (item 60W0201)</a> <span class="price">$63.50</span> <span class="opt-note">Same tool pattern but NOT branded Shinto - Lee Valley&#x27;s own, made in Japan. Reversible blade, 10 tpi coarse side / 24 tpi fine side, 1 1/4&quot; x 10&quot;. Replacement blade $27.50.</span></li>
+    <li><a href="https://www.highlandwoodworking.com/products/japaneseflexibleflush-cutsaw" rel="noopener">Highland Woodworking — flexible flush-cut saw</a> <span class="price">$31.50</span><span class="opt-note">Thin, flexible, no set on one side.</span></li>
+    <li><a href="https://www.leevalley.com/en-us/shop/tools/hand-tools/saws/japanese/32928-veritas-flush-cutting-saws" rel="noopener">Lee Valley — Veritas flush-cutting saw</a> <span class="price">$36.50</span><span class="opt-note">Sturdier handle, same job.</span></li>
+    <li><a href="https://www.highlandwoodworking.com/products/temple-tools-flush-cut-saw" rel="noopener">Highland Woodworking — Temple Tools flush-cut</a> <span class="price">$15</span><span class="opt-note">Budget option that works.</span></li>
   </ol>
-  </article>
-  <article class="tool" data-tag="both">
-  <h3>Rasp for arm and seat shaping</h3>
-  <p class="use">Hand-stitched rasp that refines the shapes the saw rasp roughed in - saddling, crest rails, arm curves and the transitions where a stick chair actually gets its look.</p>
+  </div>
+  </details>
+  <details class="tool" data-tag="both">
+  <summary><span class="tname">Chisels</span><span class="from">from $36.5</span></summary>
+  <div class="tbody">
+  <p class="use">Pare tenon shoulders, chop arm mortises, clean wedge slots — a half-inch, five-eighths and three-quarter cover chair work.</p>
   <ol class="buy">
-    <li><a href="https://www.leevalley.com/en-us/shop/tools/hand-tools/files-and-rasps/rasps/53822-auriou-chair-makers-rasp" rel="noopener">Lee Valley (Auriou) — Auriou Chair Maker&#x27;s Rasp (item 62W3040)</a> <span class="price">$126.00</span> <span class="opt-note">Confirmed &quot;Online: Available&quot;. Literally the chairmaker&#x27;s pattern: 10&quot;, grain 7, half-round at each end, stitched only on the convex side, made for crest rails, seats and large concave surfaces. Best single buy in this row.</span></li>
-    <li><a href="https://www.highlandwoodworking.com/products/auriou9x10cabinetrasp" rel="noopener">Highland Woodworking (Auriou) — Auriou Cabinet Rasps</a> <span class="price">From $150.50</span> <span class="opt-note">General-purpose Auriou if you want a longer flat/half-round. Highland also lists Auriou Modeller&#x27;s Rasps from $148.50 and the 12&quot; &quot;The Hog&quot; roughing rasp at $163.00.</span></li>
-    <li><a href="https://toolsforworkingwood.com/store/item/GT-CMRASP.XX/gramercy-tools-hand-cut-cabinetmakers-rasps" rel="noopener">Tools for Working Wood (Gramercy) — Gramercy Tools Hand Cut Cabinetmaker&#x27;s Rasps</a> <span class="price">$89.95-$199.95</span> <span class="opt-note">All sizes showed In Stock. The 10&quot; x 1&quot; at 11 tpi is $165.95; 5&quot; x 25 tpi $89.95; 12&quot; x 8 tpi $179.95. Hand-cut stainless, TFWW&#x27;s own brand - the sensible step below Auriou that is still hand-stitched.</span></li>
-    <li><a href="https://www.leevalley.com/en-us/shop/tools/hand-tools/files-and-rasps/rasps/20135-wood-and-cabinet-rasps" rel="noopener">Lee Valley / Highland — Wood and Cabinet Rasps (Lee Valley) - budget machine-cut</a> <span class="price">From $28.50</span> <span class="opt-note">Budget route. Machine-cut, so it leaves a coarser scratch pattern you clean up with the spokeshave and scraper. Highland&#x27;s Nicholson Patternmaker&#x27;s Rasp at $55.00 is a step up</span></li>
+    <li><a href="https://www.leevalley.com/en-us/shop/tools/hand-tools/chisels/bench/111360-narex-richter-chisels" rel="noopener">Lee Valley — Narex bench chisels</a> <span class="price">from $36.50</span><span class="opt-note">Buy the three sizes singly — the value standard.</span></li>
+    <li><a href="https://www.highlandwoodworking.com/products/narex-richter-bevel-edge-chisel-set" rel="noopener">Highland Woodworking — Narex Richter set</a> <span class="price">$210+</span><span class="opt-note">The upgraded steel, if you want a set for life.</span></li>
+    <li><a href="https://www.ebay.com/sch/i.html?_nkw=vintage+bevel+edge+bench+chisel" rel="noopener">eBay — vintage bevel-edge chisels</a> <span class="price">typically $25–$75</span><span class="opt-note">Witherby, Buck Brothers and friends clean up beautifully.</span></li>
   </ol>
-  </article>
-  <article class="tool" data-tag="both">
-  <h3>Chisels</h3>
-  <p class="use">Chop and pare the mortises that take sticks and legs, trim tenons and wedge kerfs, and clean up the joinery a drill cannot finish.</p>
+  </div>
+  </details>
+  <details class="tool" data-tag="both">
+  <summary><span class="tname">Mallets &amp; hammers</span><span class="from">from $28</span></summary>
+  <div class="tbody">
+  <p class="use">Assembly persuasion, froe striking and wedge driving — chairs go together under controlled blows.</p>
   <ol class="buy">
-    <li><a href="https://www.highlandwoodworking.com/products/narex-richter-bevel-edge-chisel-set" rel="noopener">Highland Woodworking (Narex) — Narex Richter Cryo-Treated Bevel Edged Chisels - Set of 5</a> <span class="price">From $210.00</span> <span class="opt-note">Richter is Narex&#x27;s premium line and holds an edge notably better than their standard range. Best value set here.</span></li>
-    <li><a href="https://www.leevalley.com/en-us/shop/tools/hand-tools/chisels/bench/111360-narex-richter-chisels" rel="noopener">Lee Valley (Narex) — Narex Richter Chisels</a> <span class="price">From $36.50</span> <span class="opt-note">Sold individually, so you can buy just the three or four widths you actually use. Listed Available.</span></li>
-    <li><a href="https://www.highlandwoodworking.com/products/narex-premium-bench-chisel-set-wooden-box" rel="noopener">Highland Woodworking (Narex) — Narex Premium 6-Piece Bench Chisel Set in Wooden Box</a> <span class="price">$161.00</span> <span class="opt-note">Step below Richter. Highland also lists Narex Premium Chisels Set of 4 at $80.00 and singles from $20.50. Lee Valley&#x27;s Narex Classic Bevel-Edge start at $14.00 each.</span></li>
-    <li><a href="https://www.ebay.com/sch/i.html?_nkw=vintage+bevel+edge+bench+chisel+lot" rel="noopener">eBay (vintage) — Vintage bevel-edge bench chisel lots (Witherby, Buck Bros, P.S.&amp;W, Stanley)</a> <span class="price">$25-75</span> <span class="opt-note">Live listings: 5-piece USA lot $24.95, 6-piece socket users $74.99, 7-piece $35.99, 3-chisel lot $25, single Witherby 1&quot; $32.40. Cheapest good steel available, but every one needs the back flattened before it will cut.</span></li>
+    <li><a href="https://lostartpress.com/products/lump-hammer" rel="noopener">Lost Art Press — Crucible lump hammer</a> <span class="price">$137</span><span class="opt-note">The 2-1/2 lb assembly hammer; heavier is better for chairmaking, per the LAP class list.</span></li>
+    <li><a href="https://hammersource.com/garland-1-1-4-rawhide-split-head-hammer-1-1-2-lbs-wood-handle/" rel="noopener">Hammer Source — Garland rawhide split-head hammer</a> <span class="price">$67.99–$189 by size</span><span class="opt-note">Rawhide faces strike a froe or a chair joint without bruising either. I like the 4-pounder (2″ face).</span></li>
+    <li><a href="https://www.highlandwoodworking.com/products/deadblowmallet22oz" rel="noopener">Highland Woodworking — dead-blow mallet</a> <span class="price">$28</span><span class="opt-note">Elia’s list runs dead-blow or split-head for assembly.</span></li>
   </ol>
-  </article>
-  <article class="tool" data-tag="both">
-  <h3>Lump hammer</h3>
-  <p class="use">Drives chair joints together and seats wedges, and knocks holdfasts in and out - compact and heavy, so it does the work of a big mallet in far less swing.</p>
+  <p class="foot-note">Add a wooden mallet you make yourself and a small steel hammer, and the striking till is done.</p>
+  </div>
+  </details>
+  <details class="tool" data-tag="both">
+  <summary><span class="tname">Holdfasts</span><span class="from">from $24.95</span></summary>
+  <div class="tbody">
+  <p class="use">One blow locks a seat blank to the bench through a 3/4″ dog hole; one blow releases it — the fastest workholding there is.</p>
   <ol class="buy">
-    <li><a href="https://www.leevalley.com/en-us/shop/tools/hand-tools/hammers/111838-crucible-lump-hammer" rel="noopener">Lee Valley (Crucible Tool) — Crucible Lump Hammer (item 97K5020)</a> <span class="price">$137.00</span> <span class="opt-note">Confirmed &quot;Online: Available&quot; - this is currently the way to get one. 2 1/2 lb overall, head just over 2 lb, octagonal hickory handle.</span></li>
-    <li><a href="https://lostartpress.com/products/lump-hammer" rel="noopener">Lost Art Press (Crucible Tool) — Lump Hammer</a> <span class="price">$137.00</span> <span class="opt-note">SOLD OUT at the maker&#x27;s own store (&quot;We have run out of stock for this item&quot;). Crucible restocks these in batches, so worth watching, but buy from Lee Valley today. Spare handle and wedges are in stock separately at $20.00.</span></li>
-    <li><a href="https://www.highlandwoodworking.com/products/deadblowmallet22oz" rel="noopener">Highland Woodworking — Dead Blow Mallet - 22 oz.</a> <span class="price">$28.00</span> <span class="opt-note">Budget stand-in. Not the same tool - a dead blow will not set a holdfast - but it assembles chairs without bruising parts. Narex Bench Mallet $21.50 is the traditional wooden alternative.</span></li>
+    <li><a href="https://toolsforworkingwood.com/store/item/MS-HOLDFAST.XX/Holdfasts+by+Gramercy+Tools" rel="noopener">Tools for Working Wood — Gramercy holdfasts</a> <span class="price">$24.95 each / $39.95 pair</span><span class="opt-note">The value standard, in stock.</span></li>
+    <li><a href="https://lostartpress.com/products/iron-holdfast" rel="noopener">Lost Art Press — Crucible iron holdfast</a> <span class="price">$156</span><span class="opt-note">The nice ones. Sold out at last check.</span></li>
   </ol>
-  </article>
-  <article class="tool" data-tag="both">
-  <h3>F-clamps</h3>
-  <p class="use">Hold parts down to the bench for boring and shaping, and pull chair joints closed during dry-fits and glue-up.</p>
+  </div>
+  </details>
+  <details class="tool" data-tag="dry">
+  <summary><span class="tname">Patternmaker’s vise</span> <span class="badge dry">dry stock only</span></summary>
+  <div class="tbody">
+  <p class="use">A vise whose jaws tilt and rotate to grab a curved chair part at any angle. Every bench should have one — for hand-tool work that isn’t green woodworking, this is basically the shave horse.</p>
   <ol class="buy">
-    <li><a href="https://www.leevalley.com/en-us/shop/tools/hand-tools/clamps/bar/111772-bessey-4-1-2-inch-jaw-medium-duty-fast-acting-clamps" rel="noopener">Lee Valley (Bessey) — Bessey 4 1/2&quot; Jaw Medium-Duty Fast-Acting Clamps</a> <span class="price">$39.00-$64.00</span> <span class="opt-note">Verified per-size pricing: 12&quot; $39.00, 18&quot; $44.00, 24&quot; $49.00, 30&quot; $54.00, 40&quot; $64.00. The classic Bessey F-clamp. 18&quot; and 24&quot; are the useful chair sizes.</span></li>
-    <li><a href="https://www.leevalley.com/en-us/shop/tools/hand-tools/clamps/bar/111774-bessey-7-inch-jaw-medium-duty-fast-acting-clamps" rel="noopener">Lee Valley (Bessey) — Bessey 7&quot; Jaw Medium-Duty Fast-Acting Clamps</a> <span class="price">From $54.00</span> <span class="opt-note">Deeper throat for reaching in past a seat edge.</span></li>
-    <li><a href="https://www.leevalley.com/en-us/shop/tools/hand-tools/clamps/bar/117239-jorgensen-medium-duty-fast-acting-bar-clamps" rel="noopener">Lee Valley (Jorgensen) — Jorgensen Medium-Duty Fast-Acting Bar Clamps</a> <span class="price">From $17.50</span> <span class="opt-note">Roughly half the Bessey price. Buy four of these before you buy two of anything else.</span></li>
-    <li><a href="https://www.leevalley.com/en-us/shop/tools/hand-tools/clamps/bar/113780-light-duty-fast-acting-clamps" rel="noopener">Lee Valley — Light-Duty Fast-Acting Clamps</a> <span class="price">From $8.10</span> <span class="opt-note">Cheapest option found. Fine for holding work to the bench, not for pulling a stubborn joint home.</span></li>
+    <li><a href="https://www.ebay.com/sch/i.html?_nkw=emmert+patternmaker+vise" rel="noopener">eBay — vintage Emmert and Emmert-pattern vises</a> <span class="price">prices vary widely</span><span class="opt-note">The originals surface constantly and swing hundreds of dollars on condition and size — patience wins. Modern imports exist; inspect the castings.</span></li>
   </ol>
-  </article>
-  <article class="tool" data-tag="both">
-  <h3>Tape measure</h3>
-  <p class="use">Rough dimensioning and stock layout - everything that does not need the precision of dividers or a story stick.</p>
+  </div>
+  </details>
+  <details class="tool" data-tag="both">
+  <summary><span class="tname">F-clamps</span><span class="from">from $17.5</span></summary>
+  <div class="tbody">
+  <p class="use">Hold arms to seats for trial fits, clamp bending forms, and stand in as extra hands at glue-up.</p>
   <ol class="buy">
-    <li><a href="https://www.leevalley.com/en-us/shop/tools/hand-tools/marking-and-measuring/tapes/118013-25-foot-7-5m-right-hand-lee-valley-tape" rel="noopener">Lee Valley — 25&#x27;/7.5m Right-Hand Lee Valley Tape</a> <span class="price">$15.70</span> <span class="opt-note">Left-hand version at the same $15.70 (item 118014) if you read from the other side. A 10&#x27; version is $6.90.</span></li>
-    <li><a href="https://www.leevalley.com/en-us/shop/tools/hand-tools/marking-and-measuring/118960-tape-measure-set" rel="noopener">Lee Valley — Tape Measure Set</a> <span class="price">$14.50</span> <span class="opt-note">Cheapest way to get more than one tape into the shop.</span></li>
+    <li><a href="https://www.leevalley.com/en-us/shop/tools/hand-tools/clamps/bar/117239-jorgensen-medium-duty-fast-acting-bar-clamps" rel="noopener">Lee Valley — Jorgensen F-clamps</a> <span class="price">from $17.50</span><span class="opt-note">Four medium clamps cover a chair.</span></li>
+    <li><a href="https://www.leevalley.com/en-us/shop/tools/hand-tools/clamps/bar/111772-bessey-4-1-2-inch-jaw-medium-duty-fast-acting-clamps" rel="noopener">Lee Valley — Bessey F-clamps</a> <span class="price">$39–$64</span><span class="opt-note">The smoother-acting upgrade.</span></li>
   </ol>
-  </article>
-  <article class="tool" data-tag="both">
-  <h3>Dividers</h3>
-  <p class="use">Steps off equal spacing for stick and spindle layout and scribes arcs on seat blanks - the tool that keeps chair geometry consistent without arithmetic.</p>
+  </div>
+  </details>
+  <details class="tool" data-tag="both">
+  <summary><span class="tname">Marking &amp; measuring</span><span class="from">from $13.25</span></summary>
+  <div class="tbody">
+  <p class="use">Layout lives in a small kit: tape and 6″ rule, combination square, marking gauge, marking knife, dividers, pencils, and a torpedo level for seat checks.</p>
   <ol class="buy">
-    <li><a href="https://lostartpress.com/products/crucible-dividers-type-2" rel="noopener">Lost Art Press (Crucible Tool) — Crucible Dividers, Type 2</a> <span class="price">$210.00</span> <span class="opt-note">SOLD OUT at time of checking. The chairmaker&#x27;s-favourite pair, designed by the people who write the stick-chair books; restocked in batches.</span></li>
-    <li><a href="https://www.highlandwoodworking.com/products/starrett-toolmakers-spring-type-divider" rel="noopener">Highland Woodworking (Starrett) — Starrett Toolmakers Spring-Type Divider</a> <span class="price">$104.00</span> <span class="opt-note">In-stock quality alternative while the Crucible pair is out. Highland also lists Starrett Carpenter&#x27;s Dividers at $328.00.</span></li>
-    <li><a href="https://www.highlandwoodworking.com/products/calipers-dividers-8-inch" rel="noopener">Highland Woodworking — Calipers and Dividers - 8 inch</a> <span class="price">$13.25</span> <span class="opt-note">Budget route and completely adequate - dividers do not need to be precise, only to hold their setting. A smaller pair is $10.50.</span></li>
+    <li><a href="https://www.leevalley.com/en-us/shop/tools/hand-tools/marking-and-measuring/tapes/118013-25-foot-7-5m-right-hand-lee-valley-tape" rel="noopener">Lee Valley — 12′ tape measure</a> <span class="price">$15.70</span><span class="opt-note">Any good tape works; this one’s scaled both edges.</span></li>
+    <li><a href="https://www.highlandwoodworking.com/products/starrett-toolmakers-spring-type-divider" rel="noopener">Highland Woodworking — Starrett spring dividers</a> <span class="price">$104</span><span class="opt-note">Dividers step off spindle spacing faster than any ruler; Starrett is the buy-once answer.</span></li>
+    <li><a href="https://www.highlandwoodworking.com/products/calipers-dividers-8-inch" rel="noopener">Highland Woodworking — 8″ dividers</a> <span class="price">$13.25</span><span class="opt-note">The budget pair.</span></li>
   </ol>
-  </article>
-  <h2>Glue, finish, and sharpening</h2>
-  <p class="cat-note">Consumables and the sharpening kit that keeps the edge tools honest.</p>
-  <article class="tool" data-tag="both">
-  <h3>Glue for chairs</h3>
-  <p class="use">Holds the joints and — the part that matters for a chair — lets a future repairer take it apart again, because hide and fish glues reverse with heat and moisture.</p>
+  <p class="foot-note">Round it out: combination square (6 or 12″), 6″ rule, marking gauge — for green wood the duller the better, per Elia — a marking knife, mechanical pencils, and a torpedo level.</p>
+  </div>
+  </details>
+  <h2>Sharpening</h2>
+  <p class="cat-note">The edge tools above are only as good as this section. Diamond plates, a strop, and slipstones for the curved irons.</p>
+  <details class="tool" data-tag="both">
+  <summary><span class="tname">Diamond plates</span><span class="from">from $59.5</span></summary>
+  <div class="tbody">
+  <p class="use">Flatten and sharpen everything from plane irons to drawknives without hollowing like a waterstone — the low-maintenance chair-shop setup.</p>
   <ol class="buy">
-    <li><a href="https://toolsforworkingwood.com/store/item/MS-OLDBROWN.XX" rel="noopener">Tools for Working Wood — Patrick Edwards&#x27; Old Brown Glue (liquid hide glue)</a> <span class="price">$9.60 (5 oz) / $24.95 (20 oz)</span> <span class="opt-note">Both sizes In Stock. Two ingredients — hydrolyzed collagen and urea. 30-minute open time, 24 hours to full cure. The chairmaker&#x27;s default.</span></li>
-    <li><a href="https://lostartpress.com/products/death-grip-glue" rel="noopener">Lost Art Press — Piggly No Wiggly Glue, 8 oz</a> <span class="price">$16.25</span> <span class="opt-note">In Stock. Gelatin-based, reversible, non-toxic, endlessly reparable, and unusually for an animal glue it dries clear. 2 bottles $29.50, 3 for $42.75.</span></li>
-    <li><a href="https://lostartpress.com/products/fish-stick-glue-2" rel="noopener">Lost Art Press — Fish Stick Glue, 8 oz</a> <span class="price">$18.00</span> <span class="opt-note">In Stock. Made from cod skins; flows at room temperature like PVA with no warming, 90-minute open time, cleans up with hot water. The one for a big multi-stick glue-up. 2 for $33, 3 for $48.</span></li>
-    <li><a href="https://www.highlandwoodworking.com/products/titebondliquidhideglue8oz" rel="noopener">Highland Woodworking — Titebond Liquid Hide Glue, 8 oz</a> <span class="price">$8.50</span> <span class="opt-note">In Stock. Ready to use, no mixing or heating; very long open time and redissolves with moist heat. The budget entry point.</span></li>
+    <li><a href="https://www.highlandwoodworking.com/products/dmt-8in-dia-sharp-bench-stone" rel="noopener">Highland Woodworking — DMT Dia-Sharp 8″ plates</a> <span class="price">from $73.50</span><span class="opt-note">Coarse + fine + extra-fine covers the kit.</span></li>
+    <li><a href="https://www.leevalley.com/en-us/shop/tools/sharpening/stones/33005-monocrystalline-diamond-bench-stones" rel="noopener">Lee Valley — monocrystalline diamond stones</a> <span class="price">from $59.50</span><span class="opt-note">Same idea, house brand.</span></li>
   </ol>
-  </article>
-  <article class="tool" data-tag="both">
-  <h3>Finish</h3>
-  <p class="use">Feeds the wood and leaves a low-sheen, touchable surface — a chair gets handled constantly, so an in-the-wood finish you can repair by wiping on more beats a film that chips.</p>
+  </div>
+  </details>
+  <details class="tool" data-tag="both">
+  <summary><span class="tname">Strop &amp; compound</span><span class="from">from $18.5</span></summary>
+  <div class="tbody">
+  <p class="use">The daily edge maintenance — a loaded strop keeps a drawknife or travisher iron shaving-sharp for weeks between real sharpenings.</p>
   <ol class="buy">
-    <li><a href="https://sagerestoration.com/en-us/products/allback-purified-raw-linseed-oil" rel="noopener">Sage Restoration — Allbäck Purified Raw Linseed Oil, 1 L</a> <span class="price">$22.00</span> <span class="opt-note">In Stock. Cold-pressed, proteins removed. Larger sizes on the same page: 5 L $107.00, 20 L (5 gal) pail $364.00. US/Canada fulfilment, no tariffs or duties within North America.</span></li>
-    <li><a href="https://www.woodcraft.com/products/tried-true-wood-finish-original-wood-finish-oil-based" rel="noopener">Woodcraft — Tried &amp; True Original Wood Finish, 1 pint</a> <span class="price">$31.99</span> <span class="opt-note">In Stock Online. Also offered in 1 quart and 1 gallon on the same page. Polymerized linseed oil + beeswax, 19th-century recipe, no solvent.</span></li>
-    <li><a href="https://lostartpress.com/products/soft-wax-soft-wax-kits" rel="noopener">Lost Art Press — Soft Wax 2.0, 8 oz jar (or kit with applicator pad + huck towel)</a> <span class="price">$25.00 (jar) / $29.00 (kit)</span> <span class="opt-note">BOTH SOLD OUT. Purified linseed oil, cosmetic-grade beeswax, pure citrus solvent; non-toxic, no respirator needed. One 8 oz jar covers about five chairs. The default chair finish when it&#x27;s available.</span></li>
+    <li><a href="https://www.highlandwoodworking.com/products/leather-strop-10" rel="noopener">Highland Woodworking — 10″ leather strop</a> <span class="price">$19</span><span class="opt-note">Plus a bar of green compound ($18) and you’re set.</span></li>
+    <li><a href="https://www.leevalley.com/en-us/shop/tools/sharpening/compounds-and-pastes/32984-veritas-honing-compound" rel="noopener">Lee Valley — Veritas honing compound</a> <span class="price">$18.50</span><span class="opt-note">The green bar itself.</span></li>
   </ol>
-  </article>
-  <article class="tool" data-tag="both">
-  <h3>Diamond sharpening plates</h3>
-  <p class="use">Flatten chisel and plane-iron backs and grind and hone the bevels - no soaking, no dishing, and they cut modern A2 and PM-V11 steels that soft waterstones struggle with.</p>
+  <p class="foot-note">Add curved slipstones for the inside bevels of adze, scorp and travisher irons — they’re in my packing list for a reason.</p>
+  </div>
+  </details>
+  <details class="tool" data-tag="both">
+  <summary><span class="tname">Honing guide</span><span class="from">from $15.2</span></summary>
+  <div class="tbody">
+  <p class="use">Repeatable bevels on plane irons and chisels while your freehand touch develops — the curved chair edges stay freehand regardless.</p>
   <ol class="buy">
-    <li><a href="https://www.highlandwoodworking.com/products/dmt-8in-dia-sharp-bench-stone" rel="noopener">Highland Woodworking (DMT) — DMT 8in Dia-Sharp Bench Stone</a> <span class="price">From $73.50</span> <span class="opt-note">Continuous (unperforated) surface, sold per grit: XX-Coarse (D8XX), X-Coarse (D8X), Coarse (D8C), Fine (D8F), X-Fine (D8E), XX-Fine (D8EE). Buy two - a Coarse and an X-Fine covers everything.</span></li>
-    <li><a href="https://www.highlandwoodworking.com/products/dmt-8in-duosharp-plus-bench-stone" rel="noopener">Highland Woodworking (DMT) — DMT 8in DuoSharp Plus Bench Stone</a> <span class="price">$84.00</span> <span class="opt-note">Two grits on one double-sided plate - cheapest way to get a coarse/fine pair in a single purchase.</span></li>
-    <li><a href="https://www.highlandwoodworking.com/products/dmtduo-sharp8diamondstoneextra-coarsecoarse" rel="noopener">Highland Woodworking (DMT) — DMT Duo-Sharp 8 Inch and 10 Inch Diamond Stones</a> <span class="price">From $105.00</span> <span class="opt-note">Larger perforated double-sided plates. The 10&quot; is worth it if you also flatten plane soles.</span></li>
-    <li><a href="https://www.leevalley.com/en-us/shop/tools/sharpening/stones/33005-monocrystalline-diamond-bench-stones" rel="noopener">Lee Valley — Monocrystalline Diamond Bench Stones</a> <span class="price">From $59.50</span> <span class="opt-note">Cheapest diamond plates found, listed Available. Lee Valley does not carry DMT or Atoma.</span></li>
+    <li><a href="https://www.leevalley.com/en-us/shop/tools/sharpening/guides/101899-veritas-mk-ii-standard-honing-guide" rel="noopener">Lee Valley — Veritas Mk.II honing guide</a> <span class="price">$89</span><span class="opt-note">The standard for straight blades.</span></li>
+    <li><a href="https://www.leevalley.com/en-us/shop/tools/sharpening/guides/60311-vise-type-honing-guide" rel="noopener">Lee Valley — side-clamp honing guide</a> <span class="price">$15.20</span><span class="opt-note">The classic cheap one still works.</span></li>
   </ol>
-  </article>
-  <article class="tool" data-tag="both">
-  <h3>Strop and honing compound</h3>
-  <p class="use">The 30-second refresh that puts a keen edge back mid-session without going near a stone - essential when you are paring end grain in a seat all afternoon.</p>
+  </div>
+  </details>
+  <h2>Glue &amp; finish</h2>
+  <p class="cat-note">Consumables — what actually holds the chair together and what it wears.</p>
+  <details class="tool" data-tag="both">
+  <summary><span class="tname">Glue</span><span class="from">from $8.5</span></summary>
+  <div class="tbody">
+  <p class="use">Liquid hide glue is the chair answer: long open time for a twenty-joint assembly, and it lets the chair be repaired in fifty years.</p>
   <ol class="buy">
-    <li><a href="https://www.highlandwoodworking.com/products/leather-strop-10" rel="noopener">Highland Woodworking — Leather Strop - 10&quot;</a> <span class="price">$19.00</span> <span class="opt-note">Pair this with the green compound below - together $37 and it is the single highest-value purchase in the sharpening kit.</span></li>
-    <li><a href="https://www.highlandwoodworking.com/products/greenhoningcompound" rel="noopener">Highland Woodworking — Green Honing Compound</a> <span class="price">$18.00</span> <span class="opt-note">Standard chromium-oxide crayon. One bar lasts years.</span></li>
-    <li><a href="https://www.leevalley.com/en-us/shop/tools/sharpening/compounds-and-pastes/32984-veritas-honing-compound" rel="noopener">Lee Valley (Veritas) — Veritas Honing Compound</a> <span class="price">$18.50</span> <span class="opt-note">Listed Available. Equivalent to the green bar if you are already ordering from Lee Valley.</span></li>
-    <li><a href="https://www.highlandwoodworking.com/products/leather-strop-belt-style" rel="noopener">Highland Woodworking — Leather Strop Belt Style</a> <span class="price">$9.00</span> <span class="opt-note">Cheapest strop found. Or glue a scrap of leather to a flat offcut and spend the $9 on compound.</span></li>
+    <li><a href="https://toolsforworkingwood.com/store/item/MS-OLDBROWN.XX" rel="noopener">Tools for Working Wood — Old Brown Glue</a> <span class="price">$9.60 (5 oz) / $24.95 (20 oz)</span><span class="opt-note">The chairmaker standard.</span></li>
+    <li><a href="https://lostartpress.com/products/death-grip-glue" rel="noopener">Lost Art Press — Death Grip hide glue</a> <span class="price">$16.25</span><span class="opt-note">Their house liquid hide.</span></li>
+    <li><a href="https://www.highlandwoodworking.com/products/titebondliquidhideglue8oz" rel="noopener">Highland Woodworking — Titebond liquid hide</a> <span class="price">$8.50</span><span class="opt-note">On every hardware-store shelf, and it works.</span></li>
   </ol>
-  </article>
-  <article class="tool" data-tag="both">
-  <h3>Honing guide</h3>
-  <p class="use">Holds the blade at a repeatable bevel angle so every sharpening returns the same edge instead of slowly rounding it over.</p>
+  </div>
+  </details>
+  <details class="tool" data-tag="both">
+  <summary><span class="tname">Finish</span><span class="from">from $22</span></summary>
+  <div class="tbody">
+  <p class="use">Chairs get touched more than any other furniture — finishes that repair easily beat finishes that shine.</p>
   <ol class="buy">
-    <li><a href="https://www.leevalley.com/en-us/shop/tools/sharpening/guides/101899-veritas-mk-ii-standard-honing-guide" rel="noopener">Lee Valley (Veritas) — Veritas Mk.II Standard Honing Guide</a> <span class="price">$89.00</span> <span class="opt-note">The reference guide - registration jig sets the projection so the angle is repeatable without measuring.</span></li>
-    <li><a href="https://www.leevalley.com/en-us/shop/tools/sharpening/guides/51868-veritas-mk-ii-deluxe-honing-guide-set" rel="noopener">Lee Valley (Veritas) — Veritas Mk.II Deluxe Honing Guide Set</a> <span class="price">$169.00</span> <span class="opt-note">Adds the narrow-blade and skew heads. Only worth it if you sharpen a wide range of widths.</span></li>
-    <li><a href="https://www.leevalley.com/en-us/shop/tools/sharpening/guides/114954-lee-valley-replica-honing-guide" rel="noopener">Lee Valley — Lee Valley Replica Honing Guide</a> <span class="price">$28.50</span> <span class="opt-note">Reproduction of the classic Eclipse-style side-clamping guide. This is the one most stick-chair writers actually use.</span></li>
-    <li><a href="https://www.leevalley.com/en-us/shop/tools/sharpening/guides/60311-vise-type-honing-guide" rel="noopener">Lee Valley — Vise-Type Honing Guide</a> <span class="price">$15.20</span> <span class="opt-note">Cheapest guide found. Veritas Side-Clamping Honing Guide at $54.50 sits between this and the Mk.II.</span></li>
+    <li><a href="https://sagerestoration.com/en-us/products/allback-purified-raw-linseed-oil" rel="noopener">Sage Restoration — Allbäck purified linseed oil</a> <span class="price">$22</span><span class="opt-note">Pure, slow, and it never films — the plain-wood answer.</span></li>
+    <li><a href="https://lostartpress.com/products/soft-wax-soft-wax-kits" rel="noopener">Lost Art Press — Soft Wax 2.0</a> <span class="price">$25 jar / $29 kit</span><span class="opt-note">The wipe-on chair topcoat.</span></li>
+    <li><a href="https://www.woodcraft.com/products/tried-true-wood-finish-original-wood-finish-oil-based" rel="noopener">Woodcraft — Tried &amp; True Original</a> <span class="price">$31.99</span><span class="opt-note">Linseed and beeswax in one step.</span></li>
   </ol>
-  </article>
+  <p class="foot-note">Painted chairs: Elia’s list runs Old Fashioned milk paint under shellac, brushed on with a 1-1/2″ synthetic sash brush, waxed over.</p>
+  </div>
+  </details>
   <!-- TOOLS:END -->
 
   <footer>
@@ -497,6 +597,12 @@ footer a { color: var(--sub); }
       chips.forEach(function (o) { o.setAttribute('aria-pressed', o === c ? 'true' : 'false'); });
       document.body.dataset.filter = c.dataset.f;
     });
+  });
+  var all = document.getElementById('expand-all');
+  all.addEventListener('click', function () {
+    var open = all.textContent === 'expand all';
+    document.querySelectorAll('details.tool').forEach(function (d) { d.open = open; });
+    all.textContent = open ? 'collapse all' : 'expand all';
   });
   /* Address assembled here so it isn't sitting in the source for harvesters. */
   var a = ['ll', 'eb5ww.com'].join('@');
