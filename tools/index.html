@@ -40,6 +40,7 @@ main { max-width: 720px; margin: 0 auto; }
 .crumb a { color: var(--sub); text-decoration: none; }
 .crumb a:hover { color: var(--blue); }
 h1 { font-size: 30px; font-weight: 600; margin: 0 0 10px; letter-spacing: -0.015em; }
+.intro { font-size: 18px; line-height: 1.55; color: var(--ink); margin: 0 0 8px; }
 .lede { color: var(--sub); margin: 0 0 6px; }
 .smallprint { color: var(--faint); font-size: 13.5px; margin: 10px 0 0; }
 .smallprint a { color: var(--sub); }
@@ -82,8 +83,8 @@ details.tool summary:hover { color: var(--blue); }
 .buy a { color: var(--blue); text-decoration: none; }
 .buy a:hover { text-decoration: underline; }
 .price { font-weight: 600; white-space: nowrap; }
-.opt-note { display: block; color: var(--faint); font-size: 13px; line-height: 1.5; margin-top: 1px; }
-.foot-note { color: var(--faint); font-size: 13px; margin: 10px 0 0; }
+.opt-note { display: block; color: var(--sub); font-size: 13.5px; line-height: 1.5; margin-top: 1px; }
+.foot-note { color: var(--sub); font-size: 13.5px; margin: 10px 0 0; }
 footer {
   margin-top: 44px; padding-top: 20px; border-top: 1px solid var(--rule);
   color: var(--faint); font-size: 13.5px;
@@ -103,13 +104,7 @@ footer a { color: var(--sub); }
 
   <header>
     <h1>The tool list</h1>
-    <p class="lede">Every tool I'd put in a hand-tool stick chairmaker's kit — whether you're
-      working <b>green</b>, riving parts straight from a log, or working <b>dry</b>, building
-      from sawn boards out of the lumberyard. <span class="badge core">core</span> marks what
-      I'd tell a new chairmaker to buy first; <span class="badge green">core — green wood</span>
-      and <span class="badge dry">core — kiln-dried</span> mean it's core for that path in
-      particular. Tap a tool to see what it does and where to buy it.</p>
-    <p class="smallprint">Everything here is personal experience and personal preference.
+    <p class="intro">Everything here is personal experience and personal preference.
       Nothing is sponsored: no affiliate links, nobody pays to be on this list, and I'm not
       interested in sponsorships. This is also not an exhaustive list of available tools —
       I've listed tools that are well made, last a lifetime, and are reasonably available.
@@ -117,8 +112,10 @@ footer a { color: var(--sub); }
       reasons: I'm unfamiliar with it, it has limited availability, its price makes it
       inaccessible, or it's cheap garbage.</p>
     <p class="smallprint">Buying links are in my order of preference — first link is the one
-      I'd buy. Prices are what each seller listed in August 2026 and will drift. Spot
-      something wrong or missing? <a id="tools-fb" href="#" rel="nofollow">Tell me</a>.</p>
+      I'd buy. Prices are what each seller listed in August 2026 and will drift. The
+      <span class="badge core">core</span> badges mark what I'd tell a new chairmaker to buy
+      first. Spot something wrong or missing?
+      <a id="tools-fb" href="#" rel="nofollow">Tell me</a>.</p>
   </header>
 
   <div class="filters">
@@ -661,7 +658,7 @@ footer a { color: var(--sub); }
     all.textContent = open ? 'collapse all' : 'expand all';
   });
   /* Address assembled here so it isn't sitting in the source for harvesters. */
-  var a = ['ll', 'eb5ww.com'].join('@');
+  var a = ['lewis', 'avocations.studio'].join('@');
   var fb = document.getElementById('tools-fb');
   if (fb) fb.href = 'mailto:' + a + '?subject=' +
     encodeURIComponent('chairmak.ing — tool list');
