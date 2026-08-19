@@ -44,14 +44,7 @@ h1 { font-size: 30px; font-weight: 600; margin: 0 0 10px; letter-spacing: -0.015
 .smallprint { color: var(--faint); font-size: 13.5px; margin: 10px 0 0; }
 .smallprint a { color: var(--sub); }
 
-/* Filter chips */
-.filters { margin: 26px 0 4px; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
-.chip {
-  padding: 6px 14px; border-radius: 999px; border: 1px solid var(--rule);
-  background: var(--paper); color: var(--sub); font: inherit; font-size: 14px;
-  cursor: pointer;
-}
-.chip[aria-pressed="true"] { border-color: var(--blue); background: var(--blue-soft); color: var(--blue); font-weight: 600; }
+.filters { margin: 22px 0 4px; display: flex; }
 .expand-toggle { margin-left: auto; font-size: 13px; color: var(--sub); background: none; border: 0; cursor: pointer; text-decoration: underline; padding: 6px 0; }
 
 /* Category sections */
@@ -91,9 +84,6 @@ details.tool summary:hover { color: var(--blue); }
 .price { font-weight: 600; white-space: nowrap; }
 .opt-note { display: block; color: var(--faint); font-size: 13px; line-height: 1.5; margin-top: 1px; }
 .foot-note { color: var(--faint); font-size: 13px; margin: 10px 0 0; }
-body[data-filter="green"] details.tool[data-tag="dry"] { display: none; }
-body[data-filter="dry"] details.tool[data-tag="green"] { display: none; }
-
 footer {
   margin-top: 44px; padding-top: 20px; border-top: 1px solid var(--rule);
   color: var(--faint); font-size: 13.5px;
@@ -115,10 +105,10 @@ footer a { color: var(--sub); }
     <h1>The tool list</h1>
     <p class="lede">Every tool I'd put in a hand-tool stick chairmaker's kit — whether you're
       working <b>green</b>, riving parts straight from a log, or working <b>dry</b>, building
-      from sawn boards out of the lumberyard. Tools that only matter when you start from a log
-      are tagged <span class="badge green">green wood only</span>, and
-      <span class="badge core">core</span> marks what I'd tell a new chairmaker to buy first.
-      Tap a tool to see what it does and where to buy it.</p>
+      from sawn boards out of the lumberyard. <span class="badge core">core</span> marks what
+      I'd tell a new chairmaker to buy first; <span class="badge green">core — green wood</span>
+      and <span class="badge dry">core — kiln-dried</span> mean it's core for that path in
+      particular. Tap a tool to see what it does and where to buy it.</p>
     <p class="smallprint">Everything here is personal experience and personal preference.
       Nothing is sponsored: no affiliate links, nobody pays to be on this list, and I'm not
       interested in sponsorships. This is also not an exhaustive list of available tools —
@@ -131,18 +121,15 @@ footer a { color: var(--sub); }
       something wrong or missing? <a id="tools-fb" href="#" rel="nofollow">Tell me</a>.</p>
   </header>
 
-  <div class="filters" role="group" aria-label="Filter tools by path">
-    <button class="chip" data-f="all" aria-pressed="true">Everything</button>
-    <button class="chip" data-f="green" aria-pressed="false">Green wood — from the log</button>
-    <button class="chip" data-f="dry" aria-pressed="false">Dry stock — from sawn boards</button>
+  <div class="filters">
     <button class="expand-toggle" id="expand-all">expand all</button>
   </div>
 
   <!-- TOOLS:BEGIN -->
   <h2>Core shaping tools</h2>
-  <p class="cat-note">The four tools chair shaping actually runs on. Start here.</p>
+  <p class="cat-note">The tools chair shaping actually runs on. Start here.</p>
   <details class="tool" data-tag="green">
-  <summary><span class="tname">Drawknife</span> <span class="badge core">core</span> <span class="badge green">green wood only</span><span class="from">from $118</span></summary>
+  <summary><span class="tname">Drawknife</span> <span class="badge green">core — green wood</span><span class="from">from $118</span></summary>
   <div class="tbody">
   <p class="use">For shaping sticks and more. The primary tool for green woodworking.</p>
   <ol class="buy">
@@ -187,6 +174,17 @@ footer a { color: var(--sub); }
   </ol>
   </div>
   </details>
+  <details class="tool" data-tag="both">
+  <summary><span class="tname">Card scraper</span> <span class="badge core">core</span><span class="from">from $11</span></summary>
+  <div class="tbody">
+  <p class="use">A flexed steel card that follows the curve of a saddled seat or an arm and shears off the last tool marks and tearout — the cheapest edge tool in the kit.</p>
+  <ol class="buy">
+    <li><a href="https://lostartpress.com/products/crucible-card-scraper" rel="noopener">Lost Art Press — Crucible card scraper</a> <span class="price">$25</span><span class="opt-note">Curved so you don’t have to bow it with your thumbs — copied from the scraper Welsh chairmaker Chris Williams brought to his first US class.</span></li>
+    <li><a href="https://www.highlandwoodworking.com/products/bahco474cardscraper" rel="noopener">Highland Woodworking — Bahco 474 scraper</a> <span class="price">$11–$12.50</span><span class="opt-note">The original Sandvik steel. The thin .023″ flexes more; the .032″ is the stiff general-purpose card.</span></li>
+    <li><a href="https://bluesprucetoolworks.com/products/card-scrapers-straight-6-inch" rel="noopener">Blue Spruce Toolworks — card scrapers</a> <span class="price">from $24.99</span><span class="opt-note">A few shapes and thicknesses. Tool steel instead of spring steel — offers very thick scrapers.</span></li>
+  </ol>
+  </div>
+  </details>
   <h2>More shaping tools</h2>
   <p class="cat-note">Non-core: the kit above covers these jobs until you know you want them.</p>
   <details class="tool" data-tag="both">
@@ -198,17 +196,6 @@ footer a { color: var(--sub); }
     <li><a href="https://barrtools.com/products/hewing-adz-ship-carpenter-s-adz" rel="noopener">Barr Tools — hewing adze</a> <span class="price">$250–$255</span><span class="opt-note">Sold out at last check, both direct and through Highland.</span></li>
   </ol>
   <p class="foot-note">Two lengths earn their keep — a short one for control, a long one for hogging. Jason Lonon forges the short seat adzes; Barr makes the long ones.</p>
-  </div>
-  </details>
-  <details class="tool" data-tag="both">
-  <summary><span class="tname">Card scraper</span><span class="from">from $11</span></summary>
-  <div class="tbody">
-  <p class="use">A flexed steel card that follows the curve of a saddled seat or an arm and shears off the last tool marks and tearout — the cheapest edge tool in the kit.</p>
-  <ol class="buy">
-    <li><a href="https://lostartpress.com/products/crucible-card-scraper" rel="noopener">Lost Art Press — Crucible card scraper</a> <span class="price">$25</span><span class="opt-note">Curved so you don’t have to bow it with your thumbs — copied from the scraper Welsh chairmaker Chris Williams brought to his first US class.</span></li>
-    <li><a href="https://www.highlandwoodworking.com/products/bahco474cardscraper" rel="noopener">Highland Woodworking — Bahco 474 scraper</a> <span class="price">$11–$12.50</span><span class="opt-note">The original Sandvik steel. The thin .023″ flexes more; the .032″ is the stiff general-purpose card.</span></li>
-    <li><a href="https://bluesprucetoolworks.com/products/card-scrapers-straight-6-inch" rel="noopener">Blue Spruce Toolworks — card scrapers</a> <span class="price">from $24.99</span><span class="opt-note">A few shapes and thicknesses. Tool steel instead of spring steel — offers very thick scrapers.</span></li>
-  </ol>
   </div>
   </details>
   <details class="tool" data-tag="both">
@@ -225,6 +212,16 @@ footer a { color: var(--sub); }
   <h2>Boring &amp; reaming</h2>
   <p class="cat-note">Legs meet seats as round or tapered mortise-and-tenon joints; this is that joint’s toolkit — and the angle tools that aim it. Reamers and tenon cutters are made in a few different angles: make sure you buy a set that matches.</p>
   <details class="tool" data-tag="both">
+  <summary><span class="tname">Cylindrical tenon cutter</span> <span class="badge core">core</span><span class="from">from $19.9</span></summary>
+  <div class="tbody">
+  <p class="use">Cuts a straight round tenon on the end of a leg, stick or stretcher.</p>
+  <ol class="buy">
+    <li><a href="https://www.leevalley.com/en-us/shop/tools/hand-tools/dowel-and-tenon-cutters/42299-veritas-power-tenon-cutters" rel="noopener">Lee Valley — Veritas power tenon cutters</a> <span class="price">$115–$125 (5/8–1″)</span><span class="opt-note">5/8, 3/4 and 1″ are the most common. I reach for 7/8 and 1-1/4 here and there. The little 3/8–1/2 minis are a nice luxury item. Sizes drift in and out of stock; the set of three is $329 when it’s in.</span></li>
+    <li><a href="https://www.leevalley.com/en-us/shop/tools/power-tool-accessories/drill-bits/32320-veritas-imperial-tapered-snug-plug-cutters" rel="noopener">Lee Valley — Veritas snug-plug cutters (the budget backup)</a> <span class="price">from $19.90</span><span class="opt-note">In a pinch, a plug cutter will form a short tenon on the end of a stick — not a substitute for the real thing on legs, but a cheap way in.</span></li>
+  </ol>
+  </div>
+  </details>
+  <details class="tool" data-tag="both">
   <summary><span class="tname">Tapered reamer (6°)</span><span class="from">from $85</span></summary>
   <div class="tbody">
   <p class="use">Turns a straight bored hole into a tapered socket, so a matching tapered tenon wedges tighter the harder the chair is sat in.</p>
@@ -232,16 +229,7 @@ footer a { color: var(--sub); }
     <li><a href="https://www.timmanney.com/work/reamers" rel="noopener">Tim Manney — 6° tapered reamer</a> <span class="price">$305</span><span class="opt-note">The one I’d buy. Batches roughly monthly; his newsletter gets a day’s head start on each drop.</span></li>
     <li><a href="https://handtoolwoodworking.com/reamers/" rel="noopener">Elia Bizzarri — 6° chairmaking reamer</a> <span class="price">$170 finished / $85 raw</span><span class="opt-note">Riven hickory body, set-screw depth adjustment. Also sold in a set with three tenon cutters and a dowel plate ($560–$600).</span></li>
   </ol>
-  <p class="foot-note">6° tools (Manney, Bizzarri) go together; wide-angle tools (Veritas, 12.8°) go together. Mixing systems is how tenons end up loose.</p>
-  </div>
-  </details>
-  <details class="tool" data-tag="both">
-  <summary><span class="tname">Wide-angle reamer</span><span class="from">from $34.5</span></summary>
-  <div class="tbody">
-  <p class="use">The Veritas 12.8° system — a power-tool-friendly reamer at a friendlier price.</p>
-  <ol class="buy">
-    <li><a href="https://www.leevalley.com/en-us/shop/tools/hand-tools/drills/54864-standard-taper-reamers" rel="noopener">Lee Valley — Veritas standard taper reamers</a> <span class="price">$34.50–$46.50</span><span class="opt-note">Wide-angle, power-tool reamer.</span></li>
-  </ol>
+  <p class="foot-note">6° tools (Manney, Bizzarri) go together; wide-angle tools (Veritas, 12.8°) go together. Mixing systems is how tenons end up loose. Tapered joinery is core if Windsors are your road — a stick chair can live on straight cylindrical tenons.</p>
   </div>
   </details>
   <details class="tool" data-tag="both">
@@ -250,6 +238,15 @@ footer a { color: var(--sub); }
   <p class="use">Cuts the tapered tenon that matches a 6° reamed socket.</p>
   <ol class="buy">
     <li><a href="https://handtoolwoodworking.com/tenon-cutters/" rel="noopener">Elia Bizzarri — 6° tapered tenon cutters</a> <span class="price">from $140</span><span class="opt-note">Leg (11/16), arm-stump and spindle sizes; custom angles to order. Pairs with the 6° reamers above.</span></li>
+  </ol>
+  </div>
+  </details>
+  <details class="tool" data-tag="both">
+  <summary><span class="tname">Wide-angle reamer</span><span class="from">from $34.5</span></summary>
+  <div class="tbody">
+  <p class="use">The Veritas 12.8° system — a power-tool-friendly reamer at a friendlier price.</p>
+  <ol class="buy">
+    <li><a href="https://www.leevalley.com/en-us/shop/tools/hand-tools/drills/54864-standard-taper-reamers" rel="noopener">Lee Valley — Veritas standard taper reamers</a> <span class="price">$34.50–$46.50</span><span class="opt-note">Wide-angle, power-tool reamer.</span></li>
   </ol>
   </div>
   </details>
@@ -263,29 +260,12 @@ footer a { color: var(--sub); }
   </div>
   </details>
   <details class="tool" data-tag="both">
-  <summary><span class="tname">Cylindrical tenon cutter</span><span class="from">from $115</span></summary>
+  <summary><span class="tname">Auger bits (WoodOwl)</span> <span class="badge core">core</span><span class="from">from $14.5</span></summary>
   <div class="tbody">
-  <p class="use">Cuts a straight round tenon on the end of a leg, stick or stretcher.</p>
+  <p class="use">WoodOwl’s chair-boring augers. Two patterns for one job — pick by what’s driving them.</p>
   <ol class="buy">
-    <li><a href="https://www.leevalley.com/en-us/shop/tools/hand-tools/dowel-and-tenon-cutters/42299-veritas-power-tenon-cutters" rel="noopener">Lee Valley — Veritas power tenon cutters</a> <span class="price">$115–$125 (5/8–1″)</span><span class="opt-note">5/8, 3/4 and 1″ are the most common. I reach for 7/8 and 1-1/4 here and there. The little 3/8–1/2 minis are a nice luxury item. Sizes drift in and out of stock; the set of three is $329 when it’s in.</span></li>
-  </ol>
-  </div>
-  </details>
-  <details class="tool" data-tag="both">
-  <summary><span class="tname">Auger bits for a brace</span><span class="from">from $26</span></summary>
-  <div class="tbody">
-  <p class="use">WoodOwl’s tri-cut pattern with the lead screw — self-feeding, so it pulls itself through a chair mortise clean. Keep it out of the drill press.</p>
-  <ol class="buy">
-    <li><a href="https://www.leevalley.com/en-us/shop/tools/power-tool-accessories/drill-bits/75748-wood-owl-bits" rel="noopener">Lee Valley — WoodOwl tri-cut bits</a> <span class="price">$26–$55.50 per bit</span><span class="opt-note">Lee Valley just titles these “Wood Owl Bits.” They come on a 7/16″ hex shank, which runs fine in many two-jaw braces — Lee Valley’s own three-jaw is the guaranteed fit. Sets: 3 bits $79, 6 bits $149.</span></li>
-  </ol>
-  </div>
-  </details>
-  <details class="tool" data-tag="both">
-  <summary><span class="tname">Auger bits for a power drill</span><span class="from">from $14.5</span></summary>
-  <div class="tbody">
-  <p class="use">WoodOwl’s OverDrive pattern — the one to buy if you’re boring with a drill instead of a brace.</p>
-  <ol class="buy">
-    <li><a href="https://www.leevalley.com/en-us/shop/tools/power-tool-accessories/drill-bits/116681-wood-owl-overdrive-bits" rel="noopener">Lee Valley — WoodOwl OverDrive bits</a> <span class="price">$14.50–$28.50 per bit</span><span class="opt-note">Lee Valley’s own copy opens “Favored by chairmakers.” A short lead point instead of a lead screw, so they don’t self-feed — which is exactly why they behave in a cordless drill.</span></li>
+    <li><a href="https://www.leevalley.com/en-us/shop/tools/power-tool-accessories/drill-bits/75748-wood-owl-bits" rel="noopener">Lee Valley — WoodOwl tri-cut bits (for a brace)</a> <span class="price">$26–$55.50 per bit</span><span class="opt-note">Lee Valley just titles these “Wood Owl Bits.” The lead screw self-feeds — perfect in a brace, wrong for a drill press. 7/16″ hex shank, which runs fine in many two-jaw braces; Lee Valley’s own three-jaw is the guaranteed fit. Sets: 3 bits $79, 6 bits $149.</span></li>
+    <li><a href="https://www.leevalley.com/en-us/shop/tools/power-tool-accessories/drill-bits/116681-wood-owl-overdrive-bits" rel="noopener">Lee Valley — WoodOwl OverDrive bits (for a power drill)</a> <span class="price">$14.50–$28.50 per bit</span><span class="opt-note">Lee Valley’s own copy opens “Favored by chairmakers.” A short lead point instead of a lead screw, so they don’t self-feed — which is exactly why they behave in a cordless drill.</span></li>
   </ol>
   </div>
   </details>
@@ -351,7 +331,7 @@ footer a { color: var(--sub); }
   <h2>Green woodworking</h2>
   <p class="cat-note">For starting from a log: splitting it, riving it, and holding it while you shave. Skip this section entirely if you’re building from sawn boards.</p>
   <details class="tool" data-tag="green">
-  <summary><span class="tname">Froe</span> <span class="badge core">core</span> <span class="badge green">green wood only</span><span class="from">from $103.33</span></summary>
+  <summary><span class="tname">Froe</span> <span class="badge green">core — green wood</span><span class="from">from $103.33</span></summary>
   <div class="tbody">
   <p class="use">Splits a billet into chair blanks along the grain. A simple tool, but the geometry really matters — many modern ones are made by folks who don’t use them, and I find the angle too obtuse.</p>
   <ol class="buy">
@@ -361,7 +341,7 @@ footer a { color: var(--sub); }
   </div>
   </details>
   <details class="tool" data-tag="green">
-  <summary><span class="tname">Fat splitting wedges</span> <span class="badge core">core</span> <span class="badge green">green wood only</span><span class="from">from $20</span></summary>
+  <summary><span class="tname">Fat splitting wedges</span> <span class="badge green">core — green wood</span><span class="from">from $20</span></summary>
   <div class="tbody">
   <p class="use">Splits logs with a sledgehammer.</p>
   <ol class="buy">
@@ -370,7 +350,7 @@ footer a { color: var(--sub); }
   </div>
   </details>
   <details class="tool" data-tag="green">
-  <summary><span class="tname">Thin starting wedges</span> <span class="badge green">green wood only</span><span class="from">from $38</span></summary>
+  <summary><span class="tname">Thin starting wedges</span><span class="from">from $38</span></summary>
   <div class="tbody">
   <p class="use">The thicker the log, the harder it is to start the split. One or two thin starting wedges can save the day.</p>
   <ol class="buy">
@@ -380,13 +360,13 @@ footer a { color: var(--sub); }
   </div>
   </details>
   <details class="tool" data-tag="green">
-  <summary><span class="tname">Gluts &amp; maul</span> <span class="badge green">green wood only</span></summary>
+  <summary><span class="tname">Gluts &amp; maul</span></summary>
   <div class="tbody">
   <p class="use">Wooden wedges (gluts) run a long split after steel starts it; the maul drives everything. You make these, you don’t buy them.</p>
   </div>
   </details>
   <details class="tool" data-tag="green">
-  <summary><span class="tname">Riving brake</span> <span class="badge core">core</span> <span class="badge green">green wood only</span></summary>
+  <summary><span class="tname">Riving brake</span> <span class="badge green">core — green wood</span></summary>
   <div class="tbody">
   <p class="use">Holds a billet at working height while the froe levers a split down its length. Built, not bought.</p>
   <ol class="buy">
@@ -395,7 +375,7 @@ footer a { color: var(--sub); }
   </div>
   </details>
   <details class="tool" data-tag="green">
-  <summary><span class="tname">Shavehorse</span> <span class="badge core">core</span> <span class="badge green">green wood only</span><span class="from">from $32</span></summary>
+  <summary><span class="tname">Shavehorse</span> <span class="badge green">core — green wood</span><span class="from">from $32</span></summary>
   <div class="tbody">
   <p class="use">The foot-clamped vise you sit at to drawknife sticks and legs — the green chairmaker’s workbench. There are a number of different styles, and different makers sell plans, kits, or ready-to-ride horses.</p>
   <ol class="buy">
@@ -409,7 +389,7 @@ footer a { color: var(--sub); }
   </div>
   </details>
   <details class="tool" data-tag="green">
-  <summary><span class="tname">Hatchet</span> <span class="badge green">green wood only</span><span class="from">from $265</span></summary>
+  <summary><span class="tname">Hatchet</span><span class="from">from $265</span></summary>
   <div class="tbody">
   <p class="use">Hews a riven billet down close to shape before the drawknife touches it, and knocks corners off log sections at the chopping block.</p>
   <ol class="buy">
@@ -421,7 +401,7 @@ footer a { color: var(--sub); }
   <h2>Bench &amp; assembly</h2>
   <p class="cat-note">The ordinary hand-tool kit the chair work sits on top of — planes, saws, striking tools, and workholding.</p>
   <details class="tool" data-tag="both">
-  <summary><span class="tname">Jack plane (No. 5)</span> <span class="badge core">core — dry stock</span><span class="from">from $385</span></summary>
+  <summary><span class="tname">Jack plane (No. 5)</span> <span class="badge dry">core — kiln-dried</span><span class="from">from $385</span></summary>
   <div class="tbody">
   <p class="use">Flattens seat blanks, trues arms, tapers legs — the general-purpose plane of the kit. Mine travels with a smoother beside it.</p>
   <ol class="buy">
@@ -432,7 +412,7 @@ footer a { color: var(--sub); }
   </div>
   </details>
   <details class="tool" data-tag="both">
-  <summary><span class="tname">Block plane</span> <span class="badge core">core — dry stock</span><span class="from">from $200</span></summary>
+  <summary><span class="tname">Block plane</span> <span class="badge dry">core — kiln-dried</span><span class="from">from $200</span></summary>
   <div class="tbody">
   <p class="use">Small handplane for anything from rough-shaping sticks to chamfering edges and finish work. Different models excel at different tasks.</p>
   <ol class="buy">
@@ -442,7 +422,7 @@ footer a { color: var(--sub); }
   </div>
   </details>
   <details class="tool" data-tag="both">
-  <summary><span class="tname">Push saw</span><span class="from">from $105</span></summary>
+  <summary><span class="tname">Push saw</span> <span class="badge core">core</span><span class="from">from $105</span></summary>
   <div class="tbody">
   <p class="use">Cuts on the push stroke. Beginners tend to find them more challenging than pull saws. There are many styles.</p>
   <ol class="buy">
@@ -450,6 +430,7 @@ footer a { color: var(--sub); }
     <li><a href="https://www.lie-nielsen.com/products/cscherry" rel="noopener">Lie-Nielsen — carcass saw</a> <span class="price">$175</span><span class="opt-note">Slightly larger, filed for crosscutting. If I could have TWO saws…</span></li>
     <li><a href="https://www.leevalley.com/en-us/shop/tools/hand-tools/saws/dovetail/64007-veritas-dovetail-saws?item=05T0501" rel="noopener">Lee Valley — Veritas dovetail saw</a> <span class="price">$105</span><span class="opt-note">Less expensive; works quite well.</span></li>
   </ol>
+  <p class="foot-note">One good saw is core — this family or the pull saws below, your pick. Mine would be the dovetail saw above.</p>
   </div>
   </details>
   <details class="tool" data-tag="both">
@@ -473,7 +454,7 @@ footer a { color: var(--sub); }
   </div>
   </details>
   <details class="tool" data-tag="both">
-  <summary><span class="tname">Chisels</span><span class="from">from $36.5</span></summary>
+  <summary><span class="tname">Chisels</span> <span class="badge core">core</span><span class="from">from $36.5</span></summary>
   <div class="tbody">
   <p class="use">It’s a chisel.</p>
   <ol class="buy">
@@ -484,7 +465,7 @@ footer a { color: var(--sub); }
   </div>
   </details>
   <details class="tool" data-tag="both">
-  <summary><span class="tname">Hammers</span><span class="from">from $28</span></summary>
+  <summary><span class="tname">Hammers</span> <span class="badge core">core</span><span class="from">from $28</span></summary>
   <div class="tbody">
   <p class="use">Assembly, froe striking, and self defense.</p>
   <ol class="buy">
@@ -517,7 +498,7 @@ footer a { color: var(--sub); }
   </div>
   </details>
   <details class="tool" data-tag="both">
-  <summary><span class="tname">Patternmaker’s vise</span><span class="from">from $175</span></summary>
+  <summary><span class="tname">Patternmaker’s vise</span> <span class="badge dry">core — kiln-dried</span><span class="from">from $175</span></summary>
   <div class="tbody">
   <p class="use">This is the vise. It’s the only one you need, and I can’t recommend it enough. Great for green woodwork, irreplaceable for kiln-dried work.</p>
   <ol class="buy">
@@ -539,7 +520,7 @@ footer a { color: var(--sub); }
   <h2>Measuring &amp; layout</h2>
   <p class="cat-note">The small kit that aims everything else.</p>
   <details class="tool" data-tag="both">
-  <summary><span class="tname">Dividers</span><span class="from">from $210</span></summary>
+  <summary><span class="tname">Dividers</span> <span class="badge core">core</span><span class="from">from $210</span></summary>
   <div class="tbody">
   <p class="use">Step off spindle spacing and transfer dimensions without numbers.</p>
   <ol class="buy">
@@ -557,7 +538,7 @@ footer a { color: var(--sub); }
   </div>
   </details>
   <details class="tool" data-tag="both">
-  <summary><span class="tname">Steel rule</span><span class="from">from $7.55</span></summary>
+  <summary><span class="tname">Steel rule</span> <span class="badge core">core</span><span class="from">from $7.55</span></summary>
   <div class="tbody">
   <p class="use">A center-finding rule earns its keep in chair work — half of layout is finding middles.</p>
   <ol class="buy">
@@ -568,7 +549,7 @@ footer a { color: var(--sub); }
   <h2>Sharpening</h2>
   <p class="cat-note">The edge tools above are only as good as this section.</p>
   <details class="tool" data-tag="both">
-  <summary><span class="tname">Water stones</span><span class="from">from $47.5</span></summary>
+  <summary><span class="tname">Water stones</span> <span class="badge dry">core — kiln-dried</span><span class="from">from $47.5</span></summary>
   <div class="tbody">
   <p class="use">The bench-stone half of sharpening — for plane irons, chisels, and anything with a flat bevel.</p>
   <ol class="buy">
@@ -577,16 +558,16 @@ footer a { color: var(--sub); }
   </div>
   </details>
   <details class="tool" data-tag="both">
-  <summary><span class="tname">Sharpening paddles</span><span class="from">from $8.5</span></summary>
+  <summary><span class="tname">Sharpening paddles</span> <span class="badge green">core — green wood</span><span class="from">from $8.5</span></summary>
   <div class="tbody">
-  <p class="use">Good for touching up rounded tools and drawknives.</p>
+  <p class="use">Good for touching up rounded tools and drawknives — and just as good on hatchets and garden tools.</p>
   <ol class="buy">
     <li><a href="https://www.highlandwoodworking.com/products/eze-lapdiamondpaddlecoarse" rel="noopener">Highland Woodworking — EZE-Lap diamond paddles</a> <span class="price">$8.50–$16</span></li>
   </ol>
   </div>
   </details>
   <details class="tool" data-tag="both">
-  <summary><span class="tname">Strop &amp; compound</span><span class="from">from $18.5</span></summary>
+  <summary><span class="tname">Strop &amp; compound</span> <span class="badge core">core</span><span class="from">from $18.5</span></summary>
   <div class="tbody">
   <p class="use">The constant edge maintenance — I touch up my drawknife more or less continuously.</p>
   <ol class="buy">
@@ -618,21 +599,25 @@ footer a { color: var(--sub); }
   </div>
   </details>
   <details class="tool" data-tag="both">
-  <summary><span class="tname">Paints</span><span class="from">from $20</span></summary>
+  <summary><span class="tname">Paints</span><span class="from">from $19</span></summary>
   <div class="tbody">
   <p class="use">Milk paint is the traditional chair paint — it wears instead of chipping.</p>
   <ol class="buy">
     <li><a href="https://milkpaint.com/product-category/ofmp" rel="noopener">The Old Fashioned Milk Paint Co.</a> <span class="price">pint ~$20</span><span class="opt-note">The original powder formula — a “pint” is powder that mixes into a pint. Highland carries the full color range too, a touch cheaper.</span></li>
+    <li><a href="https://www.rmpfinishes.com/shop/colors/" rel="noopener">Real Milk Paint (RMP Finishes)</a> <span class="price">$19.99–$64.99 by size</span><span class="opt-note">The other main milk paint company — I consider the two interchangeable. Recently rebranded from Real Milk Paint Co. to RMP Finishes.</span></li>
+    <li><a href="https://lostartpress.com/products/make-fresh-milk-paint" rel="noopener">Make your own — “Make Fresh Milk Paint” (Lost Art Press)</a> <span class="price">$19 book</span><span class="opt-note">Nick Kroll’s pocket book: quark, hydrated lime and pigment — about $6 a quart and ten minutes’ work.</span></li>
   </ol>
+  <p class="foot-note">Linseed oil paint is having a moment in the woodworking world too — Earth &amp; Flax carries the Viking line if you want to try it.</p>
   </div>
   </details>
   <details class="tool" data-tag="both">
-  <summary><span class="tname">Oils</span><span class="from">from $22</span></summary>
+  <summary><span class="tname">Oils</span><span class="from">from $19</span></summary>
   <div class="tbody">
   <p class="use">Pure linseed oil is the plain-wood answer — slow, honest, and it never films.</p>
   <ol class="buy">
-    <li><a href="https://sagerestoration.com/en-us/products/allback-purified-raw-linseed-oil" rel="noopener">Sage Restoration — Allbäck purified linseed oil</a> <span class="price">$22</span></li>
-    <li><a href="https://www.woodcraft.com/products/tried-true-wood-finish-original-wood-finish" rel="noopener">Woodcraft — Tried &amp; True Original</a> <span class="price">$31.99</span><span class="opt-note">Linseed and beeswax in one step.</span></li>
+    <li><a href="https://www.earthandflax.com/product-page/viking-purified-raw-linseed-oil-32-oz-glass-bottle" rel="noopener">Earth &amp; Flax — Viking purified raw linseed oil</a> <span class="price">$34 (32 oz)</span><span class="opt-note">My preferred vendor — food-grade North Dakota flax, purified the traditional Scandinavian way, no driers.</span></li>
+    <li><a href="https://sutherlandwelles.com/shop/botanical/botanical-polymerized-tung-oil-high-lustre/" rel="noopener">Sutherland Welles — Botanical polymerized tung oil, high lustre</a> <span class="price">from $19 sample; quart/gallon on the page</span><span class="opt-note">The other good one — Vermont-made polymerized tung. Buy the high lustre and dilute with mineral spirits or Di-Citrusol for a lower sheen.</span></li>
+    <li><a href="https://www.rmpfinishes.com/shop/oils/half-and-half/" rel="noopener">RMP Finishes — Half &amp; Half (tung oil + citrus solvent)</a> <span class="price">$29.99–$119.99</span><span class="opt-note">Half pure tung oil, half citrus solvent, pre-thinned and food-contact safe. New to me — a woodworker neighbor I trust swears by it.</span></li>
   </ol>
   </div>
   </details>
@@ -652,11 +637,12 @@ footer a { color: var(--sub); }
   </div>
   </details>
   <details class="tool" data-tag="both">
-  <summary><span class="tname">Waxes</span><span class="from">from $25</span></summary>
+  <summary><span class="tname">Waxes</span><span class="from">from $19.5</span></summary>
   <div class="tbody">
   <p class="use">The wipe-on topcoat chairs actually get touched through.</p>
   <ol class="buy">
-    <li><a href="https://lostartpress.com/products/soft-wax-soft-wax-kits" rel="noopener">Lost Art Press — Soft Wax 2.0</a> <span class="price">$25 jar / $29 kit</span></li>
+    <li><a href="https://www.earthandflax.com/product-page/viking-purified-linseed-oil-wax" rel="noopener">Earth &amp; Flax — Viking purified linseed oil wax</a> <span class="price">$19.50 (16 oz) / $38.50 (32 oz)</span><span class="opt-note">The one I like: purified raw linseed oil and beeswax, food-safe, velvety matte.</span></li>
+    <li><a href="https://lostartpress.com/products/soft-wax-soft-wax-kits" rel="noopener">Lost Art Press — Soft Wax 2.0</a> <span class="price">$25 jar / $29 kit</span><span class="opt-note">My second choice.</span></li>
   </ol>
   </div>
   </details>
@@ -668,13 +654,6 @@ footer a { color: var(--sub); }
 </main>
 <script>
 (function () {
-  var chips = document.querySelectorAll('.chip');
-  chips.forEach(function (c) {
-    c.addEventListener('click', function () {
-      chips.forEach(function (o) { o.setAttribute('aria-pressed', o === c ? 'true' : 'false'); });
-      document.body.dataset.filter = c.dataset.f;
-    });
-  });
   var all = document.getElementById('expand-all');
   all.addEventListener('click', function () {
     var open = all.textContent === 'expand all';
