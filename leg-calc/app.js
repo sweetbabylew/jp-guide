@@ -273,17 +273,27 @@
   }
 
   // To scale, looking square at the leg: plumb height, run along the floor,
-  // leg length. On a level seat the angle is the resultant; on a tilted seat
-  // the seat is not drawn tilted, so the angle shown is the lean off plumb.
-  function sideSvg(r) {
+  // leg length. The seat is drawn as far as its edge in that direction, so a
+  // foot that lands outside the seat shows outside it. On a level seat the
+  // angle is the resultant; on a tilted seat the seat is not drawn tilted, so
+  // the angle shown is the lean off plumb.
+  function sideSvg(leg, r) {
     var W = 300, HH = 250, padL = 78, padR = 84, padT = 30, padB = 40;
     var H = r.heightAtMortise;
     var s = Math.min((W - padL - padR) / Math.max(r.run, 1e-9), (HH - padT - padB) / H);
     var tx = padL, ty = padT, fx = padL + r.run * s, fy = padT + H * s;
     var tilt = tilted(r);
     var p = [];
-    p.push(line(tx - 44, ty, W - 14, ty, COLORS.ink, 3));
-    p.push(text(W - 14, ty - 8, 'seat', 'end', 'lbl-muted'));
+    var seatL = tx - 44, seatFar = W - 14;
+    var edgeX = r.edgeRun == null ? null : tx + r.edgeRun * s;
+    var ends = edgeX != null && edgeX < seatFar - 4; // the seat's edge is in the picture
+    var seatR = ends ? edgeX : seatFar;
+    p.push('<rect x="' + f1(seatL) + '" y="' + f1(ty - 10) + '" width="' + f1(seatR - seatL) + '" height="10" fill="' + COLORS.ground + '"/>');
+    p.push(line(seatL, ty - 10, seatR, ty - 10, COLORS.ink, 1));
+    if (ends) p.push(line(seatR, ty - 10, seatR, ty, COLORS.ink, 1));
+    p.push(line(seatL, ty, seatR, ty, COLORS.ink, 3));
+    p.push(text(seatL, ty - 15, 'seat', 'start', 'lbl-muted'));
+    if (ends) p.push(text(seatR + 7, ty - 1, (r.edgeName === 'side' ? 'side' : endWord(leg)) + ' edge', 'start', 'lbl-muted'));
     p.push(line(14, fy, W - 14, fy, COLORS.ink, 1.5));
     p.push(text(W - 14, fy + 16, 'floor', 'end', 'lbl-muted'));
     p.push(line(tx, ty, tx, fy, COLORS.muted, 1, '4 4'));
@@ -370,7 +380,7 @@
     }
     h += '</ul><div class="pics">'
       + '<figure>' + planSvg(leg, r) + '<figcaption>From above, to scale</figcaption></figure>'
-      + '<figure>' + sideSvg(r) + '<figcaption>' + (tilt ? 'Square to the leg (the tilt is not drawn)' : 'Square to the sightline')
+      + '<figure>' + sideSvg(leg, r) + '<figcaption>' + (tilt ? 'Square to the leg (the tilt is not drawn)' : 'Square to the sightline')
       + '</figcaption></figure></div>';
     return h;
   }

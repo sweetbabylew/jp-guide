@@ -271,6 +271,18 @@
       sightSide: dSide,
       sightEnd: sF * alongS * c,
     };
+    // Where the seat ends in the direction the leg leans: how far, level, from
+    // the mortise to the first of the two known edges, and which one it is.
+    // Null when the leg leans away from both, or the mortise is off the seat.
+    out.edgeRun = null;
+    out.edgeName = null;
+    if (run > 0 && mSide >= 0 && out.mEndPlan >= 0) {
+      if (dSide > 1e-12) { out.edgeRun = mSide * run / dSide; out.edgeName = 'side'; }
+      if (dEndH > 1e-12) {
+        var toEnd = out.mEndPlan * run / dEndH;
+        if (out.edgeRun == null || toEnd < out.edgeRun) { out.edgeRun = toEnd; out.edgeName = 'end'; }
+      }
+    }
     if (q.thick != null && q.thick > 0) {
       out.thick = q.thick;
       // The slanted distance the leg travels inside a seat this thick.
