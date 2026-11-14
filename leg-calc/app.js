@@ -263,6 +263,15 @@
     if (legLen > 0.5) {
       var lx = (fx - mx) / legLen, ly = (fy - my) / legLen;
       p.push(text(fx + lx * 12, fy + ly * 12 + (Math.abs(ly) < 0.35 ? 13 : 4), 'foot', anchorFor(lx)));
+      if (legLen >= 34) {
+        // How far the foot is from the mortise, written beside the leg on the
+        // side away from the sightline's angle so the two do not collide.
+        var nx = -ly, ny = lx;
+        if (nx * (lx >= -1e-6 ? 1 : -1) > 0 || (Math.abs(nx) < 1e-6 && ny > 0)) { nx = -nx; ny = -ny; }
+        var a = anchorFor(nx);
+        p.push(text((mx + fx) / 2 + nx * 9, (my + fy) / 2 + ny * 9 + (a === 'middle' ? (ny > 0 ? 12 : -2) : (ny > 0 ? 10 : 2)),
+          len(r.run), a, 'num'));
+      }
     }
     p.push('<circle cx="' + f1(mx) + '" cy="' + f1(my) + '" r="6.5" fill="#fff" stroke="' + COLORS.ink + '" stroke-width="1.5"/>');
     p.push(line(mx - 9, my, mx + 9, my, COLORS.ink, 1));
@@ -365,7 +374,14 @@
         + (rkf ? 'rakes ' + rkf : 'has no rake') + '.</li>';
       h += '<li>The seat is <b>' + len(r.heightAtMortise) + '</b> off the floor at the mortise.</li>';
     }
-    if (r.run > 0) h += '<li>Seen from above, the foot is <b>' + len(r.run) + '</b> from the mortise.</li>';
+    if (r.run > 0) {
+      var across = M.formatLength(Math.abs(r.dSide), state.units) === '0' ? null
+        : '<b>' + len(Math.abs(r.dSide)) + '</b> ' + (r.dSide > 0 ? 'toward' : 'away from') + ' the side edge';
+      var along = M.formatLength(Math.abs(r.dEnd), state.units) === '0' ? null
+        : '<b>' + len(Math.abs(r.dEnd)) + '</b> ' + (r.dEnd > 0 ? 'toward' : 'away from') + ' the ' + e + ' edge';
+      h += '<li>Seen from above, the foot is <b>' + len(r.run) + '</b> from the mortise in a straight line'
+        + (across && along ? ': ' + across + ' and ' + along : '') + '.</li>';
+    }
     if (leg.find === 'foot') {
       var both = M.formatLength(Math.abs(r.fSide), state.units) === '0' && M.formatLength(Math.abs(r.fEnd), state.units) === '0';
       h += '<li>The foot lands ' + (both ? 'under the corner'
