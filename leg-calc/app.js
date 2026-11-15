@@ -7,6 +7,11 @@
 //   find  'angle' | 'foot' | 'mortise'   which group is worked out
 //   known 'height' | 'length'            which of the two is typed in
 //   pair  'sr' | 'rs'                    which pair of angles is typed in
+// A chair can also have stretchers. Each one names two of the legs (`from`
+// and `to`; `across` when the second is the one on the far side of the chair)
+// and a height off the floor, and the page works out how long it has to be to
+// go right through both. The seat width, the seat depth and the stretcher's
+// tenon thickness are one each for the whole chair.
 // Everything typed is kept as text, exactly as typed, and saved in this
 // browser (localStorage). Nothing leaves the page.
 
@@ -22,6 +27,12 @@
   // What an empty flush-cut box stands for: a 1 in tenon and a 1 3/4 in foot
   // (Lewis, 2026-11-14), and the nearest round sizes in millimetres.
   var FLUSH_DEFAULT = { in: { tenonDia: 1, footDia: 1.75 }, mm: { tenonDia: 25, footDia: 45 } };
+  // Stretchers: the lengths typed for each one, and the three the chair shares.
+  var STRETCH_KEYS = ['height', 'legDia'];
+  var STRETCH_CHAIR_KEYS = ['width', 'depth', 'stretcherDia'];
+  // What an empty stretcher box stands for: a 5/8 in tenon through a leg
+  // 1 1/2 in thick (Claude's pick, 2026-11-15; Lewis has not named sizes).
+  var STRETCH_DEFAULT = { in: { stretcherDia: 0.625, legDia: 1.5 }, mm: { stretcherDia: 16, legDia: 38 } };
   var SOLVED_KEYS = ['mSide', 'mEnd', 'fSide', 'fEnd', 'height', 'length', 'result', 'sight', 'rake', 'splay'];
   var COLORS = { ink: '#2a241e', muted: '#655b50', ground: '#eee5d6', rust: '#923f2b', blue: '#315f89', rule: '#d2c1a5' };
 
@@ -38,7 +49,10 @@
   }
 
   function newChair() {
-    return { id: uid(), name: '', tilt: '', tenonDia: '', footDia: '', legs: [newLeg('Front legs', 'front'), newLeg('Back legs', 'back')] };
+    return {
+      id: uid(), name: '', tilt: '', tenonDia: '', footDia: '', width: '', depth: '', stretcherDia: '',
+      legs: [newLeg('Front legs', 'front'), newLeg('Back legs', 'back')], stretchers: [],
+    };
   }
 
   function freshState() {
@@ -59,6 +73,15 @@
           tilt: c.tilt == null ? '' : String(c.tilt),
           tenonDia: c.tenonDia == null ? '' : String(c.tenonDia),
           footDia: c.footDia == null ? '' : String(c.footDia),
+          width: c.width == null ? '' : String(c.width),
+          depth: c.depth == null ? '' : String(c.depth),
+          stretcherDia: c.stretcherDia == null ? '' : String(c.stretcherDia),
+          stretchers: (Array.isArray(c.stretchers) ? c.stretchers : []).filter(Boolean).map(function (s) {
+            return {
+              id: String(s.id || uid()), name: String(s.name || ''), from: String(s.from || ''), to: String(s.to || ''), across: !!s.across,
+              height: s.height == null ? '' : String(s.height), legDia: s.legDia == null ? '' : String(s.legDia),
+            };
+          }),
           legs: c.legs.filter(Boolean).map(function (l) {
             var leg = newLeg(String(l.name || ''), pick(l.end, ['front', 'back'], 'front'));
             leg.id = String(l.id || leg.id);
@@ -643,6 +666,275 @@
     card.querySelector('.answer').innerHTML = answerHtml(leg, r);
   }
 
+  // ------------------------------------------------------------ stretchers --
+
+  // Leg names are typed by the person, so they are made safe before they go
+  // into a sentence that is set as HTML.
+  function esc(s) {
+    return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  function legLabel(leg) { return leg.name || 'Leg ' + (chair().legs.indexOf(leg) + 1); }
+
+  function stretcherById(id) {
+    var list = chair().stretchers;
+    for (var i = 0; i < list.length; i += 1) if (list[i].id === id) return list[i];
+    return null;
+  }
+
+  // A new stretcher starts on a pair of legs that has none yet: front to back
+  // along a side first, then each pair of legs side to side.
+  function newStretcher() {
+    var legs = chair().legs;
+    var tag = function (a, b, across) { return a + '|' + b + '|' + (across ? 1 : 0); };
+    var used = {};
+    chair().stretchers.forEach(function (s) { used[tag(s.from, s.to, s.across)] = true; });
+    var tries = [];
+    legs.forEach(function (a) {
+      legs.forEach(function (b) { if (a.end === 'front' && b.end === 'back') tries.push([a, b, false]); });
+    });
+    legs.forEach(function (a) { tries.push([a, a, true]); });
+    var found = null;
+    tries.forEach(function (t) { if (!found && !used[tag(t[0].id, t[1].id, t[2])]) found = t; });
+    if (!found) found = tries[0] || null;
+    return {
+      id: uid(), name: '', from: found ? found[0].id : '', to: found ? found[1].id : '', across: found ? found[2] : true,
+      height: '', legDia: '',
+    };
+  }
+
+  // The two legs a stretcher runs between, or null while one is not picked.
+  function stretcherLegs(st) {
+    var a = legById(st.from), b = legById(st.to);
+    return a && b ? { a: a, b: b, across: st.across || a === b } : null;
+  }
+
+  function autoName(st) {
+    var pair = stretcherLegs(st);
+    if (!pair) return 'Stretcher';
+    if (pair.a === pair.b) return legLabel(pair.a) + ', side to side';
+    return legLabel(pair.a) + ' to ' + legLabel(pair.b) + (pair.across ? ', corner to corner' : '');
+  }
+
+  function stretchDefault(key) { return STRETCH_DEFAULT[state.units === 'mm' ? 'mm' : 'in'][key]; }
+  function typedOrUsual(typed, key) {
+    var v = M.parseLength(typed, state.units);
+    return v == null ? stretchDefault(key) : v;
+  }
+
+  function solveStretcher(st) {
+    var pair = stretcherLegs(st);
+    if (!pair) return { ok: false, pick: true };
+    var ra = solve(pair.a);
+    var rb = pair.b === pair.a ? ra : solve(pair.b);
+    var unsolved = [];
+    if (!ra.ok) unsolved.push(pair.a);
+    if (!rb.ok && pair.b !== pair.a) unsolved.push(pair.b);
+    if (unsolved.length) return { ok: false, unsolved: unsolved };
+    ra.end = pair.a.end;
+    rb.end = pair.b.end;
+    return M.solveStretcher({
+      a: ra, b: rb, across: pair.across,
+      width: M.parseLength(chair().width, state.units),
+      depth: M.parseLength(chair().depth, state.units),
+      height: M.parseLength(st.height, state.units),
+      stretcherDia: typedOrUsual(chair().stretcherDia, 'stretcherDia'),
+      legDia: typedOrUsual(st.legDia, 'legDia'),
+    });
+  }
+
+  var STRETCH_WORDS = {
+    height: 'the height off the floor', width: 'the seat width', depth: 'the seat depth',
+    stretcherDia: 'the stretcher tenon diameter', legDia: 'the leg thickness',
+  };
+
+  // Why a stretcher has no answer yet, in plain words.
+  function explainStretcher(r) {
+    var words = function (keys) { return listWords(keys.map(function (k) { return STRETCH_WORDS[k]; })); };
+    if (r.pick) return { problem: false, text: 'Pick the two legs this stretcher runs between.' };
+    if (r.unsolved) {
+      return {
+        problem: false,
+        text: 'Finish ' + listWords(r.unsolved.map(function (l) { return esc(legLabel(l)); }))
+          + ' above first. A stretcher needs both of its legs worked out.',
+      };
+    }
+    if (r.unreadable) {
+      return { problem: true, text: 'Cannot read ' + words(r.unreadable) + '. Lengths read like ' + (state.units === 'mm' ? '432 or 431.8' : '17 1/2 or 17.5') + '.' };
+    }
+    if (r.missing) return { problem: false, text: 'Still needed: ' + words(r.missing) + '.' };
+    var msgs = {
+      'stretcher-low': 'The height off the floor has to be more than zero.',
+      'stretcher-high': 'That is as high as the seat. At these legs the mortise is ' + (r.limit != null ? len(r.limit) : 'so far')
+        + ' off the floor, so the stretcher has to be lower than that.',
+      'dia-zero': 'The tenon diameter and the leg thickness have to be more than zero.',
+      'tenon-fat': 'The tenon is thicker than the leg it goes through.',
+      'width-small': 'That seat is too narrow for these two mortises. Check the seat width: it runs from one side edge to the other.',
+      'depth-small': 'That seat is too shallow for these two mortises. Check the seat depth: it runs from the front edge to the back edge.',
+      'legs-touch': 'At that height the two legs touch or cross, so there is no room for a stretcher.',
+    };
+    return { problem: true, text: msgs[r.error] || 'These numbers do not make a stretcher.' };
+  }
+
+  // To scale, looking square at the stretcher: the two legs as they lean in
+  // that view, the seat at the mortise marks, the floor, and the stretcher
+  // going right through both legs.
+  function stretcherSvg(r) {
+    var W = 300, HH = 250, padX = 20, padT = 30, padB = 30;
+    var a = r.a, b = r.b;
+    var lo = Math.min(a.footAt, a.topAt, b.footAt, b.topAt, -r.throughA);
+    var hi = Math.max(a.footAt, a.topAt, b.footAt, b.topAt, r.between + r.throughB);
+    var top = Math.max(a.topHeight, b.topHeight);
+    var s = Math.min((W - 2 * padX) / (hi - lo), (HH - padT - padB) / top);
+    var x0 = (W - (hi - lo) * s) / 2;
+    var X = function (v) { return x0 + (v - lo) * s; };
+    var Y = function (z) { return HH - padB - z * s; };
+    var ys = Y(r.height);
+    var thick = Math.max(3, r.stretcherDia * s);
+    var p = [];
+    p.push(line(8, Y(0), W - 8, Y(0), COLORS.ink, 1.5));
+    p.push(text(W - 8, Y(0) + 16, 'floor', 'end', 'lbl-muted'));
+    var sx1 = X(a.topAt), sy1 = Y(a.topHeight), sx2 = X(b.topAt), sy2 = Y(b.topHeight);
+    var sl = Math.hypot(sx2 - sx1, sy2 - sy1) || 1, ex = (sx2 - sx1) / sl * 18, ey = (sy2 - sy1) / sl * 18;
+    p.push(line(sx1 - ex, sy1 - ey, sx2 + ex, sy2 + ey, COLORS.ink, 3));
+    p.push(text(Math.min(sx1 - ex, sx2 + ex), Math.min(sy1 - ey, sy2 + ey) - 8, 'seat', 'start', 'lbl-muted'));
+    [a, b].forEach(function (leg) {
+      // A leaning stick sawn level is wider across the cut than it is thick.
+      var lean = Math.atan2(leg.topAt - leg.footAt, leg.topHeight);
+      var w = Math.max(3, r.legDia * s / Math.cos(lean)) / 2;
+      p.push('<polygon points="' + [X(leg.footAt) - w, Y(0), X(leg.footAt) + w, Y(0), X(leg.topAt) + w, Y(leg.topHeight), X(leg.topAt) - w, Y(leg.topHeight)]
+        .map(f1).join(' ') + '" fill="' + COLORS.rust + '" fill-opacity="0.28" stroke="' + COLORS.rust + '" stroke-width="1.2" stroke-linejoin="round"/>');
+    });
+    p.push('<rect x="' + f1(X(-r.throughA)) + '" y="' + f1(ys - thick / 2) + '" width="' + f1((r.between + r.throughA + r.throughB) * s)
+      + '" height="' + f1(thick) + '" rx="1" fill="' + COLORS.blue + '"/>');
+    // Two numbers only, so a tall narrow stool stays readable: the shortest
+    // stretcher above it, and its height beside a plumb line to the floor.
+    var mid = (X(0) + X(r.between)) / 2;
+    p.push(text(mid, ys - thick / 2 - 7, 'at least ' + lenUp(r.length), 'middle', 'num'));
+    var below = Y(0) - ys - thick / 2;
+    if (below > 6) p.push(line(mid, ys + thick / 2 + 2, mid, Y(0), COLORS.muted, 1, '4 4'));
+    p.push(text(mid + 6, below > 22 ? ys + thick / 2 + below / 2 + 4 : Y(0) + 16, len(r.height), 'start', 'num'));
+    return '<svg viewBox="0 0 ' + W + ' ' + HH + '" role="img" aria-label="The stretcher from the side, to scale: the two legs, the stretcher through both, and its height off the floor">'
+      + p.join('') + '</svg>';
+  }
+
+  function stretcherAnswerHtml(st, r) {
+    if (!r.ok) {
+      var why = explainStretcher(r);
+      return '<p class="waiting' + (why.problem ? ' problem' : '') + '">' + why.text + '</p>';
+    }
+    var pair = stretcherLegs(st);
+    var twin = pair.a === pair.b;
+    var na = esc(legLabel(pair.a)), nb = esc(legLabel(pair.b));
+    var h = '<div class="stats lead">'
+      + '<div class="stat"><b>' + lenUp(r.length) + '</b><span>stretcher, at least</span></div>'
+      + '<div class="stat"><b>' + len(r.between) + '</b><span>between the leg centres</span></div>'
+      + '<div class="stat"><b>' + len(r.gap) + '</b><span>between the legs, face to face</span></div>'
+      + '</div><ul class="says">';
+    h += '<li>The stretcher has to be at least <b>' + lenUp(r.length) + '</b> long to go right through both legs. That only just reaches the far side, so leave more.</li>';
+    var ta = lenUp(r.throughA), tb = lenUp(r.throughB);
+    h += '<li>Going through takes at least ' + (twin || ta === tb ? '<b>' + ta + '</b> past the centre of each leg'
+      : '<b>' + ta + '</b> past the centre of ' + na + ' and <b>' + tb + '</b> past the centre of ' + nb) + '.</li>';
+    var oa = M.formatAngle(r.offSquareA), ob = M.formatAngle(r.offSquareB);
+    if (oa === '0.0°' && ob === '0.0°') h += '<li>It goes through the legs square.</li>';
+    else if (twin || oa === ob) h += '<li>It goes through each leg <b>' + oa + '</b> off square.</li>';
+    else h += '<li>It goes through ' + na + ' <b>' + oa + '</b> off square, and ' + nb + ' <b>' + ob + '</b> off square.</li>';
+    h += '<li>Worked out for a ' + len(r.stretcherDia) + ' tenon through legs ' + len(r.legDia) + ' thick where the stretcher crosses.</li>';
+    h += '</ul><div class="pics"><figure>' + stretcherSvg(r) + '<figcaption>Square to the stretcher, to scale</figcaption></figure></div>';
+    return h;
+  }
+
+  // A typing box on a stretcher's card: its own number, or one the chair shares.
+  function stretchBox(st, key, label, placeholder, whole) {
+    var id = st.id + '-' + key;
+    var attrs = { type: 'text', id: id, value: whole ? chair()[key] : st[key], autocomplete: 'off', spellcheck: 'false', placeholder: placeholder };
+    attrs[whole ? 'data-chair-key' : 'data-skey'] = key;
+    return el('div', { class: 'field' }, [el('label', { for: id, text: label }), el('input', attrs)]);
+  }
+
+  function buildStretcherCard(st) {
+    var legs = chair().legs;
+    var pair = stretcherLegs(st);
+    var a = legById(st.from), b = legById(st.to);
+    var card = el('section', { class: 'card', 'data-id': st.id });
+    card.appendChild(el('div', { class: 'card-head' }, [
+      el('input', { type: 'text', class: 'leg-name', value: st.name, placeholder: autoName(st), 'aria-label': 'Stretcher name', 'data-skey': 'name' }),
+      el('button', { class: 'btn quiet', type: 'button', 'data-act': 'remove', text: 'Remove' }),
+    ]));
+
+    var fromPick = el('select', { 'data-sset': 'from', 'aria-label': 'The first leg' },
+      (a ? [] : [el('option', { value: '', text: 'pick a leg' })]).concat(legs.map(function (l) {
+        return el('option', { value: l.id, text: legLabel(l) });
+      })));
+    fromPick.value = a ? a.id : '';
+    var toOptions = b ? [] : [el('option', { value: '', text: 'pick a leg' })];
+    legs.forEach(function (l) {
+      if (l !== a) toOptions.push(el('option', { value: l.id + '|same', text: legLabel(l) + ', same side' }));
+      toOptions.push(el('option', { value: l.id + '|other', text: legLabel(l) + ', other side' }));
+    });
+    var toPick = el('select', { 'data-sset': 'to', 'aria-label': 'The second leg' }, toOptions);
+    toPick.value = pair ? pair.b.id + '|' + (pair.across ? 'other' : 'same') : '';
+
+    var boxes = [
+      stretchBox(st, 'height', 'Height off the floor, to the centre of the stretcher', unitWord()),
+      stretchBox(st, 'legDia', 'Leg thickness where it goes through', len(stretchDefault('legDia'))),
+    ];
+    if (pair && pair.across) boxes.push(stretchBox(st, 'width', 'Seat width, side edge to side edge (whole chair)', unitWord(), true));
+    if (pair && pair.a.end !== pair.b.end) boxes.push(stretchBox(st, 'depth', 'Seat depth, front edge to back edge (whole chair)', unitWord(), true));
+    boxes.push(stretchBox(st, 'stretcherDia', 'Stretcher tenon diameter (whole chair)', len(stretchDefault('stretcherDia')), true));
+
+    var form = el('div', { class: 'form' }, [group('Where it goes', null, [
+      el('div', { class: 'choice between' }, [el('span', { text: 'Between' }), fromPick, el('span', { text: 'and' }), toPick]),
+      el('div', { class: 'fields' }, boxes),
+      el('p', {
+        class: 'hint',
+        text: 'The stretcher runs level, with its centre at that height on both legs. Measure the leg where the stretcher crosses it. Empty boxes use a leg '
+          + len(stretchDefault('legDia')) + ' thick and a ' + len(stretchDefault('stretcherDia')) + ' tenon.',
+      }),
+    ])]);
+    card.appendChild(el('div', { class: 'card-body' }, [form, el('div', { class: 'answer', 'aria-live': 'polite' })]));
+    refreshStretcherCard(card, st);
+    return card;
+  }
+
+  function refreshStretcherCard(card, st) {
+    var r = solveStretcher(st);
+    var bad = r.unreadable || [];
+    Array.prototype.forEach.call(card.querySelectorAll('input[data-skey], input[data-chair-key]'), function (i) {
+      var isBad = bad.indexOf(i.getAttribute('data-skey') || i.getAttribute('data-chair-key')) >= 0;
+      i.classList.toggle('bad', isBad);
+      if (isBad) i.setAttribute('aria-invalid', 'true'); else i.removeAttribute('aria-invalid');
+    });
+    card.querySelector('.answer').innerHTML = stretcherAnswerHtml(st, r);
+  }
+
+  // Every stretcher's card, built again. The legs' names and numbers feed
+  // them, so this runs whenever a leg changes.
+  function renderStretchers() {
+    var box = document.getElementById('stretchers');
+    box.textContent = '';
+    chair().stretchers.forEach(function (st) { box.appendChild(buildStretcherCard(st)); });
+  }
+
+  var STRETCH_HEAD = ['Stretcher', 'Height off the floor', 'Between the leg centres', 'Between the legs, face to face',
+    'Leg thickness there', 'Off square to the legs', 'Stretcher at least'];
+
+  function stretcherRows() {
+    return chair().stretchers.map(function (st) {
+      var r = solveStretcher(st);
+      var name = st.name ? st.name + ' (' + autoName(st) + ')' : autoName(st);
+      if (!r.ok) return { name: name, cells: null };
+      var oa = M.formatAngle(r.offSquareA), ob = M.formatAngle(r.offSquareB);
+      return { name: name, cells: [len(r.height), len(r.between), len(r.gap), len(r.legDia), oa === ob ? oa : oa + ' and ' + ob, lenUp(r.length)] };
+    });
+  }
+
+  function stretcherLine() {
+    var t = typedOrUsual(chair().stretcherDia, 'stretcherDia');
+    return 'Each stretcher length is the least that goes right through both legs'
+      + (isNaN(t) || !(t > 0) ? '.' : ', for a ' + len(t) + ' tenon.');
+  }
+
   var SUMMARY_HEAD = ['Leg', 'Mortise from side', 'Mortise from front or back', 'Foot from side', 'Foot from front or back',
     'Height at that edge', 'Resultant', 'Sightline', 'Rake', 'Splay', 'Leg length', 'Leg plus flush cuts'];
   // The front-or-back columns say which, per leg.
@@ -692,6 +984,27 @@
       table.appendChild(tr);
     });
     document.getElementById('summary-note').textContent = (tiltLine() + ' ' + flushLine()).trim();
+
+    // The stretchers get a table of their own under the legs, when there are any.
+    var rows = stretcherRows();
+    document.getElementById('stretcher-summary').hidden = !rows.length;
+    var sTable = document.getElementById('stretcher-table');
+    sTable.textContent = '';
+    if (!rows.length) return;
+    sTable.appendChild(el('tr', {}, STRETCH_HEAD.map(function (hd) { return el('th', { text: hd, scope: 'col' }); })));
+    rows.forEach(function (row) {
+      var tr = el('tr', {}, [el('td', { text: row.name })]);
+      if (row.cells) row.cells.forEach(function (c, i) { tr.appendChild(el('td', { text: c, class: i >= 4 ? 'num' : null })); });
+      else tr.appendChild(el('td', { text: 'not worked out yet', colspan: String(STRETCH_HEAD.length - 1) }));
+      sTable.appendChild(tr);
+    });
+    document.getElementById('stretcher-note').textContent = stretcherLine();
+  }
+
+  // After a leg changes: the stretchers that hang on it, then the tables.
+  function refreshRest() {
+    renderStretchers();
+    refreshSummary();
   }
 
   function summaryText() {
@@ -703,6 +1016,13 @@
       lines.push(row.name + ': mortise ' + c[0] + ' from the side, ' + c[1] + ' from the ' + row.end + '; foot ' + c[2]
         + ' from the side, ' + c[3] + ' from the ' + row.end + '; height ' + c[4] + ' at the ' + row.end + ' edge; resultant ' + c[5]
         + ', sightline ' + c[6] + ', rake ' + c[7] + ', splay ' + c[8] + '; leg ' + c[9] + ' mark to floor, at least ' + c[10] + ' with the flush cuts.');
+    });
+    stretcherRows().forEach(function (row, i) {
+      if (i === 0) lines.push(stretcherLine());
+      if (!row.cells) { lines.push(row.name + ': not worked out yet'); return; }
+      var s = row.cells;
+      lines.push(row.name + ': ' + s[0] + ' off the floor; ' + s[1] + ' between the leg centres, ' + s[2] + ' between the legs face to face; through legs '
+        + s[3] + ' thick, ' + s[4] + ' off square; at least ' + s[5] + ' end to end.');
     });
     return lines.join('\n');
   }
@@ -723,7 +1043,7 @@
     var legs = document.getElementById('legs');
     legs.textContent = '';
     chair().legs.forEach(function (leg) { legs.appendChild(buildCard(leg)); });
-    refreshSummary();
+    refreshRest();
   }
 
   function rebuildCard(card, leg, focusSelector) {
@@ -761,7 +1081,7 @@
         if (box && box !== ev.target) box.value = chair()[chairKey];
         if (l) refreshCard(c, l);
       });
-      refreshSummary();
+      refreshRest();
       return;
     }
     var key = ev.target.getAttribute('data-key');
@@ -770,7 +1090,7 @@
     leg[key] = ev.target.value;
     save();
     if (key !== 'name') refreshCard(card, leg);
-    refreshSummary();
+    refreshRest();
   });
 
   legsBox.addEventListener('change', function (ev) {
@@ -784,7 +1104,7 @@
     save();
     var selector = ev.target.tagName === 'SELECT' ? 'select[data-set="end"]' : 'input[data-set="' + prop + '"]:checked';
     rebuildCard(card, leg, selector);
-    refreshSummary();
+    refreshRest();
   });
 
   legsBox.addEventListener('click', function (ev) {
@@ -811,7 +1131,7 @@
       card.parentNode.removeChild(card);
     }
     save();
-    refreshSummary();
+    refreshRest();
   });
 
   document.getElementById('add-leg').addEventListener('click', function () {
@@ -820,8 +1140,91 @@
     var card = buildCard(leg);
     legsBox.appendChild(card);
     save();
-    refreshSummary();
+    refreshRest();
     card.querySelector('.leg-name').focus();
+  });
+
+  // The stretchers' own boxes. Typing in one works that stretcher again;
+  // a number the whole chair shares works them all again.
+  var stretchersBox = document.getElementById('stretchers');
+
+  function stretcherCardOf(target) {
+    var n = target;
+    while (n && n !== stretchersBox && !(n.classList && n.classList.contains('card'))) n = n.parentNode;
+    return n && n !== stretchersBox ? n : null;
+  }
+
+  stretchersBox.addEventListener('input', function (ev) {
+    if (!ev.target.getAttribute) return;
+    var card = stretcherCardOf(ev.target);
+    if (!card) return;
+    var chairKey = ev.target.getAttribute('data-chair-key');
+    if (STRETCH_CHAIR_KEYS.indexOf(chairKey) >= 0) {
+      chair()[chairKey] = ev.target.value;
+      save();
+      Array.prototype.forEach.call(stretchersBox.querySelectorAll('.card'), function (c) {
+        var s = stretcherById(c.getAttribute('data-id'));
+        var box = c.querySelector('input[data-chair-key="' + chairKey + '"]');
+        if (box && box !== ev.target) box.value = chair()[chairKey];
+        if (s) refreshStretcherCard(c, s);
+      });
+      refreshSummary();
+      return;
+    }
+    var key = ev.target.getAttribute('data-skey');
+    var st = stretcherById(card.getAttribute('data-id'));
+    if (!key || !st) return;
+    st[key] = ev.target.value;
+    save();
+    if (key !== 'name') refreshStretcherCard(card, st);
+    refreshSummary();
+  });
+
+  stretchersBox.addEventListener('change', function (ev) {
+    var prop = ev.target.getAttribute && ev.target.getAttribute('data-sset');
+    var card = stretcherCardOf(ev.target);
+    if (!prop || !card) return;
+    var st = stretcherById(card.getAttribute('data-id'));
+    if (!st) return;
+    if (prop === 'from') {
+      st.from = ev.target.value;
+      if (st.to === st.from) st.across = true; // a leg and itself is the pair, side to side
+    } else {
+      var parts = ev.target.value.split('|');
+      st.to = parts[0];
+      st.across = parts[1] === 'other' || st.to === st.from;
+    }
+    save();
+    var fresh = buildStretcherCard(st);
+    card.parentNode.replaceChild(fresh, card);
+    var again = fresh.querySelector('select[data-sset="' + prop + '"]');
+    if (again) again.focus();
+    refreshSummary();
+  });
+
+  stretchersBox.addEventListener('click', function (ev) {
+    var act = ev.target.getAttribute && ev.target.getAttribute('data-act');
+    var card = stretcherCardOf(ev.target);
+    if (act !== 'remove' || !card) return;
+    var list = chair().stretchers;
+    var st = stretcherById(card.getAttribute('data-id'));
+    if (!st) return;
+    var typed = [st.name, st.height, st.legDia].some(function (v) { return String(v).trim() !== ''; });
+    if (typed && !window.confirm('Remove "' + (st.name || autoName(st)) + '" and its numbers?')) return;
+    list.splice(list.indexOf(st), 1);
+    card.parentNode.removeChild(card);
+    save();
+    refreshSummary();
+  });
+
+  document.getElementById('add-stretcher').addEventListener('click', function () {
+    var st = newStretcher();
+    chair().stretchers.push(st);
+    var card = buildStretcherCard(st);
+    stretchersBox.appendChild(card);
+    save();
+    refreshSummary();
+    card.querySelector('input[data-skey="height"]').focus();
   });
 
   document.getElementById('chair-name').addEventListener('input', function (ev) {
@@ -863,9 +1266,15 @@
       if (to === from) return;
       var k = to === 'mm' ? M.MM_PER_IN : 1 / M.MM_PER_IN;
       state.chairs.forEach(function (c) {
-        CHAIR_LENGTH_KEYS.forEach(function (key) {
+        CHAIR_LENGTH_KEYS.concat(STRETCH_CHAIR_KEYS).forEach(function (key) {
           var v = M.parseLength(c[key], from);
           if (typeof v === 'number' && !isNaN(v)) c[key] = M.inputText(v * k, to);
+        });
+        c.stretchers.forEach(function (st) {
+          STRETCH_KEYS.forEach(function (key) {
+            var v = M.parseLength(st[key], from);
+            if (typeof v === 'number' && !isNaN(v)) st[key] = M.inputText(v * k, to);
+          });
         });
         c.legs.forEach(function (leg) {
           LENGTH_KEYS.forEach(function (key) {

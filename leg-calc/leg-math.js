@@ -28,6 +28,10 @@
 // chairagram's (chairagram/renderer/src/angles.js, DRAWING-CONVENTIONS.md
 // section 3), and test.mjs holds the two apps to the same numbers.
 //
+// A stretcher is a level stick between two legs at one height off the floor
+// (solveStretcher, at the foot of the file). To put two legs in one picture
+// it needs the seat's width, its depth, or both.
+//
 // The file loads as a plain <script> so the page opens from a double-click,
 // and Node imports it for its side effect (test.mjs).
 
@@ -323,7 +327,114 @@
     return out;
   }
 
+  // Which numbers a stretcher needs before it can be answered.
+  function stretcherNeeds(q) {
+    var need = ['height'];
+    if (q.across) need.push('width');
+    if (q.a.end !== q.b.end) need.push('depth');
+    return need;
+  }
+
+  // One stretcher: a straight, level stick between two legs that goes right
+  // through both of them.
+  //   q.a, q.b        the two legs, each an answer from solveLeg with its
+  //                   `end` ('front' or 'back') added
+  //   q.across        true when leg b is the one on the far side of the chair;
+  //                   a leg and itself, across, is the pair left and right
+  //   q.width         side edge to side edge, needed when across
+  //   q.depth         front edge to back edge measured on the seat, needed
+  //                   when one leg is measured from the front and the other
+  //                   from the back
+  //   q.height        floor up to the centre of the stretcher, plumb, the
+  //                   same on both legs
+  //   q.stretcherDia  how thick the stretcher is where it goes through a leg
+  //   q.legDia        how thick the legs are where it goes through them
+  //
+  // Each leg is taken as a straight round stick about its centre line, as
+  // thick as legDia where the stretcher crosses it. Say the stretcher meets
+  // the leg at an angle A (90 = square), the leg is R thick from its centre
+  // and the tenon r. The stretcher's centre line comes out of the far side of
+  // the leg R / sin A past the leg's centre. The tenon's rim comes out last on
+  // the side the leg leans away to, r cos A / sin A further on: the same
+  // half-the-thickness-times-the-slant as a foot sawn flush with the floor.
+  function solveStretcher(q) {
+    var need = stretcherNeeds(q);
+    var unreadable = need.concat(['stretcherDia', 'legDia']).filter(function (k) {
+      return typeof q[k] === 'number' && isNaN(q[k]);
+    });
+    if (unreadable.length) return { ok: false, unreadable: unreadable };
+    var missing = need.concat(['stretcherDia', 'legDia']).filter(function (k) { return q[k] == null; });
+    if (missing.length) return { ok: false, missing: missing };
+
+    var h = q.height;
+    var seat = Math.min(q.a.heightAtMortise, q.b.heightAtMortise);
+    if (!(h > 0)) return fail('stretcher-low');
+    if (!(h < seat)) return fail('stretcher-high', { limit: seat });
+    if (!(q.legDia > 0) || !(q.stretcherDia > 0)) return fail('dia-zero');
+    if (q.stretcherDia > q.legDia) return fail('tenon-fat');
+    var useDepth = q.a.end !== q.b.end;
+    var depthPlan = useDepth ? q.depth * Math.cos(q.a.tilt * DEG) : 0;
+    if (q.across && !(q.width >= q.a.mSide + q.b.mSide)) return fail('width-small', { limit: q.a.mSide + q.b.mSide });
+    if (useDepth && !(depthPlan >= q.a.mEndPlan + q.b.mEndPlan)) return fail('depth-small');
+
+    // Both legs in one frame: x from this side's edge toward the far side, y
+    // from the front edge toward the back (or, when both legs are measured
+    // from the same edge, from that edge), z up from the floor.
+    function place(leg, far) {
+      var back = useDepth && leg.end === 'back';
+      var point = function (side, endPlan, z) {
+        return [far ? q.width - side : side, back ? depthPlan - endPlan : endPlan, z];
+      };
+      var foot = point(leg.fSide, leg.fEnd, 0);
+      var top = point(leg.mSide, leg.mEndPlan, leg.heightAtMortise);
+      var t = h / leg.heightAtMortise;
+      return { foot: foot, top: top, at: [foot[0] + t * (top[0] - foot[0]), foot[1] + t * (top[1] - foot[1])] };
+    }
+    var A = place(q.a, false);
+    var B = place(q.b, !!q.across);
+    var dx = B.at[0] - A.at[0], dy = B.at[1] - A.at[1];
+    var between = Math.hypot(dx, dy);
+    if (!(between > 1e-9)) return fail('legs-touch');
+    var ux = dx / between, uy = dy / between;
+    var R = q.legDia / 2, r = q.stretcherDia / 2;
+    function meet(P) {
+      var ax = P.top[0] - P.foot[0], ay = P.top[1] - P.foot[1], az = P.top[2];
+      var cos = Math.min(1, Math.abs(ax * ux + ay * uy) / Math.hypot(ax, ay, az));
+      var sin = Math.sqrt(1 - cos * cos);
+      return {
+        offSquare: Math.asin(cos) / DEG,
+        face: R / sin,                 // the leg's centre to its face, along the stretcher
+        through: (R + r * cos) / sin,  // the leg's centre to the last of the tenon's rim
+        // for drawing square to the stretcher: how far along it, from where it
+        // crosses leg a, the foot and the mortise are, and how high the mortise is
+        footAt: (P.foot[0] - A.at[0]) * ux + (P.foot[1] - A.at[1]) * uy,
+        topAt: (P.top[0] - A.at[0]) * ux + (P.top[1] - A.at[1]) * uy,
+        topHeight: P.top[2],
+      };
+    }
+    var ma = meet(A), mb = meet(B);
+    var gap = between - ma.face - mb.face;
+    if (!(gap > 0)) return fail('legs-touch');
+    return {
+      ok: true,
+      height: h,
+      stretcherDia: q.stretcherDia,
+      legDia: q.legDia,
+      between: between,           // centre of one leg to centre of the other
+      gap: gap,                   // inside face to inside face, along the stretcher's centre
+      throughA: ma.through,
+      throughB: mb.through,
+      length: between + ma.through + mb.through,
+      offSquareA: ma.offSquare,   // how far off square the stretcher meets each leg
+      offSquareB: mb.offSquare,
+      a: ma,
+      b: mb,
+    };
+  }
+
   root.LegMath = {
+    stretcherNeeds: stretcherNeeds,
+    solveStretcher: solveStretcher,
     MM_PER_IN: MM_PER_IN,
     parseLength: parseLength,
     parseAngle: parseAngle,

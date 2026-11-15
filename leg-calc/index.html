@@ -88,6 +88,9 @@
 
   .answer { min-width: 0; }
   .stats { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.7fr); gap: 8px; margin-bottom: 10px; }
+  /* The answer on a row of its own, two smaller numbers under it */
+  .stats.lead { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .stats.lead .stat:first-child { grid-column: 1 / -1; }
   .stat { background: var(--ground); border-radius: 8px; padding: 8px 10px; }
   .stat b { display: block; font: 600 24px/1.15 var(--serif); }
   .stat span { font-size: 13px; color: var(--muted); }
@@ -104,7 +107,12 @@
   svg .lbl-muted { fill: var(--muted); }
   svg .num { font-weight: 600; }
 
+  select { max-width: 100%; }
+  .stretchers { margin-top: 30px; }
+  .stretchers > .hint { margin: 0 0 12px; max-width: 46em; font-size: 15px; }
+
   .summary { margin-top: 26px; }
+  .summary h3 { font: 600 17px/1.2 var(--serif); margin: 18px 0 6px; }
   .tablewrap { overflow-x: auto; border: 1px solid var(--rule); border-radius: 8px; background: var(--paper-light); }
   table { border-collapse: collapse; width: 100%; min-width: 760px; font-size: 15px; }
   th, td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--rule); }
@@ -118,7 +126,7 @@
 
   @media print {
     body { background: #fff; }
-    .btn, .seg, .choice, .chairbar select, .chairbar .saved, .hint:not(#summary-note), .inline, .lede, .units { display: none !important; }
+    .btn, .seg, .choice:not(.between), .chairbar select, .chairbar .saved, .hint:not(#summary-note):not(#stretcher-note), .inline, .lede, .units { display: none !important; }
     .card { break-inside: avoid; border-color: #999; }
     .chairbar { background: none; padding: 0; }
   }
@@ -129,7 +137,7 @@
   <header class="top">
     <div>
       <h1>Leg calculator</h1>
-      <p class="lede">On the seat seen from above, type how far the mortise is from each edge and where the foot should land, then the height. Read off the angles to bore at and how long the leg is. Or type the angles and see where the foot lands.</p>
+      <p class="lede">On the seat seen from above, type how far the mortise is from each edge and where the foot should land, then the height. Read off the angles to bore at and how long the leg is. Or type the angles and see where the foot lands. Then pick a height for a stretcher and read how long it has to be.</p>
     </div>
     <div class="seg units" role="radiogroup" aria-label="Units">
       <input type="radio" name="units" id="units-in" value="in"><label for="units-in">inches</label>
@@ -148,10 +156,22 @@
   <main id="legs"></main>
   <button class="btn main" id="add-leg" type="button">Add a leg</button>
 
+  <section class="stretchers" aria-label="Stretchers">
+    <h2>Stretchers</h2>
+    <p class="hint">A stretcher here is a level stick between two of the legs above, going right through both. Pick the two legs and how high off the floor it sits, and read the shortest stretcher that will do.</p>
+    <div id="stretchers"></div>
+    <button class="btn main" id="add-stretcher" type="button">Add a stretcher</button>
+  </section>
+
   <section class="summary" aria-label="All the legs">
     <h2>All the legs</h2>
     <p class="hint" id="summary-note" style="margin: 0 0 8px"></p>
     <div class="tablewrap"><table id="summary-table"></table></div>
+    <div id="stretcher-summary" hidden>
+      <h3>All the stretchers</h3>
+      <p class="hint" id="stretcher-note" style="margin: 0 0 8px"></p>
+      <div class="tablewrap"><table id="stretcher-table"></table></div>
+    </div>
     <div class="inline">
       <button class="btn" id="copy" type="button">Copy as text</button>
       <button class="btn" id="print" type="button">Print</button>
@@ -169,11 +189,12 @@
       <li>The resultant is the lean of the leg off square to the seat. The sightline is measured on the seat from the side-to-side line through the mortise: 0° leans straight sideways, 90° leans straight toward the front or back. Both are read against the seat, tilted or not, because that is what the brace sits on. These are the same conventions the chairagram drawings use.</li>
       <li>Leg length runs along the centre of the leg from the mortise mark to the floor. With the mark on top of the seat that is the whole finished leg. With the mark underneath, type the seat thickness and the page adds the part inside the seat.</li>
       <li>A slanted tenon comes through the seat one side first, and a slanted foot touches the floor one corner first, so sawing them flush shortens the leg. The page works out the least each cut takes along the centre of the leg (half the thickness times the slant) from the tenon and foot diameters, 1 in and 1 3/4 in (25 mm and 45 mm) unless you type others, and adds both to the leg length. The numbers are rounded up, and it is the least you need, so leave more.</li>
+      <li>A stretcher is worked out as a straight, level stick between two legs, with its centre at the height you type on both. The shortest one that goes right through is the distance between the leg centres, plus half a leg's thickness at each end, plus a little more because it meets a leaning leg on a slant and one side of the tenon comes out last. A stretcher from one side of the chair to the other needs the seat width, side edge to side edge. One from a front leg to a back leg needs the seat depth, front edge to back edge, measured on the seat. The legs are taken as round, and as thick as you say where the stretcher crosses them: 1 1/2 in with a 5/8 in tenon (38 mm and 16 mm) unless you type others. The length is rounded up, and it only just reaches the far side of both legs, so leave more.</li>
     </ul>
   </section>
 </div>
 <!-- Bump v on both lines with every publish, so phones fetch the new files. -->
-<script src="leg-math.js?v=4"></script>
-<script src="app.js?v=4"></script>
+<script src="leg-math.js?v=5"></script>
+<script src="app.js?v=5"></script>
 </body>
 </html>
