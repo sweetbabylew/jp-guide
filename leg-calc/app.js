@@ -1,6 +1,7 @@
 // app.js — the leg calculator's page. The arithmetic is in leg-math.js.
 //
-// One "chair" is a named list of legs and one seat tilt. Each leg is a
+// One "chair" is a named list of legs, one seat tilt and one pair of sizes
+// for the flush cuts (how thick the tenon and the foot are). Each leg is a
 // bird's-eye drawing of the seat with typing boxes on it, where one group of
 // numbers is worked out from the others:
 //   find  'angle' | 'foot' | 'mortise'   which group is worked out
@@ -16,6 +17,11 @@
   var STORE_KEY = 'leg-calculator.v1';
   var LENGTH_KEYS = ['mSide', 'mEnd', 'fSide', 'fEnd', 'height', 'length', 'thick'];
   var ANGLE_KEYS = ['result', 'sight', 'rake', 'splay'];
+  var CHAIR_KEYS = ['tilt', 'tenonDia', 'footDia'];
+  var CHAIR_LENGTH_KEYS = ['tenonDia', 'footDia'];
+  // What an empty flush-cut box stands for: a 1 in tenon and a 1 3/4 in foot
+  // (Lewis, 2026-11-14), and the nearest round sizes in millimetres.
+  var FLUSH_DEFAULT = { in: { tenonDia: 1, footDia: 1.75 }, mm: { tenonDia: 25, footDia: 45 } };
   var SOLVED_KEYS = ['mSide', 'mEnd', 'fSide', 'fEnd', 'height', 'length', 'result', 'sight', 'rake', 'splay'];
   var COLORS = { ink: '#2a241e', muted: '#655b50', ground: '#eee5d6', rust: '#923f2b', blue: '#315f89', rule: '#d2c1a5' };
 
@@ -32,7 +38,7 @@
   }
 
   function newChair() {
-    return { id: uid(), name: '', tilt: '', legs: [newLeg('Front legs', 'front'), newLeg('Back legs', 'back')] };
+    return { id: uid(), name: '', tilt: '', tenonDia: '', footDia: '', legs: [newLeg('Front legs', 'front'), newLeg('Back legs', 'back')] };
   }
 
   function freshState() {
@@ -51,6 +57,8 @@
           id: String(c.id || uid()),
           name: String(c.name || ''),
           tilt: c.tilt == null ? '' : String(c.tilt),
+          tenonDia: c.tenonDia == null ? '' : String(c.tenonDia),
+          footDia: c.footDia == null ? '' : String(c.footDia),
           legs: c.legs.filter(Boolean).map(function (l) {
             var leg = newLeg(String(l.name || ''), pick(l.end, ['front', 'back'], 'front'));
             leg.id = String(l.id || leg.id);
@@ -112,8 +120,17 @@
     }
   }
 
+  // The tenon or foot thickness for the flush cuts: what is typed, or the
+  // usual size when the box is empty.
+  function flushDefault(key) { return FLUSH_DEFAULT[state.units === 'mm' ? 'mm' : 'in'][key]; }
+  function flushSize(key) {
+    var v = M.parseLength(chair()[key], state.units);
+    return v == null ? flushDefault(key) : v;
+  }
+
   function solve(leg) {
     var q = { find: leg.find, known: leg.known, pair: leg.pair, end: leg.end, tilt: M.parseAngle(chair().tilt) };
+    CHAIR_LENGTH_KEYS.forEach(function (k) { q[k] = flushSize(k); });
     LENGTH_KEYS.forEach(function (k) { q[k] = M.parseLength(leg[k], state.units); });
     ANGLE_KEYS.forEach(function (k) { q[k] = M.parseAngle(leg[k]); });
     return M.solveLeg(q);
@@ -139,6 +156,7 @@
 
   function unitWord() { return state.units === 'mm' ? 'mm' : 'in'; }
   function len(v) { return M.formatLength(v, state.units) + ' ' + unitWord(); }
+  function lenUp(v) { return M.formatLengthUp(v, state.units) + ' ' + unitWord(); }
   function endWord(leg) { return leg.end === 'back' ? 'back' : 'front'; }
   function tilted(r) { return Math.abs(r.tilt) > 1e-9; }
 
@@ -159,6 +177,7 @@
       fSide: 'the foot from the side edge', fEnd: 'the foot from the ' + e + ' edge',
       height: 'the height', length: 'the leg length', thick: 'the seat thickness', tilt: 'the seat tilt',
       result: 'the resultant', sight: 'the sightline', rake: 'the rake', splay: 'the splay',
+      tenonDia: 'the tenon diameter', footDia: 'the foot diameter',
     };
     var has = function (k) { return keys.indexOf(k) >= 0; };
     var out = [];
@@ -191,6 +210,7 @@
       'resultant-range': 'The resultant has to be 0° or more and less than 90°.',
       'sightline-range': 'The sightline runs from 0° (leaning straight sideways) to 90° (leaning straight toward the front or back).',
       'thick-negative': 'The seat thickness cannot be a minus number.',
+      'dia-negative': 'The tenon and foot diameters cannot be minus numbers.',
       'tilt-range': 'The seat tilt has to be less than 45°.',
       'mortise-on-floor': 'With that tilt the seat reaches the floor before it reaches the mortise. Check the height and the tilt.',
       'leg-level': 'With those angles the leg never comes down out of the seat.',
@@ -394,6 +414,18 @@
     if (r.through != null) {
       h += '<li>Going through the ' + len(r.thick) + ' seat takes <b>' + len(r.through) + '</b> of leg.</li>';
     }
+    if (r.rough != null) {
+      // Sawing the tenon flush with the seat and the foot flush with the floor.
+      var cuts = [];
+      if (r.trimTenon > 1e-9) cuts.push('<b>' + lenUp(r.trimTenon) + '</b> off the ' + len(r.tenonDia) + ' tenon');
+      if (r.trimFoot > 1e-9) cuts.push('<b>' + lenUp(r.trimFoot) + '</b> off the ' + len(r.footDia) + ' foot');
+      if (cuts.length) {
+        h += '<li>Cutting flush takes at least ' + cuts.join(' and ') + (r.roughThrough == null
+          ? ', so start with a leg at least <b>' + lenUp(r.rough) + '</b> long.'
+          : '. Start with a leg at least <b>' + lenUp(r.rough) + '</b> long with the mark on top of the seat, or <b>'
+            + lenUp(r.roughThrough) + '</b> with it underneath.') + '</li>';
+      }
+    }
     h += '</ul><div class="pics">'
       + '<figure>' + planSvg(leg, r) + '<figcaption>From above, to scale</figcaption></figure>'
       + '<figure>' + sideSvg(leg, r) + '<figcaption>' + (tilt ? 'Square to the leg (the tilt is not drawn)' : 'Square to the sightline')
@@ -447,6 +479,17 @@
     c.removeAttribute('aria-label');
     c.removeAttribute('title');
     return el('div', { class: 'field' }, [el('label', { for: leg.id + '-' + key, text: label }), c]);
+  }
+
+  // A box for a number the whole chair shares; every leg's card shows it.
+  function chairField(leg, key, label, placeholder) {
+    var id = leg.id + '-' + key;
+    return el('div', { class: 'field' }, [
+      el('label', { for: id, text: label }),
+      el('input', {
+        type: 'text', id: id, value: chair()[key], 'data-chair-key': key, autocomplete: 'off', spellcheck: 'false', placeholder: placeholder,
+      }),
+    ]);
   }
 
   function group(title, note, kids) {
@@ -538,15 +581,12 @@
     var note = leg.find === 'foot' ? 'the foot is worked out for you' : leg.find === 'mortise' ? 'the mortise is worked out for you' : null;
     form.appendChild(group('The seat from above', note, planKids));
 
-    var tiltBox = el('input', {
-      type: 'text', id: leg.id + '-tilt', value: chair().tilt, 'data-chair-key': 'tilt', autocomplete: 'off', spellcheck: 'false', placeholder: '°',
-    });
     form.appendChild(group('Height', null, [
       choice('I know the', seg(leg.id + '-known', [['height', 'height'], ['length', 'leg length']], leg.known, 'known')),
       el('div', { class: 'fields' }, [
         field(leg, 'height', 'Height, floor to the seat at the ' + e + ' edge'),
         field(leg, 'length', 'Leg length, mortise mark to floor'),
-        el('div', { class: 'field' }, [el('label', { for: leg.id + '-tilt', text: 'Seat tilt (optional, whole chair)' }), tiltBox]),
+        chairField(leg, 'tilt', 'Seat tilt (optional, whole chair)', '°'),
         field(leg, 'thick', 'Seat thickness (optional)'),
       ]),
       el('p', { class: 'hint', text: 'Tilt is how many degrees the seat drops toward the back. Leave it empty for a level seat.' }),
@@ -570,6 +610,18 @@
     }
     form.appendChild(group('Angles', leg.find === 'angle' ? 'worked out for you' : null, angleKids));
 
+    form.appendChild(group('Cutting flush', null, [
+      el('div', { class: 'fields' }, [
+        chairField(leg, 'tenonDia', 'Tenon diameter (whole chair)', len(flushDefault('tenonDia'))),
+        chairField(leg, 'footDia', 'Foot diameter (whole chair)', len(flushDefault('footDia'))),
+      ]),
+      el('p', {
+        class: 'hint',
+        text: 'How thick the tenon is where it comes out of the seat, and the leg where it meets the floor. A slanted end loses a little length when it is sawn flush. Empty boxes use '
+          + len(flushDefault('tenonDia')) + ' and ' + len(flushDefault('footDia')) + '.',
+      }),
+    ]));
+
     card.appendChild(el('div', { class: 'card-body' }, [form, el('div', { class: 'answer', 'aria-live': 'polite' })]));
     refreshCard(card, leg);
     return card;
@@ -592,7 +644,7 @@
   }
 
   var SUMMARY_HEAD = ['Leg', 'Mortise from side', 'Mortise from front or back', 'Foot from side', 'Foot from front or back',
-    'Height at that edge', 'Resultant', 'Sightline', 'Rake', 'Splay', 'Leg length'];
+    'Height at that edge', 'Resultant', 'Sightline', 'Rake', 'Splay', 'Leg length', 'Leg plus flush cuts'];
   // The front-or-back columns say which, per leg.
   var END_COLUMNS = [1, 3];
 
@@ -605,7 +657,7 @@
         name: name,
         end: endWord(leg),
         cells: [len(r.mSide), len(r.mEnd), len(r.fSide), len(r.fEnd), len(r.height),
-          M.formatAngle(r.result), r.plumb ? '—' : M.formatAngle(r.sight), M.formatAngle(r.rake), M.formatAngle(r.splay), len(r.length)],
+          M.formatAngle(r.result), r.plumb ? '—' : M.formatAngle(r.sight), M.formatAngle(r.rake), M.formatAngle(r.splay), len(r.length), lenUp(r.rough)],
       };
     });
   }
@@ -614,6 +666,13 @@
     var t = M.parseAngle(chair().tilt);
     if (typeof t !== 'number' || isNaN(t) || Math.abs(t) < 1e-9) return 'Level seat. Angles are read against the seat.';
     return 'Seat tilt ' + M.formatAngle(t) + ', dropping toward the back. Angles are read against the seat.';
+  }
+
+  function flushLine() {
+    var t = flushSize('tenonDia');
+    var f = flushSize('footDia');
+    if (isNaN(t) || isNaN(f) || t < 0 || f < 0) return '';
+    return 'Flush cuts are worked out for a ' + len(t) + ' tenon and a ' + len(f) + ' foot.';
   }
 
   function refreshSummary() {
@@ -632,17 +691,18 @@
       }
       table.appendChild(tr);
     });
-    document.getElementById('summary-note').textContent = tiltLine();
+    document.getElementById('summary-note').textContent = (tiltLine() + ' ' + flushLine()).trim();
   }
 
   function summaryText() {
     var lines = [chair().name || 'Leg calculator', tiltLine()];
+    if (flushLine()) lines.push(flushLine());
     summaryRows().forEach(function (row) {
       if (!row.cells) { lines.push(row.name + ': not worked out yet'); return; }
       var c = row.cells;
       lines.push(row.name + ': mortise ' + c[0] + ' from the side, ' + c[1] + ' from the ' + row.end + '; foot ' + c[2]
         + ' from the side, ' + c[3] + ' from the ' + row.end + '; height ' + c[4] + ' at the ' + row.end + ' edge; resultant ' + c[5]
-        + ', sightline ' + c[6] + ', rake ' + c[7] + ', splay ' + c[8] + '; leg ' + c[9] + ' mark to floor.');
+        + ', sightline ' + c[6] + ', rake ' + c[7] + ', splay ' + c[8] + '; leg ' + c[9] + ' mark to floor, at least ' + c[10] + ' with the flush cuts.');
     });
     return lines.join('\n');
   }
@@ -690,14 +750,15 @@
     if (!ev.target.getAttribute) return;
     var card = cardOf(ev.target);
     if (!card) return;
-    if (ev.target.getAttribute('data-chair-key') === 'tilt') {
-      // One tilt for the whole chair: every leg's box shows it and every leg is worked again.
-      chair().tilt = ev.target.value;
+    var chairKey = ev.target.getAttribute('data-chair-key');
+    if (CHAIR_KEYS.indexOf(chairKey) >= 0) {
+      // One number for the whole chair: every leg's box shows it and every leg is worked again.
+      chair()[chairKey] = ev.target.value;
       save();
       Array.prototype.forEach.call(legsBox.querySelectorAll('.card'), function (c) {
         var l = legById(c.getAttribute('data-id'));
-        var box = c.querySelector('input[data-chair-key="tilt"]');
-        if (box && box !== ev.target) box.value = chair().tilt;
+        var box = c.querySelector('input[data-chair-key="' + chairKey + '"]');
+        if (box && box !== ev.target) box.value = chair()[chairKey];
         if (l) refreshCard(c, l);
       });
       refreshSummary();
@@ -802,6 +863,10 @@
       if (to === from) return;
       var k = to === 'mm' ? M.MM_PER_IN : 1 / M.MM_PER_IN;
       state.chairs.forEach(function (c) {
+        CHAIR_LENGTH_KEYS.forEach(function (key) {
+          var v = M.parseLength(c[key], from);
+          if (typeof v === 'number' && !isNaN(v)) c[key] = M.inputText(v * k, to);
+        });
         c.legs.forEach(function (leg) {
           LENGTH_KEYS.forEach(function (key) {
             var v = M.parseLength(leg[key], from);

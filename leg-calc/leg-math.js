@@ -11,6 +11,8 @@
 //   height        floor up to the seat at the end edge, plumb
 //   length        along the centre of the leg, mark to floor
 //   tilt          degrees the seat drops toward the back (0 = level)
+//   tenonDia      how thick the tenon is where it comes out of the seat
+//   footDia       how thick the leg is at the floor
 //
 //   splay   lean seen from the front, + = foot toward the side edge
 //   rake    lean seen from the side,  + = foot toward the end edge
@@ -108,6 +110,13 @@
     return inchFraction(value, 16);
   }
 
+  // A length for an "at least": rounded up, never down. Inches to the next
+  // 1/16, millimetres to the next whole one.
+  function formatLengthUp(value, units) {
+    if (units === 'mm') return String(Math.ceil(value - 1e-9) || 0);
+    return inchFraction(Math.ceil(value * 16 - 1e-9) / 16, 16);
+  }
+
   // A length to put back into a typing box without losing much: a fraction
   // when it is one (to the 1/64), otherwise decimals.
   function inputText(value, units) {
@@ -155,6 +164,9 @@
   //            pair of angles is typed in when the angles are known
   //   q.end    'front' or 'back': which end edge the leg is measured from
   //   q.tilt   degrees the seat drops toward the back; null or 0 = level
+  //   q.tenonDia, q.footDia   how thick the tenon is at the seat and the leg
+  //            is at the floor; either one given brings back what sawing the
+  //            ends flush takes off the leg
   // Numbers are plain numbers in one unit; null means not typed yet.
   //
   // The working, with the seat tipped by `tilt` about its side-to-side line:
@@ -165,7 +177,7 @@
   // and every angle against the seat is a ratio of those two and dSide.
   function solveLeg(q) {
     var need = needed(q);
-    var unreadable = need.concat(['thick', 'tilt']).filter(function (k) {
+    var unreadable = need.concat(['thick', 'tilt', 'tenonDia', 'footDia']).filter(function (k) {
       return typeof q[k] === 'number' && isNaN(q[k]);
     });
     if (unreadable.length) return { ok: false, unreadable: unreadable };
@@ -175,6 +187,7 @@
     var tilt = q.tilt == null ? 0 : q.tilt;
     if (Math.abs(tilt) >= 45) return fail('tilt-range');
     if (q.thick != null && q.thick < 0) return fail('thick-negative');
+    if ((q.tenonDia != null && q.tenonDia < 0) || (q.footDia != null && q.footDia < 0)) return fail('dia-negative');
     if (q.known === 'length' && !(q.length > 0)) return fail('length-zero');
     if (q.known !== 'length' && !(q.height > 0)) return fail('height-zero');
 
@@ -288,6 +301,25 @@
       // The slanted distance the leg travels inside a seat this thick.
       out.through = q.thick * Math.hypot(lean, alongN) / alongN;
     }
+    // What sawing the two ends flush takes off the leg, along its centre. A
+    // round end cut on a slant is an ellipse, and the square end of the blank
+    // has to clear the ellipse's far side: half the thickness times the
+    // tangent of the slant, past the point where the centre line comes out.
+    // The tenon is slanted against the seat, the foot against the floor.
+    if (q.tenonDia != null) {
+      out.tenonDia = q.tenonDia;
+      out.trimTenon = q.tenonDia / 2 * lean / alongN;
+    }
+    if (q.footDia != null) {
+      out.footDia = q.footDia;
+      out.trimFoot = q.footDia / 2 * run / Hm;
+    }
+    if (out.trimTenon != null || out.trimFoot != null) {
+      // The shortest blank: mark to floor plus both cuts, and the same with
+      // the part inside the seat added for a mark on the underside.
+      out.rough = length + (out.trimTenon || 0) + (out.trimFoot || 0);
+      if (out.through != null) out.roughThrough = out.rough + out.through;
+    }
     return out;
   }
 
@@ -296,6 +328,7 @@
     parseLength: parseLength,
     parseAngle: parseAngle,
     formatLength: formatLength,
+    formatLengthUp: formatLengthUp,
     inputText: inputText,
     formatAngle: formatAngle,
     angleInputText: angleInputText,
