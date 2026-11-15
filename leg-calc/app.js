@@ -8,8 +8,9 @@
 //   known 'height' | 'length'            which of the two is typed in
 //   pair  'sr' | 'rs'                    which pair of angles is typed in
 // A chair can also have stretchers. Each one names two of the legs (`from`
-// and `to`; `across` when the second is the one on the far side of the chair)
-// and a height off the floor, and the page works out how long it has to be to
+// and `to`; `across` when the second is the one on the far side of the chair,
+// so a leg and itself across is the pair: the two front legs, say) and a
+// height off the floor, and the page works out how long it has to be to
 // go right through both. The seat width, the seat depth and the stretcher's
 // tenon thickness are one each for the whole chair.
 // Everything typed is kept as text, exactly as typed, and saved in this
@@ -686,7 +687,7 @@
   // along a side first, then each pair of legs side to side.
   function newStretcher() {
     var legs = chair().legs;
-    var tag = function (a, b, across) { return a + '|' + b + '|' + (across ? 1 : 0); };
+    var tag = function (a, b, across) { return [a, b].sort().join('|') + '|' + (across ? 1 : 0); };
     var used = {};
     chair().stretchers.forEach(function (s) { used[tag(s.from, s.to, s.across)] = true; });
     var tries = [];
@@ -703,16 +704,38 @@
     };
   }
 
-  // The two legs a stretcher runs between, or null while one is not picked.
+  // The two legs a stretcher runs between, in the order the page lists them,
+  // or null while one is not picked.
   function stretcherLegs(st) {
     var a = legById(st.from), b = legById(st.to);
-    return a && b ? { a: a, b: b, across: st.across || a === b } : null;
+    if (!a || !b) return null;
+    var legs = chair().legs;
+    if (legs.indexOf(a) > legs.indexOf(b)) { var t = a; a = b; b = t; }
+    return { a: a, b: b, across: st.across || a === b };
+  }
+
+  function pairValue(a, b, across) { return a.id + '|' + b.id + '|' + (across ? 1 : 0); }
+
+  // Every stretcher these legs can carry, in plain words: between the two of
+  // a pair (the two front legs, the two back legs), or from one leg to
+  // another along a side or corner to corner.
+  function stretcherChoices() {
+    var legs = chair().legs;
+    var out = [];
+    legs.forEach(function (l) { out.push({ value: pairValue(l, l, true), text: 'the two ' + legLabel(l) }); });
+    legs.forEach(function (a, i) {
+      legs.slice(i + 1).forEach(function (b) {
+        out.push({ value: pairValue(a, b, false), text: legLabel(a) + ' and ' + legLabel(b) + ', same side' });
+        out.push({ value: pairValue(a, b, true), text: legLabel(a) + ' and ' + legLabel(b) + ', corner to corner' });
+      });
+    });
+    return out;
   }
 
   function autoName(st) {
     var pair = stretcherLegs(st);
     if (!pair) return 'Stretcher';
-    if (pair.a === pair.b) return legLabel(pair.a) + ', side to side';
+    if (pair.a === pair.b) return 'Between the ' + legLabel(pair.a);
     return legLabel(pair.a) + ' to ' + legLabel(pair.b) + (pair.across ? ', corner to corner' : '');
   }
 
@@ -853,27 +876,18 @@
   }
 
   function buildStretcherCard(st) {
-    var legs = chair().legs;
     var pair = stretcherLegs(st);
-    var a = legById(st.from), b = legById(st.to);
     var card = el('section', { class: 'card', 'data-id': st.id });
     card.appendChild(el('div', { class: 'card-head' }, [
       el('input', { type: 'text', class: 'leg-name', value: st.name, placeholder: autoName(st), 'aria-label': 'Stretcher name', 'data-skey': 'name' }),
       el('button', { class: 'btn quiet', type: 'button', 'data-act': 'remove', text: 'Remove' }),
     ]));
 
-    var fromPick = el('select', { 'data-sset': 'from', 'aria-label': 'The first leg' },
-      (a ? [] : [el('option', { value: '', text: 'pick a leg' })]).concat(legs.map(function (l) {
-        return el('option', { value: l.id, text: legLabel(l) });
+    var pick = el('select', { 'data-sset': 'pair', 'aria-label': 'Which legs the stretcher runs between' },
+      (pair ? [] : [el('option', { value: '', text: 'pick the legs' })]).concat(stretcherChoices().map(function (c) {
+        return el('option', { value: c.value, text: c.text });
       })));
-    fromPick.value = a ? a.id : '';
-    var toOptions = b ? [] : [el('option', { value: '', text: 'pick a leg' })];
-    legs.forEach(function (l) {
-      if (l !== a) toOptions.push(el('option', { value: l.id + '|same', text: legLabel(l) + ', same side' }));
-      toOptions.push(el('option', { value: l.id + '|other', text: legLabel(l) + ', other side' }));
-    });
-    var toPick = el('select', { 'data-sset': 'to', 'aria-label': 'The second leg' }, toOptions);
-    toPick.value = pair ? pair.b.id + '|' + (pair.across ? 'other' : 'same') : '';
+    pick.value = pair ? pairValue(pair.a, pair.b, pair.across) : '';
 
     var boxes = [
       stretchBox(st, 'height', 'Height off the floor, to the centre of the stretcher', unitWord()),
@@ -884,7 +898,7 @@
     boxes.push(stretchBox(st, 'stretcherDia', 'Stretcher tenon diameter (whole chair)', len(stretchDefault('stretcherDia')), true));
 
     var form = el('div', { class: 'form' }, [group('Where it goes', null, [
-      el('div', { class: 'choice between' }, [el('span', { text: 'Between' }), fromPick, el('span', { text: 'and' }), toPick]),
+      el('div', { class: 'choice between' }, [el('span', { text: 'Between' }), pick]),
       el('div', { class: 'fields' }, boxes),
       el('p', {
         class: 'hint',
@@ -1183,21 +1197,17 @@
   stretchersBox.addEventListener('change', function (ev) {
     var prop = ev.target.getAttribute && ev.target.getAttribute('data-sset');
     var card = stretcherCardOf(ev.target);
-    if (!prop || !card) return;
+    if (prop !== 'pair' || !card) return;
     var st = stretcherById(card.getAttribute('data-id'));
     if (!st) return;
-    if (prop === 'from') {
-      st.from = ev.target.value;
-      if (st.to === st.from) st.across = true; // a leg and itself is the pair, side to side
-    } else {
-      var parts = ev.target.value.split('|');
-      st.to = parts[0];
-      st.across = parts[1] === 'other' || st.to === st.from;
-    }
+    var parts = ev.target.value.split('|');
+    st.from = parts[0] || '';
+    st.to = parts[1] || '';
+    st.across = parts[2] === '1' || st.from === st.to; // a leg and itself is the pair
     save();
     var fresh = buildStretcherCard(st);
     card.parentNode.replaceChild(fresh, card);
-    var again = fresh.querySelector('select[data-sset="' + prop + '"]');
+    var again = fresh.querySelector('select[data-sset="pair"]');
     if (again) again.focus();
     refreshSummary();
   });
